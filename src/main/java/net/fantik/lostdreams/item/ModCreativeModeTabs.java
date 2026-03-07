@@ -29,6 +29,7 @@ public class ModCreativeModeTabs {
                     .title(Component.translatable("creativetab.lostdreams.dream_blocks"))
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModBlocks.FEATHER_BLOCK);
+                        output.accept(ModBlocks.NULL_GROUND);
                     }).build());
 
 

@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "lostdreams:feather_block"
+    "lostdreams:feather_block",
+    "lostdreams:null_ground"
   ]
 }

@@ -22,6 +22,11 @@ public class ModBlocks {
                     .strength(4f).sound(SoundType.WOOL).destroyTime(0.5f)
             ));
 
+    public static final DeferredBlock<Block> NULL_GROUND = registerBlock("null_ground",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .strength(4f).sound(SoundType.BONE_BLOCK).destroyTime(1f)
+            ));
+
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {
         DeferredBlock<T> toReturn = BLOCKS.register(name, block);
         registerBlockItem(name, toReturn);
