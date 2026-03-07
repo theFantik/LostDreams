@@ -19,7 +19,7 @@ public class ModBlocks {
 
     public static final DeferredBlock<Block> FEATHER_BLOCK = registerBlock("feather_block",
             () -> new Block(BlockBehaviour.Properties.of()
-                    .strength(4f).requiresCorrectToolForDrops().sound(SoundType.WOOL).destroyTime(0.5f)
+                    .strength(4f).sound(SoundType.WOOL).destroyTime(0.5f)
             ));
 
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {

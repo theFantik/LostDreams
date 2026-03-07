@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "iii",
+    "jsj",
+    "iii"
+  ],
+  "key": {
+    "i": {
+      "item": "minecraft:string"
+    },
+    "j": {
+      "tag": "minecraft:wool"
+    },
+    "s": {
+      "item": "lostdreams:feather_block"
+    }
+  },
+  "result": {
+    "id": "lostdreams:pillow",
+    "count": 4
+  }
+}
