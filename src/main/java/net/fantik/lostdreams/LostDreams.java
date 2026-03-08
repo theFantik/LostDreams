@@ -3,6 +3,8 @@ package net.fantik.lostdreams;
 import net.fantik.lostdreams.block.ModBlocks;
 import net.fantik.lostdreams.item.ModCreativeModeTabs;
 import net.fantik.lostdreams.item.ModItems;
+import net.fantik.lostdreams.world.dimension.NullZoneDimension;
+import net.fantik.lostdreams.world.feature.ModFeatures;
 import net.minecraft.world.item.CreativeModeTabs;
 import org.slf4j.Logger;
 
@@ -40,6 +42,7 @@ public class LostDreams {
         ModCreativeModeTabs.register(modEventBus);
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
+        ModFeatures.register(modEventBus);
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);

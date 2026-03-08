@@ -28,5 +28,8 @@
   },
   "spawn_costs": {},
   "carvers": {},
-  "features": []
+  "features": [
+    [], [], [], [], [], [], [], [], [],
+    ["lostdreams:void_hole_placed"]
+  ]
 }
