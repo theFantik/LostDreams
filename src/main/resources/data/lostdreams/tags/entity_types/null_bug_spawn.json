@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "entries": [
+    {
+      "type": "lostdreams:null_bug",
+      "weight": 80,
+      "minCount": 1,
+      "maxCount": 3
+    }
+  ]
+}

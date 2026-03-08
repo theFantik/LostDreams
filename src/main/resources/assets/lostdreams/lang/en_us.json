@@ -1,10 +1,13 @@
 {
 
   "item.lostdreams.pillow": "Pillow",
+  "item.lostdreams.bug_antenna": "Null Bug Antenna",
+  "item.lostdreams.null_bug_spawn_egg": "Null Bug Spawn Egg",
 
   "block.lostdreams.feather_block": "Feather Block",
   "block.lostdreams.null_ground": "Null Ground",
 
   "creativetab.lostdreams.bed_items": "Bed Items",
-  "creativetab.lostdreams.dream_blocks": "Dream Blocks"
+  "creativetab.lostdreams.dream_blocks": "Dream Blocks",
+  "creativetab.lostdreams.dream_mobs": "Dream Mobs"
 }

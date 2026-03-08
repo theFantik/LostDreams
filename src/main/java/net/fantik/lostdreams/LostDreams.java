@@ -1,8 +1,10 @@
 package net.fantik.lostdreams;
 
 import net.fantik.lostdreams.block.ModBlocks;
+import net.fantik.lostdreams.entity.ModEntities;
 import net.fantik.lostdreams.item.ModCreativeModeTabs;
 import net.fantik.lostdreams.item.ModItems;
+import net.fantik.lostdreams.sound.ModSounds;
 import net.fantik.lostdreams.world.dimension.NullZoneDimension;
 import net.fantik.lostdreams.world.feature.ModFeatures;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -43,7 +45,8 @@ public class LostDreams {
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
         ModFeatures.register(modEventBus);
-
+        ModEntities.register(modEventBus);
+        ModSounds.register(modEventBus);
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
 
@@ -57,12 +60,6 @@ public class LostDreams {
 
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
-        if(event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
-            event.accept(ModItems.PILLOW);
-        }
-        if(event.getTabKey() == CreativeModeTabs.NATURAL_BLOCKS) {
-            event.accept(ModBlocks.FEATHER_BLOCK);
-        }
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call

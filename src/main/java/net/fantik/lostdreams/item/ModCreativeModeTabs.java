@@ -32,6 +32,15 @@ public class ModCreativeModeTabs {
                         output.accept(ModBlocks.NULL_GROUND);
                     }).build());
 
+    public static final Supplier<CreativeModeTab> DREAM_MOBS_TAB = CREATIVE_MODE_TAB.register("dream_mobs_tab",
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.BUG_ANTENNA.get()))
+                    .withTabsBefore(ResourceLocation.fromNamespaceAndPath(LostDreams.MOD_ID, "dream_blocks_tab"))
+                    .title(Component.translatable("creativetab.lostdreams.dream_mobs"))
+                    .displayItems((itemDisplayParameters, output) -> {
+                        output.accept(ModItems.BUG_ANTENNA);
+                        output.accept(ModItems.NULL_BUG_SPAWN_EGG);
+                    }).build());
+
 
     public static void register(IEventBus eventBus) {
         CREATIVE_MODE_TAB.register(eventBus);

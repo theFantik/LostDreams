@@ -17,7 +17,9 @@
     }
   },
   "spawners": {
-    "monster": [],
+    "monster": [
+      { "type": "lostdreams:null_bug", "weight": 80, "minCount": 1, "maxCount": 3 }
+    ],
     "creature": [],
     "ambient": [],
     "axolotls": [],
