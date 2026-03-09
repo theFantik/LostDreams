@@ -2,6 +2,7 @@ package net.fantik.lostdreams.block;
 
 import net.fantik.lostdreams.LostDreams;
 import net.fantik.lostdreams.item.ModItems;
+import net.fantik.lostdreams.sound.ModSounds;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -24,7 +25,7 @@ public class ModBlocks {
 
     public static final DeferredBlock<Block> NULL_GROUND = registerBlock("null_ground",
             () -> new Block(BlockBehaviour.Properties.of()
-                    .strength(4f).sound(SoundType.BONE_BLOCK).destroyTime(1f)
+                    .strength(4f).sound(ModSounds.getNullGroundSoundType()).destroyTime(1f)
             ));
 
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {

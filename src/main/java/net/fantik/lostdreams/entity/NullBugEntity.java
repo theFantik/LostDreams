@@ -1,7 +1,10 @@
 package net.fantik.lostdreams.entity;
 
+import net.fantik.lostdreams.sound.ModSounds;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -66,5 +69,25 @@ public class NullBugEntity extends Monster {
             this.attackTick = 10;
         }
         return result;
+    }
+
+    @Override
+    protected SoundEvent getAmbientSound() {
+        return ModSounds.NULL_BUG_AMBIENT.get();
+    }
+
+    @Override
+    protected SoundEvent getHurtSound(DamageSource source) {
+        return ModSounds.NULL_BUG_HURT.get();
+    }
+
+    @Override
+    protected SoundEvent getDeathSound() {
+        return ModSounds.NULL_BUG_DEATH.get();
+    }
+
+    @Override
+    public int getAmbientSoundInterval() {
+        return 120; // каждые 6 секунд (120 тиков)
     }
 }
