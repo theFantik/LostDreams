@@ -30,6 +30,8 @@ public class ModCreativeModeTabs {
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModBlocks.FEATHER_BLOCK);
                         output.accept(ModBlocks.NULL_GROUND);
+                        output.accept(ModBlocks.NULL_BRICKS);
+                        output.accept(ModBlocks.NULL_CRACKED_BRICKS);
                     }).build());
 
     public static final Supplier<CreativeModeTab> DREAM_MOBS_TAB = CREATIVE_MODE_TAB.register("dream_mobs_tab",

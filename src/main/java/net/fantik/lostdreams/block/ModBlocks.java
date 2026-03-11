@@ -28,6 +28,16 @@ public class ModBlocks {
                     .strength(4f).sound(ModSounds.getNullGroundSoundType()).destroyTime(1f)
             ));
 
+    public static final DeferredBlock<Block> NULL_BRICKS = registerBlock("null_bricks",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .strength(3f).sound(SoundType.STONE).destroyTime(1.5f)
+            ));
+
+    public static final DeferredBlock<Block> NULL_CRACKED_BRICKS = registerBlock("null_cracked_bricks",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .strength(2f).sound(SoundType.STONE).destroyTime(1.5f)
+            ));
+
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {
         DeferredBlock<T> toReturn = BLOCKS.register(name, block);
         registerBlockItem(name, toReturn);

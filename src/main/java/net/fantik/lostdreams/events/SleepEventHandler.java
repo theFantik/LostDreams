@@ -25,7 +25,7 @@ public class SleepEventHandler {
     public static void onPlayerWakeUp(PlayerWakeUpEvent event) {
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
         if (NullZoneDimension.isNullZone(player.level())) return;
-        if (RANDOM.nextFloat() >= 0.1f) return;
+        if (RANDOM.nextFloat() >= 0.45f) return;
 
         MinecraftServer server = player.getServer();
         if (server == null) return;

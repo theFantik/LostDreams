@@ -32,6 +32,7 @@
   "carvers": {},
   "features": [
     [], [], [], [], [], [], [], [], [],
-    ["lostdreams:void_hole_placed"]
+    ["lostdreams:void_hole_placed",
+      "lostdreams:dream_building_placed"]
   ]
 }
