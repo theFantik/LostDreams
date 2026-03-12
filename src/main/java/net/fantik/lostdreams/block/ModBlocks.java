@@ -6,6 +6,7 @@ import net.fantik.lostdreams.sound.ModSounds;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.neoforged.bus.api.IEventBus;
@@ -27,6 +28,9 @@ public class ModBlocks {
             () -> new Block(BlockBehaviour.Properties.of()
                     .strength(4f).sound(ModSounds.getNullGroundSoundType()).destroyTime(1f)
             ));
+
+    public static final DeferredBlock<Block> NULL_STONE = registerBlock("null_stone",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
 
     public static final DeferredBlock<Block> NULL_BRICKS = registerBlock("null_bricks",
             () -> new Block(BlockBehaviour.Properties.of()

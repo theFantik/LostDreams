@@ -1,0 +1,13 @@
+{
+  "criteria": {
+    "has_bed": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [{"tag": "minecraft:beds"}]
+      }
+    }
+  },
+  "rewards": {
+    "recipes": ["lostdreams:pillow"]
+  }
+}

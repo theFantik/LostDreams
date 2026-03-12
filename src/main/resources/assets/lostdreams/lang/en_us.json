@@ -3,9 +3,11 @@
   "item.lostdreams.pillow": "Pillow",
   "item.lostdreams.bug_antenna": "Null Bug Antenna",
   "item.lostdreams.null_bug_spawn_egg": "Null Bug Spawn Egg",
+  "item.lostdreams.dream_catcher": "Dream Catcher",
 
   "block.lostdreams.feather_block": "Feather Block",
   "block.lostdreams.null_ground": "Null Ground",
+  "block.lostdreams.null_stone": "Null Stone",
   "block.lostdreams.null_bricks": "Null Bricks",
   "block.lostdreams.null_cracked_bricks": "Null Cracked Bricks",
 

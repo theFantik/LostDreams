@@ -21,6 +21,8 @@ import net.neoforged.neoforge.client.event.RegisterDimensionSpecialEffectsEvent;
 )
 public class ClientEvents {
 
+
+
     /**
      * Регистрация эффектов измерения.
      *

@@ -21,6 +21,7 @@ public class ModCreativeModeTabs {
                     .title(Component.translatable("creativetab.lostdreams.bed_items"))
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModItems.PILLOW);
+                        output.accept(ModItems.DREAM_CATCHER);
                     }).build());
 
     public static final Supplier<CreativeModeTab> DREAM_BLOCK_TAB = CREATIVE_MODE_TAB.register("dream_blocks_tab",
@@ -32,6 +33,7 @@ public class ModCreativeModeTabs {
                         output.accept(ModBlocks.NULL_GROUND);
                         output.accept(ModBlocks.NULL_BRICKS);
                         output.accept(ModBlocks.NULL_CRACKED_BRICKS);
+                        output.accept(ModBlocks.NULL_STONE);
                     }).build());
 
     public static final Supplier<CreativeModeTab> DREAM_MOBS_TAB = CREATIVE_MODE_TAB.register("dream_mobs_tab",
