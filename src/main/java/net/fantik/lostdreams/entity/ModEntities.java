@@ -9,6 +9,8 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
+import static javax.swing.text.html.parser.DTDConstants.ENTITIES;
+
 public class ModEntities {
 
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES =
@@ -20,6 +22,15 @@ public class ModEntities {
                             .sized(0.6F, 0.5F)   // ширина, высота хитбокса
                             .build(ResourceLocation.parse("lostdreams:null_bug").toString())
             );
+
+    public static final DeferredHolder<EntityType<?>, EntityType<LucidWispEntity>> LUCID_WISP =
+            ENTITY_TYPES.register("lucid_wisp", () ->
+                    EntityType.Builder.<LucidWispEntity>of(LucidWispEntity::new, MobCategory.MONSTER)
+                            .sized(0.6F, 1.0F)   // ширина, высота хитбокса
+                            .build(ResourceLocation.parse("lostdreams:lucid_wisp").toString())
+            );
+
+
 
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);

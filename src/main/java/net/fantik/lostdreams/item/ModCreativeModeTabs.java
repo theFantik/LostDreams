@@ -43,6 +43,7 @@ public class ModCreativeModeTabs {
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModItems.BUG_ANTENNA);
                         output.accept(ModItems.NULL_BUG_SPAWN_EGG);
+                        output.accept(ModItems.LUCID_WISP_SPAWN_EGG);
                     }).build());
 
 

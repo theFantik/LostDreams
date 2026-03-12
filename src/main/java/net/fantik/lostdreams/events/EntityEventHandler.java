@@ -1,8 +1,11 @@
 package net.fantik.lostdreams.events;
 
 import net.fantik.lostdreams.LostDreams;
+import net.fantik.lostdreams.client.model.LucidWispModel;
 import net.fantik.lostdreams.client.model.NullBugModel;
+import net.fantik.lostdreams.client.renderer.LucidWispRenderer;
 import net.fantik.lostdreams.client.renderer.NullBugRenderer;
+import net.fantik.lostdreams.entity.LucidWispEntity;
 import net.fantik.lostdreams.entity.ModEntities;
 import net.fantik.lostdreams.entity.NullBugEntity;
 import net.neoforged.api.distmarker.Dist;
@@ -17,6 +20,7 @@ public class EntityEventHandler {
     @SubscribeEvent
     public static void onAttributeCreate(EntityAttributeCreationEvent event) {
         event.put(ModEntities.NULL_BUG.get(), NullBugEntity.createAttributes());
+        event.put(ModEntities.LUCID_WISP.get(), LucidWispEntity.createAttributes().build());
     }
 
     @EventBusSubscriber(modid = LostDreams.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
@@ -25,11 +29,15 @@ public class EntityEventHandler {
         @SubscribeEvent
         public static void onRegisterLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
             event.registerLayerDefinition(NullBugModel.LAYER_LOCATION, NullBugModel::createBodyLayer);
+            event.registerLayerDefinition(LucidWispModel.LAYER_LOCATION, LucidWispModel::createBodyLayer);
         }
+
+
 
         @SubscribeEvent
         public static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
             event.registerEntityRenderer(ModEntities.NULL_BUG.get(), NullBugRenderer::new);
+            event.registerEntityRenderer(ModEntities.LUCID_WISP.get(), LucidWispRenderer::new);
         }
     }
 }

@@ -21,9 +21,12 @@ public class ModItems {
     public static final DeferredItem<Item> DREAM_CATCHER = ITEMS.register("dream_catcher",
             () -> new Item(new Item.Properties()));
 
-    // Яйцо призыва null_bug (цвета: основной тёмно-серый, пятна оранжевые)
+
     public static final DeferredItem<Item> NULL_BUG_SPAWN_EGG = ITEMS.register("null_bug_spawn_egg",
             () -> new SpawnEggItem(ModEntities.NULL_BUG.get(), 0xffffff, 0xffffff, new Item.Properties()));
+
+    public static final DeferredItem<Item> LUCID_WISP_SPAWN_EGG = ITEMS.register("lucid_wisp_spawn_egg",
+            () -> new SpawnEggItem(ModEntities.LUCID_WISP.get(), 0xffffff, 0xffffff, new Item.Properties()));
 
 
     public static void register(IEventBus eventBus) {
