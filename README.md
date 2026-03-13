@@ -17,4 +17,5 @@ Null Bug
 Lucid Wisp
 <img width="1138" height="995" alt="Снимок экрана 2026-03-12 223943" src="https://github.com/user-attachments/assets/1e694fcf-1129-4b72-80e6-aa5c852ce5d3" />
 Clouds biome
-<img width="1919" height="1000" alt="Снимок экрана 2026-03-13 214836" src="https://github.com/user-attachments/assets/9fc7d57a-88a6-4ee2-9bd2-456006bb923a" />
+<img width="1919" height="1000" alt="Снимок экрана 2026-03-13 214836" src="https://github.com/user-attachments/assets/e3ee6407-8756-4e4e-88f6-08f983d41afe" />
+
