@@ -42,6 +42,7 @@ public class NullBugEntity extends Monster {
         );
     }
 
+
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));

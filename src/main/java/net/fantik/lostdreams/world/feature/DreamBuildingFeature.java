@@ -81,15 +81,13 @@ public class DreamBuildingFeature extends Feature<NoneFeatureConfiguration> {
             int wz = base.getZ() + 1 + random.nextInt(Math.max(1, depth - 2));
             BlockPos wispPos = new BlockPos(wx, wy, wz);
 
-            if (level.getBlockState(wispPos).isAir()) {
-                net.fantik.lostdreams.entity.LucidWispEntity wisp =
-                        net.fantik.lostdreams.entity.ModEntities.LUCID_WISP.get().create(level.getLevel());
-                if (wisp != null) {
-                    wisp.moveTo(wispPos.getX() + 0.5, wispPos.getY() + 0.5, wispPos.getZ() + 0.5, 0f, 0f);
-                    wisp.finalizeSpawn(level, level.getCurrentDifficultyAt(wispPos),
-                            net.minecraft.world.entity.MobSpawnType.STRUCTURE, null);
-                    level.getLevel().addFreshEntity(wisp);
-                }
+            net.fantik.lostdreams.entity.LucidWispEntity wisp =
+                    net.fantik.lostdreams.entity.ModEntities.LUCID_WISP.get().create(level.getLevel());
+            if (wisp != null) {
+                wisp.moveTo(wispPos.getX() + 0.5, wispPos.getY() + 0.5, wispPos.getZ() + 0.5, 0f, 0f);
+                wisp.finalizeSpawn(level, level.getCurrentDifficultyAt(wispPos),
+                        net.minecraft.world.entity.MobSpawnType.STRUCTURE, null);
+                level.getLevel().addFreshEntity(wisp);
             }
         }
 

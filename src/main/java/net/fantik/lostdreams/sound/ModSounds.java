@@ -20,6 +20,11 @@ public class ModSounds {
                     () -> SoundEvent.createVariableRangeEvent(
                             ResourceLocation.parse("lostdreams:entity.null_bug.ambient")));
 
+    public static final DeferredHolder<SoundEvent, SoundEvent> LUCID_WISP_AMBIENT =
+            SOUND_EVENTS.register("entity.lucid_wisp.ambient",
+                    () -> SoundEvent.createVariableRangeEvent(
+                            ResourceLocation.parse("lostdreams:entity.lucid_wisp.ambient")));
+
     public static final DeferredHolder<SoundEvent, SoundEvent> NULL_BUG_HURT =
             SOUND_EVENTS.register("entity.null_bug.hurt",
                     () -> SoundEvent.createVariableRangeEvent(

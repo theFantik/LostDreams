@@ -19,6 +19,9 @@ public class ModFeatures {
     public static final DeferredHolder<Feature<?>, DreamBuildingFeature> DREAM_BUILDING =
             FEATURES.register("dream_building", () -> new DreamBuildingFeature(NoneFeatureConfiguration.CODEC));
 
+    public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> CLOUD =
+            FEATURES.register("cloud", () -> new CloudFeature(NoneFeatureConfiguration.CODEC));
+
     public static void register(IEventBus eventBus) {
         FEATURES.register(eventBus);
     }

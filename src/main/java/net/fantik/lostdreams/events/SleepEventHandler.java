@@ -4,6 +4,7 @@ import net.fantik.lostdreams.LostDreams;
 import net.fantik.lostdreams.item.ModItems;
 import net.fantik.lostdreams.world.dimension.NullZoneDimension;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -14,6 +15,8 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.level.block.BedBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BedPart;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -27,16 +30,15 @@ import java.util.UUID;
 @EventBusSubscriber(modid = LostDreams.MOD_ID, bus = EventBusSubscriber.Bus.GAME)
 public class SleepEventHandler {
 
-    // Защита от рекурсии — игроки которых мы сейчас телепортируем
     private static final Set<UUID> TELEPORTING = new HashSet<>();
+    private static final Set<UUID> CURSING = new HashSet<>();
 
     private static final int SLOW_FALLING_DURATION_TICKS = 20 * 20;
     private static final String NBT_KEY = "lostdreams_cursed_bed";
 
-
-
     @SubscribeEvent
     public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
+        // Блокировка кровати в Null Zone
         if (NullZoneDimension.isNullZone(event.getEntity().level())) {
             BlockPos pos = event.getPos();
             if (event.getEntity().level().getBlockState(pos).getBlock() instanceof BedBlock) {
@@ -49,15 +51,34 @@ public class SleepEventHandler {
                 return;
             }
         }
+
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
         if (NullZoneDimension.isNullZone(player.level())) return;
         if (event.getHand() != InteractionHand.MAIN_HAND) return;
         if (!player.getMainHandItem().is(ModItems.PILLOW.get())) return;
 
         BlockPos clickedPos = event.getPos();
-        if (!(player.level().getBlockState(clickedPos).getBlock() instanceof BedBlock)) return;
+        BlockState bedState = player.level().getBlockState(clickedPos);
+        if (!(bedState.getBlock() instanceof BedBlock)) return;
+
+        // Если кликнули по ножной части — находим головную и проверяем зачарование
+        if (bedState.getValue(BedBlock.PART) == BedPart.FOOT) {
+            event.setCanceled(true);
+            Direction facing = bedState.getValue(BedBlock.FACING);
+            BlockPos headPos = clickedPos.relative(facing);
+            BlockPos existing = getCursedBed(player);
+            if (existing != null && existing.equals(headPos)) {
+                player.displayClientMessage(Component.literal("§cThis bed is already cursed!"), true);
+            }
+            return;
+        }
 
         event.setCanceled(true);
+
+        // Защита от двойного клика
+        if (CURSING.contains(player.getUUID())) return;
+        CURSING.add(player.getUUID());
+        player.getServer().execute(() -> CURSING.remove(player.getUUID()));
 
         // Уже зачарована?
         BlockPos existing = getCursedBed(player);
@@ -68,25 +89,19 @@ public class SleepEventHandler {
 
         setCursedBed(player, clickedPos);
 
-        // Тратим подушку (не в креативе)
         if (!player.isCreative()) {
             player.getMainHandItem().shrink(1);
         }
 
         spawnTeleportParticles((ServerLevel) player.level(), clickedPos);
         LostDreams.LOGGER.info("{} cursed bed at {}", player.getName().getString(), clickedPos);
-
-
     }
-
-
 
     @SubscribeEvent
     public static void onPlayerWakeUp(PlayerWakeUpEvent event) {
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
         if (NullZoneDimension.isNullZone(player.level())) return;
 
-        // Если мы уже телепортируем этого игрока — пропускаем
         if (TELEPORTING.contains(player.getUUID())) return;
 
         MinecraftServer server = player.getServer();
@@ -111,19 +126,23 @@ public class SleepEventHandler {
 
         TELEPORTING.add(player.getUUID());
         try {
-            player.stopSleeping(); // теперь безопасно — флаг защищает
+            player.stopSleeping();
             teleportToNullZone(player, nullZone);
         } finally {
             TELEPORTING.remove(player.getUUID());
         }
     }
 
-
-
     private static boolean isPlayerSleepingAt(ServerPlayer player, BlockPos cursedBed) {
-        return player.getSleepingPos()
-                .map(pos -> pos.equals(cursedBed))
-                .orElse(false);
+        return player.getSleepingPos().map(pos -> {
+            // Проверяем саму позицию
+            if (pos.equals(cursedBed)) return true;
+            // Проверяем соседние блоки — игра может сохранять foot позицию
+            for (Direction dir : Direction.Plane.HORIZONTAL) {
+                if (pos.relative(dir).equals(cursedBed)) return true;
+            }
+            return false;
+        }).orElse(false);
     }
 
     private static void setCursedBed(ServerPlayer player, BlockPos pos) {
@@ -172,13 +191,12 @@ public class SleepEventHandler {
     private static BlockPos findSafeSpawnPos(ServerLevel level, BlockPos referencePos) {
         int x = referencePos.getX();
         int z = referencePos.getZ();
-        int surfaceY = level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z);
-        BlockPos candidate = new BlockPos(x, surfaceY, z);
-        if (isSafeForPlayer(level, candidate)) return candidate;
-        for (int y = level.getMaxBuildHeight() - 1; y >= level.getMinBuildHeight(); y--) {
+
+        for (int y = 110; y >= level.getMinBuildHeight(); y--) {
             BlockPos pos = new BlockPos(x, y, z);
             if (isSafeForPlayer(level, pos)) return pos;
         }
+
         return new BlockPos(x, 64, z);
     }
 

@@ -8,6 +8,9 @@
   "entity.null_bug.death": {
     "sounds": ["lostdreams:entity/null_bug/death"]
   },
+  "entity.lucid_wisp.ambient": {
+    "sounds": ["lostdreams:entity/lucid_wisp/ambient"]
+  },
   "block.null_ground.break": { "sounds": ["lostdreams:block/null_ground/break"] },
   "block.null_ground.step":  { "sounds": ["lostdreams:block/null_ground/step"] },
   "block.null_ground.place": { "sounds": ["lostdreams:block/null_ground/place"] },

@@ -1,5 +1,7 @@
 package net.fantik.lostdreams.entity;
 
+import net.fantik.lostdreams.sound.ModSounds;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -189,6 +191,9 @@ public class LucidWispEntity extends PathfinderMob {
             return dist > 1.5;
         }
 
+
+
+
         @Override
         public void start() {
             // Выбираем случайную точку в радиусе 8 блоков по всем осям
@@ -228,5 +233,13 @@ public class LucidWispEntity extends PathfinderMob {
                 wisp.yBodyRot = yaw;
             }
         }
+    }
+    protected SoundEvent getAmbientSound() {
+        return ModSounds.LUCID_WISP_AMBIENT.get();
+    }
+
+
+    public int getAmbientSoundInterval() {
+        return 80; // каждые 4 секунды
     }
 }
