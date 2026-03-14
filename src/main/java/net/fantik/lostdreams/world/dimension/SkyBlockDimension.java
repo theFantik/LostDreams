@@ -6,23 +6,23 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 
 
-public class NullZoneDimension {
+public class SkyBlockDimension {
 
 
-    public static final ResourceKey<Level> NULL_ZONE_KEY = ResourceKey.create(
+    public static final ResourceKey<Level> SKYBLOCK_KEY = ResourceKey.create(
             Registries.DIMENSION,
-            ResourceLocation.parse("lostdreams:null_zone_dim")
+            ResourceLocation.parse("lostdreams:skyblock_dim")
     );
 
 
-    public static boolean isNullZone(Level level) {
-        return level != null && level.dimension().equals(NULL_ZONE_KEY);
+    public static boolean isSkyBlock(Level level) {
+        return level != null && level.dimension().equals(SKYBLOCK_KEY);
     }
 
     /**
      * Получает ResourceLocation измерения.
      */
     public static ResourceLocation getDimensionId() {
-        return NULL_ZONE_KEY.location();
+        return SKYBLOCK_KEY.location();
     }
 }

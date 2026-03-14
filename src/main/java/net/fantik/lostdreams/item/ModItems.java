@@ -14,9 +14,13 @@ public class ModItems {
     public static final DeferredItem<Item> PILLOW = ITEMS.register("pillow",
             () -> new Item(new Item.Properties()));
 
-    // Жучьи усики — дроп с null_bug
+    public static final DeferredItem<Item> NULL_PILLOW = ITEMS.register("null_pillow",
+            () -> new Item(new Item.Properties()));
+
     public static final DeferredItem<Item> BUG_ANTENNA = ITEMS.register("bug_antenna",
             () -> new Item(new Item.Properties()));
+
+    public static final DeferredItem<Item> LUCID_ESSENCE = ITEMS.register("lucid_essence", () -> new Item(new Item.Properties()) );
 
     public static final DeferredItem<Item> DREAM_CATCHER = ITEMS.register("dream_catcher",
             () -> new Item(new Item.Properties()));

@@ -1,0 +1,13 @@
+{
+  "type": "lostdreams:skyblock_type",
+  "generator": {
+    "type": "minecraft:flat",
+    "settings": {
+      "biome": "lostdreams:skyblock_plains",
+      "layers": [],
+      "features": false,
+      "lakes": false,
+      "structure_overrides": []
+    }
+  }
+}

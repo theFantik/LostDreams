@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "item": "lostdreams:pillow"
+    },
+    "X": {
+      "item": "lostdreams:bug_antenna"
+    },
+    "Y": {
+      "item": "lostdreams:lucid_essence"
+    }
+  },
+  "pattern": [
+    "XYX",
+    "X#X",
+    "XYX"
+  ],
+  "result": {
+    "count": 1,
+    "id": "lostdreams:null_pillow"
+  }
+}

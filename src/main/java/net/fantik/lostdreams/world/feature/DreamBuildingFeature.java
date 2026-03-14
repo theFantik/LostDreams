@@ -73,24 +73,6 @@ public class DreamBuildingFeature extends Feature<NoneFeatureConfiguration> {
             buildPillars(level, random, base, width, depth, origin, surfaceY);
         }
 
-        // Спавним 1-2 Lucid Wisp внутри постройки
-        int wispCount = 1 + random.nextInt(2);
-        for (int i = 0; i < wispCount; i++) {
-            int wx = base.getX() + 1 + random.nextInt(Math.max(1, width - 2));
-            int wy = base.getY() + 1 + random.nextInt(Math.max(1, height - 2));
-            int wz = base.getZ() + 1 + random.nextInt(Math.max(1, depth - 2));
-            BlockPos wispPos = new BlockPos(wx, wy, wz);
-
-            net.fantik.lostdreams.entity.LucidWispEntity wisp =
-                    net.fantik.lostdreams.entity.ModEntities.LUCID_WISP.get().create(level.getLevel());
-            if (wisp != null) {
-                wisp.moveTo(wispPos.getX() + 0.5, wispPos.getY() + 0.5, wispPos.getZ() + 0.5, 0f, 0f);
-                wisp.finalizeSpawn(level, level.getCurrentDifficultyAt(wispPos),
-                        net.minecraft.world.entity.MobSpawnType.STRUCTURE, null);
-                level.getLevel().addFreshEntity(wisp);
-            }
-        }
-
         return true;
     }
 

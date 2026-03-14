@@ -2,6 +2,7 @@ package net.fantik.lostdreams.events;
 
 import net.fantik.lostdreams.LostDreams;
 import net.fantik.lostdreams.world.dimension.NullZoneDimension;
+import net.fantik.lostdreams.world.dimension.SkyBlockDimension;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -18,14 +19,12 @@ import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 public class FallToOverworld {
 
     private static final double FALL_THRESHOLD = -63.0;
-
-    // 3 секунды — достаточно чтобы плавно приземлиться
     private static final int SLOW_FALLING_DURATION_TICKS = 3 * 20;
 
     @SubscribeEvent
     public static void onPlayerTick(PlayerTickEvent.Post event) {
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
-        if (!NullZoneDimension.isNullZone(player.level())) return;
+        if (!NullZoneDimension.isNullZone(player.level()) && !SkyBlockDimension.isSkyBlock(player.level())) return;
         if (player.getY() >= FALL_THRESHOLD) return;
 
         MinecraftServer server = player.getServer();
@@ -34,10 +33,13 @@ public class FallToOverworld {
         ServerLevel overworld = server.getLevel(Level.OVERWORLD);
         if (overworld == null) return;
 
+        // Всегда возвращаем в оверворлд — respawn point только там имеет смысл
         BlockPos spawnPos = player.getRespawnPosition();
         ServerLevel spawnLevel = server.getLevel(player.getRespawnDimension());
 
-        if (spawnPos == null || spawnLevel == null) {
+        // Если respawn point не в оверворлде (например в SkyBlock) — используем мировой спавн
+        if (spawnPos == null || spawnLevel == null ||
+                !spawnLevel.dimension().equals(Level.OVERWORLD)) {
             spawnPos = overworld.getSharedSpawnPos();
             spawnLevel = overworld;
         }
@@ -45,21 +47,16 @@ public class FallToOverworld {
         BlockPos safePos = findSafePos(spawnLevel, spawnPos);
 
         LostDreams.LOGGER.info(
-                "Player {} fell below -63 in Null Zone, returning to spawn at {}",
+                "Player {} fell below -63, returning to spawn at {}",
                 player.getName().getString(), safePos
         );
 
-        // Сначала даём эффект — он применится сразу после телепортации
         player.addEffect(new MobEffectInstance(
                 MobEffects.SLOW_FALLING,
                 SLOW_FALLING_DURATION_TICKS,
-                0,
-                false,
-                false, // частицы не нужны — это технический эффект
-                true
+                0, false, false, true
         ));
 
-        // Сбрасываем накопленную скорость падения
         player.setDeltaMovement(
                 player.getDeltaMovement().x,
                 0.0,
@@ -75,7 +72,6 @@ public class FallToOverworld {
                 player.getXRot()
         );
 
-        // Сбрасываем урон от падения после телепорта
         player.resetFallDistance();
     }
 

@@ -21,6 +21,7 @@ public class ModCreativeModeTabs {
                     .title(Component.translatable("creativetab.lostdreams.bed_items"))
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModItems.PILLOW);
+                        output.accept(ModItems.NULL_PILLOW);
                         output.accept(ModItems.DREAM_CATCHER);
                     }).build());
 
@@ -43,6 +44,7 @@ public class ModCreativeModeTabs {
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModItems.BUG_ANTENNA);
                         output.accept(ModItems.NULL_BUG_SPAWN_EGG);
+                        output.accept(ModItems.LUCID_ESSENCE);
                         output.accept(ModItems.LUCID_WISP_SPAWN_EGG);
                     }).build());
 

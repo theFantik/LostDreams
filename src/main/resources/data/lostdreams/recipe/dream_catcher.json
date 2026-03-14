@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "minecraft:stick"
+    },
+    "X": {
+      "item": "lostdreams:bug_antenna"
+    },
+    "Y": {
+      "item": "lostdreams:lucid_essence"
+    }
+  },
+  "pattern": [
+    "Y",
+    "X",
+    "#"
+  ],
+  "result": {
+    "count": 1,
+    "id": "lostdreams:dream_catcher"
+  }
+}

@@ -18,6 +18,12 @@
   },
   "spawners": {
     "monster": [
+      {
+        "type": "lostdreams:lucid_wisp",
+        "weight": 10,
+        "minCount": 1,
+        "maxCount": 2
+      }
     ],
     "creature": [],
     "ambient": [],

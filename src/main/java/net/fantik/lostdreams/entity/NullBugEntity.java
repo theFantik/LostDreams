@@ -1,6 +1,7 @@
 package net.fantik.lostdreams.entity;
 
 import net.fantik.lostdreams.sound.ModSounds;
+import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
@@ -70,6 +71,12 @@ public class NullBugEntity extends Monster {
             this.attackTick = 10;
         }
         return result;
+    }
+
+    @Override
+    public boolean checkSpawnRules(net.minecraft.world.level.LevelAccessor level, net.minecraft.world.entity.MobSpawnType spawnType) {
+        BlockPos below = this.blockPosition().below();
+        return level.getBlockState(below).isSolid() && super.checkSpawnRules(level, spawnType);
     }
 
     @Override
