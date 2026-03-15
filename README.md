@@ -4,7 +4,7 @@ Lost Dreams
 
 ## ${\color{cyan}In \space final \space version  \space this \space mod \space will \space add:}$
 - chess dimension <- 0% done
-- skyblock dimension <- 40% done
+- skyblock dimension <- 55% done
 - toys dimension <- 0% done
 - null zone dimension <- 60% done
 - surreal asteroids dimension <- 0% done

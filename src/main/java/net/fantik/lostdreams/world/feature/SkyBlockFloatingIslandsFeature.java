@@ -18,7 +18,10 @@ public class SkyBlockFloatingIslandsFeature extends Feature<NoneFeatureConfigura
         super(codec);
     }
 
-    private enum IslandType { DESERT, OCEAN, LAVA, MINING, OBLIVION }
+    private enum IslandType {
+        DESERT, OCEAN, LAVA, MINING, OBLIVION,
+        RED_DESERT, FOREST, BRICK, MUSHROOM
+    }
 
     @Override
     public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
@@ -29,14 +32,30 @@ public class SkyBlockFloatingIslandsFeature extends Feature<NoneFeatureConfigura
         BlockPos base = new BlockPos(origin.getX(), origin.getY(), origin.getZ());
         if (!level.getBlockState(base).isAir()) return false;
 
-        IslandType type = IslandType.values()[random.nextInt(IslandType.values().length)];
+        // Кирпичный остров — очень редкий (1 из 50)
+        IslandType type;
+        if (random.nextInt(50) == 0) {
+            type = IslandType.BRICK;
+        } else {
+            // Остальные 8 типов без BRICK
+            IslandType[] common = {
+                    IslandType.DESERT, IslandType.OCEAN, IslandType.LAVA,
+                    IslandType.MINING, IslandType.OBLIVION, IslandType.RED_DESERT,
+                    IslandType.FOREST, IslandType.MUSHROOM
+            };
+            type = common[random.nextInt(common.length)];
+        }
 
         switch (type) {
-            case DESERT   -> generateDesertIsland(level, base, random);
-            case OCEAN    -> generateOceanIsland(level, base, random);
-            case LAVA     -> generateLavaIsland(level, base, random);
-            case MINING   -> generateMiningIsland(level, base, random);
-            case OBLIVION -> generateOblivionIsland(level, base, random);
+            case DESERT     -> generateDesertIsland(level, base, random);
+            case OCEAN      -> generateOceanIsland(level, base, random);
+            case LAVA       -> generateLavaIsland(level, base, random);
+            case MINING     -> generateMiningIsland(level, base, random);
+            case OBLIVION   -> generateOblivionIsland(level, base, random);
+            case RED_DESERT -> generateRedDesertIsland(level, base, random);
+            case FOREST     -> generateForestIsland(level, base, random);
+            case BRICK      -> generateBrickIsland(level, base, random);
+            case MUSHROOM   -> generateMushroomIsland(level, base, random);
         }
 
         return true;
@@ -49,26 +68,17 @@ public class SkyBlockFloatingIslandsFeature extends Feature<NoneFeatureConfigura
         int rX = 4 + random.nextInt(8);
         int rZ = 4 + random.nextInt(8);
 
-        // Основа из песчаника — не падает
         buildEllipsoid(level, base, rX, rZ,
                 Blocks.SANDSTONE.defaultBlockState(),
                 Blocks.SANDSTONE.defaultBlockState(),
                 Blocks.STONE.defaultBlockState());
 
-        // Песок только там где под ним есть песчаник на том же y=0 уровне
         for (int x = -rX; x <= rX; x++) {
             for (int z = -rZ; z <= rZ; z++) {
                 BlockPos sandPos = base.offset(x, 1, z);
                 BlockPos belowSand = base.offset(x, 0, z);
-                // Кладём песок только если под ним твёрдый песчаник
                 if (level.getBlockState(sandPos).isAir() &&
                         level.getBlockState(belowSand).is(Blocks.SANDSTONE)) {
-                    // Проверяем что хотя бы один горизонтальный сосед тоже твёрдый
-                    boolean supported = level.getBlockState(belowSand.north()).is(Blocks.SANDSTONE) ||
-                            level.getBlockState(belowSand.south()).is(Blocks.SANDSTONE) ||
-                            level.getBlockState(belowSand.east()).is(Blocks.SANDSTONE) ||
-                            level.getBlockState(belowSand.west()).is(Blocks.SANDSTONE);
-                    // На краях не кладём песок — только в центре
                     double dist = (double)(x*x)/(rX*rX) + (double)(z*z)/(rZ*rZ);
                     if (dist < 0.7) {
                         level.setBlock(sandPos, Blocks.SAND.defaultBlockState(), 2);
@@ -77,7 +87,6 @@ public class SkyBlockFloatingIslandsFeature extends Feature<NoneFeatureConfigura
             }
         }
 
-        // Кактусы — только на песке
         int cactusCount = 2 + random.nextInt(5);
         for (int i = 0; i < cactusCount; i++) {
             int cx = random.nextInt(Math.max(1, rX - 2) * 2) - (rX - 2);
@@ -98,7 +107,6 @@ public class SkyBlockFloatingIslandsFeature extends Feature<NoneFeatureConfigura
             }
         }
 
-        // Мёртвые кусты — только на песке
         int bushCount = 2 + random.nextInt(4);
         for (int i = 0; i < bushCount; i++) {
             int bx = random.nextInt(Math.max(1, rX - 2) * 2) - (rX - 2);
@@ -112,19 +120,165 @@ public class SkyBlockFloatingIslandsFeature extends Feature<NoneFeatureConfigura
     }
 
     // -----------------------------------------------------------------------
-    // Океанический остров (вода не выливается)
+    // Красная пустыня
+    // -----------------------------------------------------------------------
+    private void generateRedDesertIsland(WorldGenLevel level, BlockPos base, RandomSource random) {
+        int rX = 4 + random.nextInt(8);
+        int rZ = 4 + random.nextInt(8);
+
+        buildEllipsoid(level, base, rX, rZ,
+                Blocks.RED_SANDSTONE.defaultBlockState(),
+                Blocks.RED_SANDSTONE.defaultBlockState(),
+                Blocks.STONE.defaultBlockState());
+
+        // Красный песок поверх
+        for (int x = -rX; x <= rX; x++) {
+            for (int z = -rZ; z <= rZ; z++) {
+                BlockPos sandPos = base.offset(x, 1, z);
+                BlockPos belowSand = base.offset(x, 0, z);
+                if (level.getBlockState(sandPos).isAir() &&
+                        level.getBlockState(belowSand).is(Blocks.RED_SANDSTONE)) {
+                    double dist = (double)(x*x)/(rX*rX) + (double)(z*z)/(rZ*rZ);
+                    if (dist < 0.7) {
+                        level.setBlock(sandPos, Blocks.RED_SAND.defaultBlockState(), 2);
+                    }
+                }
+            }
+        }
+
+        // Кактусы на красном песке
+        int cactusCount = 2 + random.nextInt(5);
+        for (int i = 0; i < cactusCount; i++) {
+            int cx = random.nextInt(Math.max(1, rX - 2) * 2) - (rX - 2);
+            int cz = random.nextInt(Math.max(1, rZ - 2) * 2) - (rZ - 2);
+            BlockPos cpos = base.offset(cx, 2, cz);
+            if (level.getBlockState(cpos).isAir() &&
+                    level.getBlockState(cpos.below()).is(Blocks.RED_SAND)) {
+                int height = 1 + random.nextInt(3);
+                boolean canPlace = true;
+                for (int h = 0; h < height; h++) {
+                    if (!level.getBlockState(cpos.above(h)).isAir()) { canPlace = false; break; }
+                }
+                if (canPlace) {
+                    for (int h = 0; h < height; h++) {
+                        level.setBlock(cpos.above(h), Blocks.CACTUS.defaultBlockState(), 2);
+                    }
+                }
+            }
+        }
+
+        // Мёртвые кусты
+        int bushCount = 2 + random.nextInt(4);
+        for (int i = 0; i < bushCount; i++) {
+            int bx = random.nextInt(Math.max(1, rX - 2) * 2) - (rX - 2);
+            int bz = random.nextInt(Math.max(1, rZ - 2) * 2) - (rZ - 2);
+            BlockPos bpos = base.offset(bx, 2, bz);
+            if (level.getBlockState(bpos).isAir() &&
+                    level.getBlockState(bpos.below()).is(Blocks.RED_SAND)) {
+                level.setBlock(bpos, Blocks.DEAD_BUSH.defaultBlockState(), 2);
+            }
+        }
+    }
+
+    // -----------------------------------------------------------------------
+    // Лесной остров
+    // -----------------------------------------------------------------------
+    private void generateForestIsland(WorldGenLevel level, BlockPos base, RandomSource random) {
+        int rX = 5 + random.nextInt(7);
+        int rZ = 5 + random.nextInt(7);
+
+        buildEllipsoid(level, base, rX, rZ,
+                Blocks.GRASS_BLOCK.defaultBlockState(),
+                Blocks.DIRT.defaultBlockState(),
+                Blocks.STONE.defaultBlockState());
+
+        // Деревья — дуб и берёза вперемешку
+        int treeCount = 2 + random.nextInt(4);
+        int[][] offsets = {{0, 0}, {-3, 2}, {3, -2}, {2, 3}, {-2, -3}, {0, 4}, {4, 0}};
+        for (int i = 0; i < treeCount && i < offsets.length; i++) {
+            BlockPos treeBase = base.offset(offsets[i][0], 1, offsets[i][1]);
+            if (random.nextBoolean()) {
+                buildOakTree(level, treeBase, random);
+            } else {
+                buildBirchTree(level, treeBase, random);
+            }
+        }
+
+        // Трава и цветы
+        int grassCount = 5 + random.nextInt(8);
+        for (int i = 0; i < grassCount; i++) {
+            int gx = random.nextInt(rX * 2) - rX;
+            int gz = random.nextInt(rZ * 2) - rZ;
+            BlockPos gpos = base.offset(gx, 1, gz);
+            if (level.getBlockState(gpos).isAir() &&
+                    level.getBlockState(gpos.below()).is(Blocks.GRASS_BLOCK)) {
+                level.setBlock(gpos, Blocks.SHORT_GRASS.defaultBlockState(), 2);
+            }
+        }
+    }
+
+    // -----------------------------------------------------------------------
+    // Кирпичный остров (очень редкий)
+    // -----------------------------------------------------------------------
+    private void generateBrickIsland(WorldGenLevel level, BlockPos base, RandomSource random) {
+        int rX = 6 + random.nextInt(5);
+        int rZ = 6 + random.nextInt(5);
+
+        buildEllipsoid(level, base, rX, rZ,
+                Blocks.BRICKS.defaultBlockState(),
+                Blocks.BRICKS.defaultBlockState(),
+                Blocks.STONE.defaultBlockState());
+
+        // Дом из грязи в центре
+        buildMudHouse(level, base.offset(-2, 1, -2), random);
+    }
+
+    // -----------------------------------------------------------------------
+    // Грибной остров
+    // -----------------------------------------------------------------------
+    private void generateMushroomIsland(WorldGenLevel level, BlockPos base, RandomSource random) {
+        int rX = 5 + random.nextInt(6);
+        int rZ = 5 + random.nextInt(6);
+
+        buildEllipsoid(level, base, rX, rZ,
+                Blocks.MYCELIUM.defaultBlockState(),
+                Blocks.DIRT.defaultBlockState(),
+                Blocks.STONE.defaultBlockState());
+
+        // Грибы — красные и коричневые
+        int mushroomCount = 3 + random.nextInt(5);
+        for (int i = 0; i < mushroomCount; i++) {
+            int mx = random.nextInt(rX * 2) - rX;
+            int mz = random.nextInt(rZ * 2) - rZ;
+            BlockPos mpos = base.offset(mx, 1, mz);
+            if (level.getBlockState(mpos).isAir() &&
+                    level.getBlockState(mpos.below()).is(Blocks.MYCELIUM)) {
+                if (random.nextBoolean()) {
+                    level.setBlock(mpos, Blocks.RED_MUSHROOM.defaultBlockState(), 2);
+                } else {
+                    level.setBlock(mpos, Blocks.BROWN_MUSHROOM.defaultBlockState(), 2);
+                }
+            }
+        }
+
+        // Большой гриб в центре
+        if (random.nextBoolean()) {
+            buildHugeMushroom(level, base.above(), random);
+        }
+    }
+
+    // -----------------------------------------------------------------------
+    // Океанический остров
     // -----------------------------------------------------------------------
     private void generateOceanIsland(WorldGenLevel level, BlockPos base, RandomSource random) {
         int rX = 5 + random.nextInt(8);
         int rZ = 5 + random.nextInt(8);
 
-        // Каменная основа — весь эллипсоид из камня включая верх
         buildEllipsoid(level, base, rX, rZ,
                 Blocks.STONE.defaultBlockState(),
                 Blocks.STONE.defaultBlockState(),
                 Blocks.STONE.defaultBlockState());
 
-        // Вода только строго внутри — центральная часть
         for (int x = -(rX - 2); x <= rX - 2; x++) {
             for (int z = -(rZ - 2); z <= rZ - 2; z++) {
                 double center = (double)(x*x)/((rX-2)*(rX-2)) + (double)(z*z)/((rZ-2)*(rZ-2));
@@ -133,7 +287,6 @@ public class SkyBlockFloatingIslandsFeature extends Feature<NoneFeatureConfigura
                 if (level.getBlockState(wpos).is(Blocks.STONE)) {
                     level.setBlock(wpos, Blocks.WATER.defaultBlockState(), 2);
                 }
-                // Водоросли на дне
                 if (random.nextFloat() < 0.4f) {
                     BlockPos spos = base.offset(x, -1, z);
                     if (level.getBlockState(spos).is(Blocks.STONE)) {
@@ -143,17 +296,13 @@ public class SkyBlockFloatingIslandsFeature extends Feature<NoneFeatureConfigura
             }
         }
 
-        // Песок только на верхнем слое где НЕТ воды и есть опора снизу
         for (int x = -rX; x <= rX; x++) {
             for (int z = -rZ; z <= rZ; z++) {
                 BlockPos sandPos = base.offset(x, 1, z);
                 BlockPos below = base.offset(x, 0, z);
                 if (level.getBlockState(sandPos).isAir() &&
                         level.getBlockState(below).is(Blocks.STONE)) {
-                    // Проверяем что блок ниже имеет опору — не на краю
-                    boolean hasSupport =
-                            !level.getBlockState(below.below()).isAir();
-                    if (hasSupport) {
+                    if (!level.getBlockState(below.below()).isAir()) {
                         level.setBlock(sandPos, Blocks.SAND.defaultBlockState(), 2);
                     }
                 }
@@ -162,7 +311,7 @@ public class SkyBlockFloatingIslandsFeature extends Feature<NoneFeatureConfigura
     }
 
     // -----------------------------------------------------------------------
-    // Лавовый остров (лава не выливается)
+    // Лавовый остров
     // -----------------------------------------------------------------------
     private void generateLavaIsland(WorldGenLevel level, BlockPos base, RandomSource random) {
         int rX = 4 + random.nextInt(7);
@@ -173,7 +322,6 @@ public class SkyBlockFloatingIslandsFeature extends Feature<NoneFeatureConfigura
                 Blocks.BASALT.defaultBlockState(),
                 Blocks.NETHERRACK.defaultBlockState());
 
-        // Лава только в центре — окружена блоками со всех сторон
         for (int x = -(rX - 2); x <= rX - 2; x++) {
             for (int z = -(rZ - 2); z <= rZ - 2; z++) {
                 double center = (double)(x*x)/((rX-2)*(rX-2)) + (double)(z*z)/((rZ-2)*(rZ-2));
@@ -185,7 +333,6 @@ public class SkyBlockFloatingIslandsFeature extends Feature<NoneFeatureConfigura
             }
         }
 
-        // Магма вокруг лавы
         for (int x = -rX + 1; x <= rX - 1; x++) {
             for (int z = -rZ + 1; z <= rZ - 1; z++) {
                 double edge = (double)(x*x)/(rX*rX) + (double)(z*z)/(rZ*rZ);
@@ -197,7 +344,6 @@ public class SkyBlockFloatingIslandsFeature extends Feature<NoneFeatureConfigura
             }
         }
 
-        // Обсидиановая башня с огнём
         int towerH = 3 + random.nextInt(5);
         for (int y = 1; y <= towerH; y++) {
             level.setBlock(base.above(y), Blocks.OBSIDIAN.defaultBlockState(), 2);
@@ -284,16 +430,59 @@ public class SkyBlockFloatingIslandsFeature extends Feature<NoneFeatureConfigura
     // -----------------------------------------------------------------------
     private void buildEllipsoid(WorldGenLevel level, BlockPos base, int rX, int rZ,
                                 BlockState top, BlockState middle, BlockState bottom) {
-        int rY = 3;
+        int rY = Math.max(3, (rX + rZ) / 4);
+
         for (int x = -rX; x <= rX; x++) {
             for (int y = -rY; y <= 0; y++) {
                 for (int z = -rZ; z <= rZ; z++) {
-                    double e = (double)(x*x)/(rX*rX) + (double)(y*y)/(rY*rY) + (double)(z*z)/(rZ*rZ);
+                    double e = (double)(x*x)/(rX*rX)
+                            + (double)(y*y)/(rY*rY)
+                            + (double)(z*z)/(rZ*rZ);
                     if (e > 1.0) continue;
                     BlockPos pos = base.offset(x, y, z);
                     if (y == 0) level.setBlock(pos, top, 2);
-                    else if (y >= -2) level.setBlock(pos, middle, 2);
+                    else if (y >= -(rY / 2)) level.setBlock(pos, middle, 2);
                     else level.setBlock(pos, bottom, 2);
+                }
+            }
+        }
+    }
+
+    private void buildOakTree(WorldGenLevel level, BlockPos treeBase, RandomSource random) {
+        int trunkH = 4 + random.nextInt(2);
+        for (int y = 0; y < trunkH; y++) {
+            level.setBlock(treeBase.above(y), Blocks.OAK_LOG.defaultBlockState(), 2);
+        }
+        BlockPos leafCenter = treeBase.above(trunkH - 1);
+        for (int x = -2; x <= 2; x++) {
+            for (int y = -1; y <= 2; y++) {
+                for (int z = -2; z <= 2; z++) {
+                    if (Math.abs(x) == 2 && Math.abs(z) == 2 && y <= 0) continue;
+                    BlockPos lpos = leafCenter.offset(x, y, z);
+                    if (level.getBlockState(lpos).isAir()) {
+                        level.setBlock(lpos, Blocks.OAK_LEAVES.defaultBlockState()
+                                .setValue(LeavesBlock.PERSISTENT, false), 2);
+                    }
+                }
+            }
+        }
+    }
+
+    private void buildBirchTree(WorldGenLevel level, BlockPos treeBase, RandomSource random) {
+        int trunkH = 5 + random.nextInt(3);
+        for (int y = 0; y < trunkH; y++) {
+            level.setBlock(treeBase.above(y), Blocks.BIRCH_LOG.defaultBlockState(), 2);
+        }
+        BlockPos leafCenter = treeBase.above(trunkH - 1);
+        for (int x = -2; x <= 2; x++) {
+            for (int y = -1; y <= 2; y++) {
+                for (int z = -2; z <= 2; z++) {
+                    if (Math.abs(x) == 2 && Math.abs(z) == 2 && y <= 0) continue;
+                    BlockPos lpos = leafCenter.offset(x, y, z);
+                    if (level.getBlockState(lpos).isAir()) {
+                        level.setBlock(lpos, Blocks.BIRCH_LEAVES.defaultBlockState()
+                                .setValue(LeavesBlock.PERSISTENT, false), 2);
+                    }
                 }
             }
         }
@@ -313,6 +502,68 @@ public class SkyBlockFloatingIslandsFeature extends Feature<NoneFeatureConfigura
                     if (level.getBlockState(lpos).isAir()) {
                         level.setBlock(lpos, ModBlocks.DUSKWILLOW_LEAVES.get().defaultBlockState()
                                 .setValue(LeavesBlock.PERSISTENT, false), 2);
+                    }
+                }
+            }
+        }
+    }
+
+    private void buildMudHouse(WorldGenLevel level, BlockPos base, RandomSource random) {
+        int w = 5, h = 4, d = 5;
+        // Стены из грязи
+        for (int x = 0; x < w; x++) {
+            for (int y = 0; y < h; y++) {
+                for (int z = 0; z < d; z++) {
+                    boolean isWall = x == 0 || x == w-1 || y == 0 || y == h-1 || z == 0 || z == d-1;
+                    if (!isWall) continue;
+                    BlockPos pos = base.offset(x, y, z);
+                    if (y == h-1) {
+                        level.setBlock(pos, Blocks.MUD_BRICKS.defaultBlockState(), 2);
+                    } else {
+                        level.setBlock(pos, Blocks.MUD.defaultBlockState(), 2);
+                    }
+                }
+            }
+        }
+        // Дверной проём
+        level.setBlock(base.offset(2, 1, 0), Blocks.AIR.defaultBlockState(), 2);
+        level.setBlock(base.offset(2, 2, 0), Blocks.AIR.defaultBlockState(), 2);
+        // Окно
+        level.setBlock(base.offset(1, 2, 0), Blocks.GREEN_STAINED_GLASS.defaultBlockState(), 2);
+        level.setBlock(base.offset(3, 2, 0), Blocks.GREEN_STAINED_GLASS.defaultBlockState(), 2);
+
+        // Сундук с алмазом внутри
+        BlockPos chestPos = base.offset(2, 1, 3);
+        level.setBlock(chestPos, Blocks.CHEST.defaultBlockState(), 2);
+        net.minecraft.world.level.block.entity.ChestBlockEntity chest =
+                (net.minecraft.world.level.block.entity.ChestBlockEntity) level.getBlockEntity(chestPos);
+        if (chest != null) {
+            chest.setItem(0, new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.DIAMOND, 1));
+        }
+    }
+
+    private void buildHugeMushroom(WorldGenLevel level, BlockPos base, RandomSource random) {
+        boolean isRed = random.nextBoolean();
+        BlockState stemBlock = Blocks.MUSHROOM_STEM.defaultBlockState();
+        BlockState capBlock = isRed ? Blocks.RED_MUSHROOM_BLOCK.defaultBlockState()
+                : Blocks.BROWN_MUSHROOM_BLOCK.defaultBlockState();
+
+        int stemH = 4 + random.nextInt(3);
+        for (int y = 0; y < stemH; y++) {
+            level.setBlock(base.above(y), stemBlock, 2);
+        }
+
+        // Шляпка
+        BlockPos capCenter = base.above(stemH);
+        int capR = 2 + random.nextInt(2);
+        for (int x = -capR; x <= capR; x++) {
+            for (int y = 0; y <= 2; y++) {
+                for (int z = -capR; z <= capR; z++) {
+                    if (Math.abs(x) == capR && Math.abs(z) == capR) continue;
+                    if (y == 0 && (Math.abs(x) == capR || Math.abs(z) == capR)) continue;
+                    BlockPos cpos = capCenter.offset(x, y, z);
+                    if (level.getBlockState(cpos).isAir()) {
+                        level.setBlock(cpos, capBlock, 2);
                     }
                 }
             }

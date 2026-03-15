@@ -8,17 +8,20 @@ import net.minecraft.world.level.block.LeavesBlock;
 
 public class SkyBlockIslandGenerator {
 
-    // Каждый игрок получает остров на своих координатах с шагом 200 блоков
     public static BlockPos getIslandOrigin(ServerPlayer player) {
         int index = Math.abs(player.getUUID().hashCode() % 10000);
         int gridX = (index % 100) * 200;
         int gridZ = (index / 100) * 200;
-        return new BlockPos(gridX, 80, gridZ);
+        // Смещаем на 35 чтобы не совпадать с сеткой worldgen (шаг 70)
+        return new BlockPos(gridX + 35, 80, gridZ + 35);
     }
 
     public static void generateIsland(ServerLevel level, BlockPos base) {
-        // Проверяем — остров уже сгенерирован?
-        if (!level.getBlockState(base).isAir()) return;
+        generateIsland(level, base, false);
+    }
+
+    public static void generateIsland(ServerLevel level, BlockPos base, boolean force) {
+        if (!force && !level.getBlockState(base).isAir()) return;
 
         var random = level.getRandom();
         int radiusX = 6 + random.nextInt(3);
@@ -70,7 +73,6 @@ public class SkyBlockIslandGenerator {
         BlockPos chestPos = base.offset(2, 1, 0);
         level.setBlock(chestPos, Blocks.CHEST.defaultBlockState(), 2);
 
-// Наполняем сундук
         net.minecraft.world.level.block.entity.ChestBlockEntity chest =
                 (net.minecraft.world.level.block.entity.ChestBlockEntity) level.getBlockEntity(chestPos);
         if (chest != null) {

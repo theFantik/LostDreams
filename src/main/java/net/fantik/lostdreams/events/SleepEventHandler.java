@@ -260,7 +260,8 @@ public class SleepEventHandler {
         }
 
         BlockPos islandOrigin = SkyBlockIslandGenerator.getIslandOrigin(player);
-        SkyBlockIslandGenerator.generateIsland(skyblock, islandOrigin);
+        skyblock.getChunk(islandOrigin.getX() >> 4, islandOrigin.getZ() >> 4);
+        SkyBlockIslandGenerator.generateIsland(skyblock, islandOrigin, true);
 
         player.teleportTo(skyblock,
                 islandOrigin.getX() + 0.5,
