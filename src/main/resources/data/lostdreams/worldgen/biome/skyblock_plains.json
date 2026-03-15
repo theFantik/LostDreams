@@ -29,6 +29,6 @@
     "misc": []
   },
   "spawn_costs": {},
-  "features": [[], [], [], [], [], [], [], [], []],
+  "features": [[], [], [], [], [], [], [], [], ["lostdreams:skyblock_floating_islands_placed"]],
   "carvers": {}
 }

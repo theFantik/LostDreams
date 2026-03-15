@@ -1,0 +1,1 @@
+{ "variants": { "type=bottom": { "model": "lostdreams:block/duskwillow_slab" }, "type=double": { "model": "lostdreams:block/duskwillow_planks" }, "type=top": { "model": "lostdreams:block/duskwillow_slab_top" } } }

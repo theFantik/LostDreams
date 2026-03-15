@@ -1,5 +1,4 @@
 {
-
   "item.lostdreams.pillow": "Pillow",
   "item.lostdreams.null_pillow": "Null Pillow",
   "item.lostdreams.bug_antenna": "Null Bug Antenna",
@@ -13,6 +12,25 @@
   "block.lostdreams.null_stone": "Null Stone",
   "block.lostdreams.null_bricks": "Null Bricks",
   "block.lostdreams.null_cracked_bricks": "Null Cracked Bricks",
+  "block.lostdreams.pink_knowledge_block": "Pink Knowledge Block",
+  "block.lostdreams.blue_knowledge_block": "Blue Knowledge Block",
+  "block.lostdreams.green_knowledge_block": "Green Knowledge Block",
+
+  "block.lostdreams.duskwillow_log": "Duskwillow Log",
+  "block.lostdreams.duskwillow_wood": "Duskwillow Wood",
+  "block.lostdreams.stripped_duskwillow_log": "Stripped Duskwillow Log",
+  "block.lostdreams.stripped_duskwillow_wood": "Stripped Duskwillow Wood",
+  "block.lostdreams.duskwillow_leaves": "Duskwillow Leaves",
+  "block.lostdreams.duskwillow_sapling": "Duskwillow Sapling",
+  "block.lostdreams.duskwillow_planks": "Duskwillow Planks",
+  "block.lostdreams.duskwillow_stairs": "Duskwillow Stairs",
+  "block.lostdreams.duskwillow_slab": "Duskwillow Slab",
+  "block.lostdreams.duskwillow_fence": "Duskwillow Fence",
+  "block.lostdreams.duskwillow_fence_gate": "Duskwillow Fence Gate",
+  "block.lostdreams.duskwillow_door": "Duskwillow Door",
+  "block.lostdreams.duskwillow_trapdoor": "Duskwillow Trapdoor",
+  "block.lostdreams.duskwillow_button": "Duskwillow Button",
+  "block.lostdreams.duskwillow_pressure_plate": "Duskwillow Pressure Plate",
 
   "creativetab.lostdreams.bed_items": "Bed Items",
   "creativetab.lostdreams.dream_blocks": "Dream Blocks",

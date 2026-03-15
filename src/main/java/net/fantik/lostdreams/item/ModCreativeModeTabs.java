@@ -35,6 +35,24 @@ public class ModCreativeModeTabs {
                         output.accept(ModBlocks.NULL_BRICKS);
                         output.accept(ModBlocks.NULL_CRACKED_BRICKS);
                         output.accept(ModBlocks.NULL_STONE);
+                        output.accept(ModBlocks.PINK_KNOWLEDGE_BLOCK);
+                        output.accept(ModBlocks.BLUE_KNOWLEDGE_BLOCK);
+                        output.accept(ModBlocks.GREEN_KNOWLEDGE_BLOCK);
+                        output.accept(ModBlocks.DUSKWILLOW_LOG);
+                        output.accept(ModBlocks.DUSKWILLOW_WOOD);
+                        output.accept(ModBlocks.STRIPPED_DUSKWILLOW_LOG);
+                        output.accept(ModBlocks.STRIPPED_DUSKWILLOW_WOOD);
+                        output.accept(ModBlocks.DUSKWILLOW_LEAVES);
+                        output.accept(ModBlocks.DUSKWILLOW_SAPLING);
+                        output.accept(ModBlocks.DUSKWILLOW_PLANKS);
+                        output.accept(ModBlocks.DUSKWILLOW_STAIRS);
+                        output.accept(ModBlocks.DUSKWILLOW_SLAB);
+                        output.accept(ModBlocks.DUSKWILLOW_FENCE);
+                        output.accept(ModBlocks.DUSKWILLOW_FENCE_GATE);
+                        output.accept(ModBlocks.DUSKWILLOW_DOOR);
+                        output.accept(ModBlocks.DUSKWILLOW_TRAPDOOR);
+                        output.accept(ModBlocks.DUSKWILLOW_BUTTON);
+                        output.accept(ModBlocks.DUSKWILLOW_PRESSURE_PLATE);
                     }).build());
 
     public static final Supplier<CreativeModeTab> DREAM_MOBS_TAB = CREATIVE_MODE_TAB.register("dream_mobs_tab",

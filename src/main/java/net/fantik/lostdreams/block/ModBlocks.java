@@ -3,12 +3,14 @@ package net.fantik.lostdreams.block;
 import net.fantik.lostdreams.LostDreams;
 import net.fantik.lostdreams.item.ModItems;
 import net.fantik.lostdreams.sound.ModSounds;
+import net.fantik.lostdreams.world.tree.DuskwillowTreeGrower;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.grower.TreeGrower;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
+import net.minecraft.world.level.block.state.properties.WoodType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -19,6 +21,9 @@ public class ModBlocks {
     public static final DeferredRegister.Blocks BLOCKS =
             DeferredRegister.createBlocks(LostDreams.MOD_ID);
 
+    // -----------------------------------------------------------------------
+    // Null Zone блоки
+    // -----------------------------------------------------------------------
     public static final DeferredBlock<Block> FEATHER_BLOCK = registerBlock("feather_block",
             () -> new Block(BlockBehaviour.Properties.of()
                     .strength(4f).sound(SoundType.WOOL).destroyTime(0.5f)
@@ -42,6 +47,95 @@ public class ModBlocks {
                     .strength(2f).sound(SoundType.STONE).destroyTime(1.5f)
             ));
 
+    // -----------------------------------------------------------------------
+    // Knowledge блоки
+    // -----------------------------------------------------------------------
+    public static final DeferredBlock<Block> PINK_KNOWLEDGE_BLOCK = registerBlock("pink_knowledge_block",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.DIRT)));
+    public static final DeferredBlock<Block> BLUE_KNOWLEDGE_BLOCK = registerBlock("blue_knowledge_block",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.DIRT)));
+    public static final DeferredBlock<Block> GREEN_KNOWLEDGE_BLOCK = registerBlock("green_knowledge_block",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.DIRT)));
+
+    // -----------------------------------------------------------------------
+    // Duskwillow дерево
+    // -----------------------------------------------------------------------
+    public static final DeferredBlock<RotatedPillarBlock> DUSKWILLOW_LOG = registerBlock("duskwillow_log",
+            () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LOG)) {
+                @Override
+                public net.minecraft.world.level.block.state.BlockState getToolModifiedState(
+                        net.minecraft.world.level.block.state.BlockState state,
+                        net.minecraft.world.item.context.UseOnContext context,
+                        net.neoforged.neoforge.common.ItemAbility itemAbility,
+                        boolean simulate) {
+                    if (itemAbility == net.neoforged.neoforge.common.ItemAbilities.AXE_STRIP) {
+                        return STRIPPED_DUSKWILLOW_LOG.get().defaultBlockState()
+                                .setValue(RotatedPillarBlock.AXIS, state.getValue(RotatedPillarBlock.AXIS));
+                    }
+                    return super.getToolModifiedState(state, context, itemAbility, simulate);
+                }
+            });
+
+    public static final DeferredBlock<RotatedPillarBlock> DUSKWILLOW_WOOD = registerBlock("duskwillow_wood",
+            () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WOOD)) {
+                @Override
+                public net.minecraft.world.level.block.state.BlockState getToolModifiedState(
+                        net.minecraft.world.level.block.state.BlockState state,
+                        net.minecraft.world.item.context.UseOnContext context,
+                        net.neoforged.neoforge.common.ItemAbility itemAbility,
+                        boolean simulate) {
+                    if (itemAbility == net.neoforged.neoforge.common.ItemAbilities.AXE_STRIP) {
+                        return STRIPPED_DUSKWILLOW_WOOD.get().defaultBlockState()
+                                .setValue(RotatedPillarBlock.AXIS, state.getValue(RotatedPillarBlock.AXIS));
+                    }
+                    return super.getToolModifiedState(state, context, itemAbility, simulate);
+                }
+            });
+
+    public static final DeferredBlock<RotatedPillarBlock> STRIPPED_DUSKWILLOW_LOG = registerBlock("stripped_duskwillow_log",
+            () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_LOG)));
+
+    public static final DeferredBlock<RotatedPillarBlock> STRIPPED_DUSKWILLOW_WOOD = registerBlock("stripped_duskwillow_wood",
+            () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_WOOD)));
+
+    public static final DeferredBlock<LeavesBlock> DUSKWILLOW_LEAVES = registerBlock("duskwillow_leaves",
+            () -> new LeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES)));
+
+    public static final DeferredBlock<SaplingBlock> DUSKWILLOW_SAPLING = registerBlock("duskwillow_sapling",
+            () -> new SaplingBlock(DuskwillowTreeGrower.INSTANCE,
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SAPLING)));
+
+    public static final DeferredBlock<Block> DUSKWILLOW_PLANKS = registerBlock("duskwillow_planks",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS)));
+
+    public static final DeferredBlock<StairBlock> DUSKWILLOW_STAIRS = registerBlock("duskwillow_stairs",
+            () -> new StairBlock(DUSKWILLOW_PLANKS.get().defaultBlockState(),
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_STAIRS)));
+
+    public static final DeferredBlock<SlabBlock> DUSKWILLOW_SLAB = registerBlock("duskwillow_slab",
+            () -> new SlabBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SLAB)));
+
+    public static final DeferredBlock<FenceBlock> DUSKWILLOW_FENCE = registerBlock("duskwillow_fence",
+            () -> new FenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE)));
+
+    public static final DeferredBlock<FenceGateBlock> DUSKWILLOW_FENCE_GATE = registerBlock("duskwillow_fence_gate",
+            () -> new FenceGateBlock(WoodType.OAK, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE_GATE)));
+
+    public static final DeferredBlock<DoorBlock> DUSKWILLOW_DOOR = registerBlock("duskwillow_door",
+            () -> new DoorBlock(BlockSetType.OAK, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_DOOR)));
+
+    public static final DeferredBlock<TrapDoorBlock> DUSKWILLOW_TRAPDOOR = registerBlock("duskwillow_trapdoor",
+            () -> new TrapDoorBlock(BlockSetType.OAK, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_TRAPDOOR)));
+
+    public static final DeferredBlock<ButtonBlock> DUSKWILLOW_BUTTON = registerBlock("duskwillow_button",
+            () -> new ButtonBlock(BlockSetType.OAK, 30, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_BUTTON)));
+
+    public static final DeferredBlock<PressurePlateBlock> DUSKWILLOW_PRESSURE_PLATE = registerBlock("duskwillow_pressure_plate",
+            () -> new PressurePlateBlock(BlockSetType.OAK, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PRESSURE_PLATE)));
+
+    // -----------------------------------------------------------------------
+    // Регистрация
+    // -----------------------------------------------------------------------
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {
         DeferredBlock<T> toReturn = BLOCKS.register(name, block);
         registerBlockItem(name, toReturn);
@@ -49,7 +143,7 @@ public class ModBlocks {
     }
 
     private static <T extends Block> void registerBlockItem(String name, DeferredBlock<T> block) {
-        ModItems.ITEMS.register(name,() -> new BlockItem(block.get(), new Item.Properties()));
+        ModItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
     }
 
     public static void register(IEventBus eventBus) {

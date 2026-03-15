@@ -1,0 +1,1 @@
+{ "parent": "minecraft:block/cube_column", "textures": { "end": "lostdreams:block/duskwillow_log_top", "side": "lostdreams:block/duskwillow_log" } }

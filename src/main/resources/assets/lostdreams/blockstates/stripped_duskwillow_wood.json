@@ -1,0 +1,1 @@
+{ "variants": { "axis=x": { "model": "lostdreams:block/stripped_duskwillow_wood", "x": 90, "y": 90 }, "axis=y": { "model": "lostdreams:block/stripped_duskwillow_wood" }, "axis=z": { "model": "lostdreams:block/stripped_duskwillow_wood", "x": 90 } } }

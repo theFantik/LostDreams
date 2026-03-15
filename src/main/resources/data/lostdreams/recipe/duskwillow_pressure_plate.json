@@ -1,0 +1,6 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": ["##"],
+  "key": {"#": {"item": "lostdreams:duskwillow_planks"}},
+  "result": {"id": "lostdreams:duskwillow_pressure_plate", "count": 1}
+}

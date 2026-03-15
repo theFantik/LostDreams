@@ -1,0 +1,5 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [{"item": "lostdreams:stripped_duskwillow_log"}],
+  "result": {"id": "lostdreams:duskwillow_planks", "count": 4}
+}

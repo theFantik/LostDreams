@@ -1,0 +1,1 @@
+{ "parent": "minecraft:block/door_bottom_left_open", "textures": { "bottom": "lostdreams:block/duskwillow_door_bottom", "top": "lostdreams:block/duskwillow_door_top" } }

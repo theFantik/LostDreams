@@ -5,6 +5,7 @@ import net.fantik.lostdreams.entity.ModEntities;
 import net.fantik.lostdreams.item.ModCreativeModeTabs;
 import net.fantik.lostdreams.item.ModItems;
 import net.fantik.lostdreams.sound.ModSounds;
+import net.fantik.lostdreams.world.SkyBlockChunkGenerator;
 import net.fantik.lostdreams.world.feature.ModFeatures;
 import org.slf4j.Logger;
 
@@ -45,8 +46,11 @@ public class LostDreams {
         ModFeatures.register(modEventBus);
         ModEntities.register(modEventBus);
         ModSounds.register(modEventBus);
+
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
+        modEventBus.addListener(SkyBlockChunkGenerator::register);
+
 
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);

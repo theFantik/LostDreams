@@ -2,6 +2,9 @@
   "replace": false,
   "values": [
     "lostdreams:feather_block",
-    "lostdreams:null_ground"
+    "lostdreams:null_ground",
+    "lostdreams:pink_knowledge_block",
+    "lostdreams:blue_knowledge_block",
+    "lostdreams:gren_knowledge_block"
   ]
 }

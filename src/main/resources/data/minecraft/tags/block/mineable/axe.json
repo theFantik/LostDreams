@@ -1,0 +1,18 @@
+{
+  "replace": false,
+  "values": [
+    "lostdreams:duskwillow_log",
+    "lostdreams:duskwillow_wood",
+    "lostdreams:stripped_duskwillow_log",
+    "lostdreams:stripped_duskwillow_wood",
+    "lostdreams:duskwillow_planks",
+    "lostdreams:duskwillow_stairs",
+    "lostdreams:duskwillow_slab",
+    "lostdreams:duskwillow_fence",
+    "lostdreams:duskwillow_fence_gate",
+    "lostdreams:duskwillow_door",
+    "lostdreams:duskwillow_trapdoor",
+    "lostdreams:duskwillow_button",
+    "lostdreams:duskwillow_pressure_plate"
+  ]
+}

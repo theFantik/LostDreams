@@ -1,0 +1,1 @@
+{ "parent": "minecraft:item/generated", "textures": { "layer0": "lostdreams:block/duskwillow_door_bottom" } }

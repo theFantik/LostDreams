@@ -1,0 +1,5 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [{"item": "lostdreams:duskwillow_planks"}],
+  "result": {"id": "lostdreams:duskwillow_button", "count": 1}
+}
