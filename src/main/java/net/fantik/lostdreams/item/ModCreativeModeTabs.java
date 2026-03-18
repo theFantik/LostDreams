@@ -53,6 +53,9 @@ public class ModCreativeModeTabs {
                         output.accept(ModBlocks.DUSKWILLOW_TRAPDOOR);
                         output.accept(ModBlocks.DUSKWILLOW_BUTTON);
                         output.accept(ModBlocks.DUSKWILLOW_PRESSURE_PLATE);
+                        output.accept(ModBlocks.SURREAL_BLUE_ROCK);
+                        output.accept(ModBlocks.SURREAL_RED_ROCK);
+                        output.accept(ModBlocks.SURREAL_YELLOW_ROCK);
                     }).build());
 
     public static final Supplier<CreativeModeTab> DREAM_MOBS_TAB = CREATIVE_MODE_TAB.register("dream_mobs_tab",

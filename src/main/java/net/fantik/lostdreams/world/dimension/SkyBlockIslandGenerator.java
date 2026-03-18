@@ -1,5 +1,6 @@
 package net.fantik.lostdreams.world.dimension;
 
+import net.fantik.lostdreams.util.IslandShapeUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -12,7 +13,6 @@ public class SkyBlockIslandGenerator {
         int index = Math.abs(player.getUUID().hashCode() % 10000);
         int gridX = (index % 100) * 200;
         int gridZ = (index / 100) * 200;
-        // Смещаем на 35 чтобы не совпадать с сеткой worldgen (шаг 70)
         return new BlockPos(gridX + 35, 80, gridZ + 35);
     }
 
@@ -24,30 +24,14 @@ public class SkyBlockIslandGenerator {
         if (!force && !level.getBlockState(base).isAir()) return;
 
         var random = level.getRandom();
-        int radiusX = 6 + random.nextInt(3);
-        int radiusZ = 6 + random.nextInt(3);
-        int radiusY = 3;
+        int radiusX = 6 + random.nextInt(4);
+        int radiusZ = 6 + random.nextInt(4);
 
-        // Тело острова — эллипсоид
-        for (int x = -radiusX; x <= radiusX; x++) {
-            for (int y = -radiusY; y <= 0; y++) {
-                for (int z = -radiusZ; z <= radiusZ; z++) {
-                    double ellipsoid = (double)(x * x) / (radiusX * radiusX)
-                            + (double)(y * y) / (radiusY * radiusY)
-                            + (double)(z * z) / (radiusZ * radiusZ);
-                    if (ellipsoid > 1.0) continue;
-
-                    BlockPos pos = base.offset(x, y, z);
-                    if (y == 0) {
-                        level.setBlock(pos, Blocks.GRASS_BLOCK.defaultBlockState(), 2);
-                    } else if (y >= -2) {
-                        level.setBlock(pos, Blocks.DIRT.defaultBlockState(), 2);
-                    } else {
-                        level.setBlock(pos, Blocks.STONE.defaultBlockState(), 2);
-                    }
-                }
-            }
-        }
+        // Тело острова через IslandShapeUtil
+        IslandShapeUtil.buildIsland(level, base, radiusX, radiusZ, random,
+                Blocks.GRASS_BLOCK.defaultBlockState(),
+                Blocks.DIRT.defaultBlockState(),
+                Blocks.STONE.defaultBlockState());
 
         // Дерево
         BlockPos treeBase = base.above();

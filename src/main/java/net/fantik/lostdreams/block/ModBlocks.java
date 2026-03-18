@@ -133,6 +133,17 @@ public class ModBlocks {
     public static final DeferredBlock<PressurePlateBlock> DUSKWILLOW_PRESSURE_PLATE = registerBlock("duskwillow_pressure_plate",
             () -> new PressurePlateBlock(BlockSetType.OAK, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PRESSURE_PLATE)));
 
+    // Сюр блоки
+
+    public static final DeferredBlock<Block> SURREAL_BLUE_ROCK = registerBlock("surreal_blue_rock",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
+
+    public static final DeferredBlock<Block> SURREAL_RED_ROCK = registerBlock("surreal_red_rock",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
+
+    public static final DeferredBlock<Block> SURREAL_YELLOW_ROCK = registerBlock("surreal_yellow_rock",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
+
     // -----------------------------------------------------------------------
     // Регистрация
     // -----------------------------------------------------------------------
