@@ -25,6 +25,9 @@ public class ModFeatures {
     public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> SKYBLOCK_FLOATING_ISLANDS =
             FEATURES.register("skyblock_floating_islands", () -> new SkyBlockFloatingIslandsFeature(NoneFeatureConfiguration.CODEC));
 
+    public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> SURREAL_ASTEROIDS =
+            FEATURES.register("surreal_asteroids", () -> new SurrealAsteroidsFeature(NoneFeatureConfiguration.CODEC));
+
 
 
     public static void register(IEventBus eventBus) {

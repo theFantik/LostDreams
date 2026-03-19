@@ -5,6 +5,7 @@ import net.fantik.lostdreams.item.ModItems;
 import net.fantik.lostdreams.world.dimension.NullZoneDimension;
 import net.fantik.lostdreams.world.dimension.SkyBlockDimension;
 import net.fantik.lostdreams.world.dimension.SkyBlockIslandGenerator;
+import net.fantik.lostdreams.world.dimension.SurrealAsteroidsDimension;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -58,7 +59,7 @@ public class SleepEventHandler {
         if (NullZoneDimension.isNullZone(player.level())) return;
         if (event.getHand() != InteractionHand.MAIN_HAND) return;
 
-        // --- NULL PILLOW -> SkyBlock (работает из любого измерения кроме Null Zone) ---
+        // --- NULL PILLOW -> SkyBlock / Asteroids ---
         if (player.getMainHandItem().is(ModItems.NULL_PILLOW.get())) {
             BlockPos clickedPos = event.getPos();
             BlockState bedState = player.level().getBlockState(clickedPos);
@@ -88,7 +89,6 @@ public class SleepEventHandler {
             }
 
             setNullCursedBed(player, clickedPos);
-            // Снимаем обычное проклятие
             player.getPersistentData().remove(NBT_KEY);
 
             if (!player.isCreative()) {
@@ -99,7 +99,7 @@ public class SleepEventHandler {
             return;
         }
 
-        // --- PILLOW -> Null Zone (не работает из SkyBlock) ---
+        // --- PILLOW -> Null Zone ---
         if (!player.getMainHandItem().is(ModItems.PILLOW.get())) return;
         if (SkyBlockDimension.isSkyBlock(player.level())) return;
 
@@ -131,7 +131,6 @@ public class SleepEventHandler {
         }
 
         setCursedBed(player, clickedPos);
-        // Снимаем null проклятие
         player.getPersistentData().remove(NBT_KEY_NULL);
 
         if (!player.isCreative()) {
@@ -146,24 +145,31 @@ public class SleepEventHandler {
     public static void onPlayerWakeUp(PlayerWakeUpEvent event) {
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
 
-        // В Null Zone — ничего не делаем
         if (NullZoneDimension.isNullZone(player.level())) return;
-
-        // В SkyBlock — просто пропускаем ночь, никакой телепортации
         if (SkyBlockDimension.isSkyBlock(player.level())) return;
+        if (SurrealAsteroidsDimension.isSurrealAsteroids(player.level())) return;
 
         if (TELEPORTING.contains(player.getUUID())) return;
 
         MinecraftServer server = player.getServer();
         if (server == null) return;
 
-        // --- Проверка null_pillow (SkyBlock) ---
+        // --- Проверка null_pillow (SkyBlock / Asteroids) ---
         BlockPos nullCursedBed = getNullCursedBed(player);
         if (nullCursedBed != null && isPlayerSleepingAt(player, nullCursedBed)) {
+            float roll = player.getRandom().nextFloat();
+
             TELEPORTING.add(player.getUUID());
             try {
                 player.stopSleeping();
-                teleportToSkyBlock(player, server);
+                if (roll < 0.30f) {
+                    // 30% — SkyBlock
+                    teleportToSkyBlock(player, server);
+                } else if (roll < 0.60f) {
+                    // 30% — Surreal Asteroids
+                    teleportToSurrealAsteroids(player, server);
+                }
+                // 40% — просто просыпаемся в обычном мире
             } finally {
                 TELEPORTING.remove(player.getUUID());
             }
@@ -224,7 +230,7 @@ public class SleepEventHandler {
         return new BlockPos(tag.getInt("x"), tag.getInt("y"), tag.getInt("z"));
     }
 
-    // --- NBT: null_pillow (SkyBlock) ---
+    // --- NBT: null_pillow (SkyBlock / Asteroids) ---
     private static void setNullCursedBed(ServerPlayer player, BlockPos pos) {
         CompoundTag data = player.getPersistentData();
         CompoundTag tag = new CompoundTag();
@@ -271,6 +277,40 @@ public class SleepEventHandler {
 
         player.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING,
                 SLOW_FALLING_DURATION_TICKS, 0, false, true, true));
+    }
+
+    private static void teleportToSurrealAsteroids(ServerPlayer player, MinecraftServer server) {
+        ServerLevel asteroids = server.getLevel(SurrealAsteroidsDimension.SURREAL_ASTEROIDS_KEY);
+        if (asteroids == null) {
+            LostDreams.LOGGER.warn("Surreal Asteroids dimension not found!");
+            return;
+        }
+
+        BlockPos spawnPos = findAsteroidSurface(asteroids, player.blockPosition());
+
+        player.teleportTo(asteroids,
+                spawnPos.getX() + 0.5,
+                spawnPos.getY() + 1,
+                spawnPos.getZ() + 0.5,
+                player.getYRot(), player.getXRot());
+
+        player.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING,
+                SLOW_FALLING_DURATION_TICKS * 3, 0, false, true, true));
+    }
+
+    private static BlockPos findAsteroidSurface(ServerLevel level, BlockPos reference) {
+        for (int attempt = 0; attempt < 20; attempt++) {
+            int x = reference.getX() + level.getRandom().nextInt(64) - 32;
+            int z = reference.getZ() + level.getRandom().nextInt(64) - 32;
+            for (int y = 150; y >= -32; y--) {
+                BlockPos pos = new BlockPos(x, y, z);
+                if (!level.getBlockState(pos).isAir() &&
+                        level.getBlockState(pos.above()).isAir()) {
+                    return pos;
+                }
+            }
+        }
+        return new BlockPos(reference.getX(), 80, reference.getZ());
     }
 
     // --- Частицы ---

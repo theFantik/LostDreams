@@ -1,0 +1,10 @@
+{
+  "type": "lostdreams:surreal_asteroids_type",
+  "generator": {
+    "type": "lostdreams:surreal_asteroids",
+    "biome_source": {
+      "type": "minecraft:fixed",
+      "biome": "lostdreams:surreal_asteroids_plains"
+    }
+  }
+}

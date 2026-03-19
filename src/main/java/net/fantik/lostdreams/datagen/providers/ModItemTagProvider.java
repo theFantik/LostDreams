@@ -43,11 +43,20 @@ public class ModItemTagProvider extends ItemTagsProvider {
         tag(ItemTags.WOODEN_STAIRS).add(ModBlocks.DUSKWILLOW_STAIRS.get().asItem());
         tag(ItemTags.LEAVES).add(ModBlocks.DUSKWILLOW_LEAVES.get().asItem());
         tag(ItemTags.SAPLINGS).add(ModBlocks.DUSKWILLOW_SAPLING.get().asItem());
-        tag(ItemTags.STONE_CRAFTING_MATERIALS).add(ModBlocks.SURREAL_BLUE_ROCK.get().asItem());
-        tag(ItemTags.STONE_CRAFTING_MATERIALS).add(ModBlocks.SURREAL_RED_ROCK.get().asItem());
-        tag(ItemTags.STONE_CRAFTING_MATERIALS).add(ModBlocks.SURREAL_YELLOW_ROCK.get().asItem());
-        tag(ItemTags.STONE_TOOL_MATERIALS).add(ModBlocks.SURREAL_BLUE_ROCK.get().asItem());
-        tag(ItemTags.STONE_TOOL_MATERIALS).add(ModBlocks.SURREAL_RED_ROCK.get().asItem());
-        tag(ItemTags.STONE_TOOL_MATERIALS).add(ModBlocks.SURREAL_YELLOW_ROCK.get().asItem());
+        tag(ItemTags.STONE_CRAFTING_MATERIALS).add(ModBlocks.SURREAL_BLUE_ROCK.get().asItem(),
+                ModBlocks.SURREAL_RED_ROCK.get().asItem(),
+                ModBlocks.SURREAL_YELLOW_ROCK.get().asItem(),
+                ModBlocks.NULL_BRICKS.get().asItem(),
+                ModBlocks.NULL_GROUND.get().asItem(),
+                ModBlocks.NULL_STONE.get().asItem(),
+                ModBlocks.NULL_CRACKED_BRICKS.get().asItem());
+        tag(ItemTags.STONE_TOOL_MATERIALS).add(ModBlocks.SURREAL_BLUE_ROCK.get().asItem(),
+                ModBlocks.SURREAL_RED_ROCK.get().asItem(),
+                ModBlocks.SURREAL_YELLOW_ROCK.get().asItem(),
+                ModBlocks.NULL_BRICKS.get().asItem(),
+                ModBlocks.NULL_GROUND.get().asItem(),
+                ModBlocks.NULL_STONE.get().asItem(),
+                ModBlocks.NULL_CRACKED_BRICKS.get().asItem());
+        ;
     }
 }
