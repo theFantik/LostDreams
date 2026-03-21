@@ -57,6 +57,9 @@ public class ModLanguageProvider extends LanguageProvider {
         add(ModBlocks.SURREAL_BLUE_ROCK.get(), "Surreal Blue Rock");
         add(ModBlocks.SURREAL_RED_ROCK.get(), "Surreal Red Rock");
         add(ModBlocks.SURREAL_YELLOW_ROCK.get(), "Surreal Yellow Rock");
+        add(ModBlocks.SURREAL_LIGHTBLUE_ROCK.get(), "Surreal Light Blue Rock");
+        add(ModBlocks.SURREAL_GREEN_ROCK.get(), "Surreal Green Rock");
+        add(ModBlocks.SURREAL_PURPLE_ROCK.get(), "Surreal Purple Rock");
 
         // Creative tabs
         add("creativetab.lostdreams.bed_items", "Bed Items");

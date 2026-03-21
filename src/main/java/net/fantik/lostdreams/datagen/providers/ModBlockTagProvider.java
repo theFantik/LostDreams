@@ -71,6 +71,9 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.NULL_BRICKS.get())
                 .add(ModBlocks.NULL_CRACKED_BRICKS.get())
                 .add(ModBlocks.SURREAL_RED_ROCK.get())
+                .add(ModBlocks.SURREAL_LIGHTBLUE_ROCK.get())
+                .add(ModBlocks.SURREAL_GREEN_ROCK.get())
+                .add(ModBlocks.SURREAL_PURPLE_ROCK.get())
                 .add(ModBlocks.SURREAL_BLUE_ROCK.get())
                 .add(ModBlocks.SURREAL_YELLOW_ROCK.get());
 

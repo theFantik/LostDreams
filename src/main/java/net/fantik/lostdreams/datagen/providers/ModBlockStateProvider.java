@@ -19,6 +19,9 @@ public class ModBlockStateProvider extends BlockStateProvider {
         simpleBlock(ModBlocks.NULL_STONE.get());
         simpleBlock(ModBlocks.SURREAL_BLUE_ROCK.get());
         simpleBlock(ModBlocks.SURREAL_RED_ROCK.get());
+        simpleBlock(ModBlocks.SURREAL_PURPLE_ROCK.get());
+        simpleBlock(ModBlocks.SURREAL_GREEN_ROCK.get());
+        simpleBlock(ModBlocks.SURREAL_LIGHTBLUE_ROCK.get());
         simpleBlock(ModBlocks.SURREAL_YELLOW_ROCK.get());
         simpleBlock(ModBlocks.NULL_BRICKS.get());
         simpleBlock(ModBlocks.NULL_CRACKED_BRICKS.get());

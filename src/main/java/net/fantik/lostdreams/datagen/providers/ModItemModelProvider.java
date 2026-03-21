@@ -68,6 +68,9 @@ public class ModItemModelProvider extends ItemModelProvider {
         blockItem(ModBlocks.NULL_STONE);
         blockItem(ModBlocks.SURREAL_BLUE_ROCK);
         blockItem(ModBlocks.SURREAL_RED_ROCK);
+        blockItem(ModBlocks.SURREAL_GREEN_ROCK);
+        blockItem(ModBlocks.SURREAL_LIGHTBLUE_ROCK);
+        blockItem(ModBlocks.SURREAL_PURPLE_ROCK);
         blockItem(ModBlocks.SURREAL_YELLOW_ROCK);
         blockItem(ModBlocks.NULL_BRICKS);
         blockItem(ModBlocks.NULL_CRACKED_BRICKS);

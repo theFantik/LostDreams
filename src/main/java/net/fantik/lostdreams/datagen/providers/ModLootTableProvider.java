@@ -42,6 +42,9 @@ public class ModLootTableProvider extends LootTableProvider {
             dropSelf(ModBlocks.GREEN_KNOWLEDGE_BLOCK.get());
             dropSelf(ModBlocks.SURREAL_BLUE_ROCK.get());
             dropSelf(ModBlocks.SURREAL_RED_ROCK.get());
+            dropSelf(ModBlocks.SURREAL_PURPLE_ROCK.get());
+            dropSelf(ModBlocks.SURREAL_LIGHTBLUE_ROCK.get());
+            dropSelf(ModBlocks.SURREAL_GREEN_ROCK.get());
             dropSelf(ModBlocks.SURREAL_YELLOW_ROCK.get());
 
             // Duskwillow дерево

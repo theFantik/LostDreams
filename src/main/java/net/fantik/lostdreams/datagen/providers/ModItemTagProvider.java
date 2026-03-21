@@ -45,6 +45,9 @@ public class ModItemTagProvider extends ItemTagsProvider {
         tag(ItemTags.SAPLINGS).add(ModBlocks.DUSKWILLOW_SAPLING.get().asItem());
         tag(ItemTags.STONE_CRAFTING_MATERIALS).add(ModBlocks.SURREAL_BLUE_ROCK.get().asItem(),
                 ModBlocks.SURREAL_RED_ROCK.get().asItem(),
+                ModBlocks.SURREAL_PURPLE_ROCK.get().asItem(),
+                ModBlocks.SURREAL_LIGHTBLUE_ROCK.get().asItem(),
+                ModBlocks.SURREAL_GREEN_ROCK.get().asItem(),
                 ModBlocks.SURREAL_YELLOW_ROCK.get().asItem(),
                 ModBlocks.NULL_BRICKS.get().asItem(),
                 ModBlocks.NULL_GROUND.get().asItem(),

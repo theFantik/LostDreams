@@ -144,6 +144,15 @@ public class ModBlocks {
     public static final DeferredBlock<Block> SURREAL_YELLOW_ROCK = registerBlock("surreal_yellow_rock",
             () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
 
+    public static final DeferredBlock<Block> SURREAL_PURPLE_ROCK = registerBlock("surreal_purple_rock",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
+
+    public static final DeferredBlock<Block> SURREAL_GREEN_ROCK = registerBlock("surreal_green_rock",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
+
+    public static final DeferredBlock<Block> SURREAL_LIGHTBLUE_ROCK = registerBlock("surreal_lightblue_rock",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
+
     // -----------------------------------------------------------------------
     // Регистрация
     // -----------------------------------------------------------------------
