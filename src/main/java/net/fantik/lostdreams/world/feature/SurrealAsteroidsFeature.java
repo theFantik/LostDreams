@@ -75,10 +75,10 @@ public class SurrealAsteroidsFeature extends Feature<NoneFeatureConfiguration> {
 
         ShapeType shape = ShapeType.values()[random.nextInt(ShapeType.values().length)];
 
-        // 🌑 шанс полого астероида
+        //  шанс полого астероида
         boolean hollow = random.nextFloat() < 0.12f && r >= 6;
 
-        // 🎯 система размеров
+        //  система размеров
         boolean small = r < 6;
         boolean medium = r >= 6 && r < 10;
         boolean large = r >= 10;
@@ -97,12 +97,12 @@ public class SurrealAsteroidsFeature extends Feature<NoneFeatureConfiguration> {
 
                     int distSq = x*x + y*y + z*z;
 
-                    // 🌑 ПОЛЫЙ АСТЕРОИД
+                    //  ПОЛЫЙ АСТЕРОИД
                     if (hollow) {
                         if (distSq < r*r * 0.6) continue;
                     }
 
-                    // ❌ маленькие — без пещер
+                    //  маленькие — без пещер
                     if (small) {
                         level.setBlock(base.offset(x, y, z), rock, 2);
                         continue;
@@ -114,12 +114,12 @@ public class SurrealAsteroidsFeature extends Feature<NoneFeatureConfiguration> {
 
                     double noiseVal = noise.getValue(nx, ny, nz);
 
-                    // 🪨 СРЕДНИЕ — немного пещер
+                    //  СРЕДНИЕ — немного пещер
                     if (medium) {
                         if (noiseVal > 0.25 && distSq < r*r * 0.5) continue;
                     }
 
-                    // 🪨 БОЛЬШИЕ — полноценные пещеры + туннели
+                    //  БОЛЬШИЕ — полноценные пещеры + туннели
                     if (large) {
                         if (noiseVal > 0.2 && distSq < r*r * 0.65) continue;
 
