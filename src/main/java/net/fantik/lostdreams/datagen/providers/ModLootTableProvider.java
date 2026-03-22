@@ -46,6 +46,7 @@ public class ModLootTableProvider extends LootTableProvider {
             dropSelf(ModBlocks.SURREAL_LIGHTBLUE_ROCK.get());
             dropSelf(ModBlocks.SURREAL_GREEN_ROCK.get());
             dropSelf(ModBlocks.SURREAL_YELLOW_ROCK.get());
+            dropSelf(ModBlocks.SURREAL_GLOWCRYSTAL.get());
 
             // Duskwillow дерево
             dropSelf(ModBlocks.DUSKWILLOW_LOG.get());

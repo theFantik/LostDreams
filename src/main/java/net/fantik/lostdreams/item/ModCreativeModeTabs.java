@@ -56,6 +56,10 @@ public class ModCreativeModeTabs {
                         output.accept(ModBlocks.SURREAL_BLUE_ROCK);
                         output.accept(ModBlocks.SURREAL_RED_ROCK);
                         output.accept(ModBlocks.SURREAL_YELLOW_ROCK);
+                        output.accept(ModBlocks.SURREAL_GREEN_ROCK);
+                        output.accept(ModBlocks.SURREAL_LIGHTBLUE_ROCK);
+                        output.accept(ModBlocks.SURREAL_PURPLE_ROCK);
+                        output.accept(ModBlocks.SURREAL_GLOWCRYSTAL);
                     }).build());
 
     public static final Supplier<CreativeModeTab> DREAM_MOBS_TAB = CREATIVE_MODE_TAB.register("dream_mobs_tab",

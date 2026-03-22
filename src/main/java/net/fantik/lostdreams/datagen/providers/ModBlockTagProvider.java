@@ -75,7 +75,8 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.SURREAL_GREEN_ROCK.get())
                 .add(ModBlocks.SURREAL_PURPLE_ROCK.get())
                 .add(ModBlocks.SURREAL_BLUE_ROCK.get())
-                .add(ModBlocks.SURREAL_YELLOW_ROCK.get());
+                .add(ModBlocks.SURREAL_YELLOW_ROCK.get())
+                .add(ModBlocks.SURREAL_GLOWCRYSTAL.get());
 
         tag(BlockTags.MINEABLE_WITH_SHOVEL)
                 .add(ModBlocks.NULL_GROUND.get())

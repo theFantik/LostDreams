@@ -40,5 +40,6 @@ public class ModDataGenerator {
         generator.addProvider(event.includeServer(), blockTags);
         generator.addProvider(event.includeServer(),
                 new ModItemTagProvider(output, lookupProvider, blockTags, event.getExistingFileHelper()));
+        generator.addProvider(event.includeClient(), new ModSoundProvider(output));
     }
 }

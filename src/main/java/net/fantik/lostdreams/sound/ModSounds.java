@@ -78,6 +78,37 @@ public class ModSounds {
         }
         return nullGroundSoundType;
     }
+    public static final DeferredHolder<SoundEvent, SoundEvent> SURREAL_GLOWCRYSTAL_BREAK =
+            SOUND_EVENTS.register("block.surreal_glowcrystal.break",
+                    () -> SoundEvent.createVariableRangeEvent(
+                            ResourceLocation.parse("lostdreams:block.surreal_glowcrystal.break")));
+
+    public static final DeferredHolder<SoundEvent, SoundEvent> SURREAL_GLOWCRYSTAL_STEP =
+            SOUND_EVENTS.register("block.surreal_glowcrystal.step",
+                    () -> SoundEvent.createVariableRangeEvent(
+                            ResourceLocation.parse("lostdreams:block.surreal_glowcrystal.step")));
+
+    public static final DeferredHolder<SoundEvent, SoundEvent> SURREAL_GLOWCRYSTAL_PLACE =
+            SOUND_EVENTS.register("block.surreal_glowcrystal.place",
+                    () -> SoundEvent.createVariableRangeEvent(
+                            ResourceLocation.parse("lostdreams:block.surreal_glowcrystal.place")));
+
+    private static SoundType glowcSoundType = null;
+
+    public static SoundType getglowcSoundType() {
+        if (glowcSoundType == null) {
+            glowcSoundType = new SoundType(
+                    1.0F, 1.0F,
+                    SURREAL_GLOWCRYSTAL_BREAK.get(),
+                    SURREAL_GLOWCRYSTAL_STEP.get(),
+                    SURREAL_GLOWCRYSTAL_PLACE.get(),
+                    SURREAL_GLOWCRYSTAL_BREAK.get(),
+                    SURREAL_GLOWCRYSTAL_BREAK.get()
+
+            );
+        }
+        return glowcSoundType;
+    }
 
     public static void register(IEventBus eventBus) {
         SOUND_EVENTS.register(eventBus);

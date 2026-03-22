@@ -20,7 +20,6 @@ import java.util.*;
 @EventBusSubscriber(modid = LostDreams.MOD_ID, value = Dist.CLIENT)
 public class SurrealAsteroidsSkyRenderer {
 
-    // 6 буферов — 3 слоя x 2 полусферы (верхняя + нижняя)
     private static VertexBuffer[] starBuffers = new VertexBuffer[6];
     private static final Random RANDOM = new Random();
     private static final List<ShootingStar> shootingStars = new ArrayList<>();
@@ -57,14 +56,7 @@ public class SurrealAsteroidsSkyRenderer {
         BufferBuilder buf = Tesselator.getInstance().begin(
                 VertexFormat.Mode.TRIANGLES, DefaultVertexFormat.POSITION_COLOR);
 
-        List<float[]> placed = new ArrayList<>();
-        float minAngle = 0.035f;
-        int attempts = 0;
-        int placed_count = 0;
-
-        while (placed_count < count && attempts < count * 10) {
-            attempts++;
-
+        for (int i = 0; i < count; i++) {
             double theta = rand.nextDouble() * Math.PI * 2;
             double phi = Math.acos(2 * rand.nextDouble() - 1);
 
@@ -72,47 +64,41 @@ public class SurrealAsteroidsSkyRenderer {
             float ny = (float)(Math.cos(phi));
             float nz = (float)(Math.sin(phi) * Math.sin(theta));
 
-            boolean tooClose = false;
-            for (float[] p : placed) {
-                float dot = nx * p[0] + ny * p[1] + nz * p[2];
-                if (dot > (float)Math.cos(minAngle)) {
-                    tooClose = true;
-                    break;
-                }
-            }
-            if (tooClose) continue;
-
-            placed.add(new float[]{nx, ny, nz});
-            placed_count++;
-
             float px = nx * dist;
             float py = ny * dist;
             float pz = nz * dist;
 
-            float size = 0.10f + rand.nextFloat() * 0.10f;
+            float size = 0.08f + rand.nextFloat() * 0.08f;
             boolean rainbow = rand.nextFloat() < 0.01f;
             float[] c = STAR_COLORS[rand.nextInt(STAR_COLORS.length)];
 
-            if (rand.nextFloat() < 0.3f) {
-                for (int v = 0; v < 3; v++) {
-                    float r = rainbow ? rand.nextFloat() : c[0];
-                    float g = rainbow ? rand.nextFloat() : c[1];
-                    float b = rainbow ? rand.nextFloat() : c[2];
-                    float dx = (v == 0 ? 0 : (v == 1 ? -size : size));
-                    float dy = (v == 0 ? size : -size);
-                    buf.addVertex(px + dx, py + dy, pz).setColor(r, g, b, 1);
-                }
-            } else {
-                float[][] quad = {
-                        {-size, -size}, {size, -size}, {size, size},
-                        {-size, -size}, {size, size}, {-size, size}
-                };
-                for (float[] v : quad) {
-                    float r = rainbow ? rand.nextFloat() : c[0];
-                    float g = rainbow ? rand.nextFloat() : c[1];
-                    float b = rainbow ? rand.nextFloat() : c[2];
-                    buf.addVertex(px + v[0], py + v[1], pz).setColor(r, g, b, 1);
-                }
+            // Billboard: right и up перпендикулярны радиус-вектору звезды
+            Vector3f forward = new Vector3f(nx, ny, nz); // уже нормализован (единичная сфера)
+
+            Vector3f helper = (Math.abs(ny) < 0.99f)
+                    ? new Vector3f(0, 1, 0)
+                    : new Vector3f(1, 0, 0);
+
+            // right = forward × helper, затем нормализуем
+            Vector3f right = new Vector3f(forward).cross(helper).normalize().mul(size);
+            // up = right × forward (порядок важен!)
+            Vector3f up = new Vector3f(right).cross(forward).normalize().mul(size);
+
+            // 4 угла
+            float[] v0 = {px - right.x - up.x, py - right.y - up.y, pz - right.z - up.z};
+            float[] v1 = {px + right.x - up.x, py + right.y - up.y, pz + right.z - up.z};
+            float[] v2 = {px + right.x + up.x, py + right.y + up.y, pz + right.z + up.z};
+            float[] v3 = {px - right.x + up.x, py - right.y + up.y, pz - right.z + up.z};
+
+            float[][] tris = {v0, v1, v2, v0, v2, v3};
+
+            // Фиксируем цвет ДО цикла по вершинам
+            float fr = rainbow ? rand.nextFloat() : c[0];
+            float fg = rainbow ? rand.nextFloat() : c[1];
+            float fb = rainbow ? rand.nextFloat() : c[2];
+
+            for (float[] v : tris) {
+                buf.addVertex(v[0], v[1], v[2]).setColor(fr, fg, fb, 1);
             }
         }
 
@@ -122,11 +108,9 @@ public class SurrealAsteroidsSkyRenderer {
     }
 
     private static void buildStars() {
-        // Слой 0: верхняя полусфера
         buildLayer(0, 80f,  1000, 1000L);
         buildLayer(1, 130f, 800,  2000L);
         buildLayer(2, 200f, 600,  3000L);
-        // Слой 1: нижняя полусфера (другой seed — разные звёзды)
         buildLayer(3, 80f,  1000, 4000L);
         buildLayer(4, 130f, 800,  5000L);
         buildLayer(5, 200f, 600,  6000L);
@@ -134,17 +118,10 @@ public class SurrealAsteroidsSkyRenderer {
 
     private static void spawnShootingStar() {
         if (RANDOM.nextFloat() < 0.002f) {
-            Vector3f pos = new Vector3f(
-                    RANDOM.nextFloat() * 200 - 100,
-                    RANDOM.nextFloat() * 100,
-                    RANDOM.nextFloat() * 200 - 100
-            );
-            Vector3f dir = new Vector3f(
-                    RANDOM.nextFloat() * 0.5f,
-                    -1f,
-                    RANDOM.nextFloat() * 0.5f
-            ).normalize();
-            shootingStars.add(new ShootingStar(pos, dir));
+            shootingStars.add(new ShootingStar(
+                    new Vector3f(RANDOM.nextFloat()*200-100, RANDOM.nextFloat()*100, RANDOM.nextFloat()*200-100),
+                    new Vector3f(0.2f, -1f, 0.2f).normalize()
+            ));
         }
     }
 
@@ -173,8 +150,12 @@ public class SurrealAsteroidsSkyRenderer {
         RenderSystem.depthMask(false);
         FogRenderer.setupNoFog();
 
-        // Рендерим верхнюю полусферу с обычным вращением
         PoseStack ps = event.getPoseStack();
+
+        // === ПАРАЛЛАКС ФАКТОРЫ (ОЧЕНЬ МАЛЕНЬКИЕ!) ===
+        float[] parallax = {0.002f, 0.001f, 0.0005f};
+
+        // -------- ВЕРХ --------
         ps.pushPose();
         ps.mulPose(com.mojang.math.Axis.XP.rotationDegrees(cam.getXRot()));
         ps.mulPose(com.mojang.math.Axis.YP.rotationDegrees(cam.getYRot() + 180));
@@ -182,55 +163,57 @@ public class SurrealAsteroidsSkyRenderer {
         ps.mulPose(com.mojang.math.Axis.XP.rotationDegrees(skyAngle * 360));
 
         for (int i = 0; i < 3; i++) {
+            ps.pushPose();
+
+            // 🔥 ВОТ ОН — ПРАВИЛЬНЫЙ ПАРАЛЛАКС
+            ps.translate(
+                    -cam.getPosition().x * parallax[i],
+                    -cam.getPosition().y * parallax[i],
+                    -cam.getPosition().z * parallax[i]
+            );
+
             float flicker = 0.92f + 0.08f * (float)Math.sin(time * 0.02f + i * 2.1f);
             RenderSystem.setShaderColor(flicker, flicker, flicker, 1);
+
             starBuffers[i].bind();
             starBuffers[i].drawWithShader(ps.last().pose(), event.getProjectionMatrix(), shader);
             VertexBuffer.unbind();
+
+            ps.popPose();
         }
         ps.popPose();
 
-        // Рендерим нижнюю полусферу со смещением 180 градусов — покрывает противоположную сторону
+        // -------- НИЗ --------
         ps.pushPose();
+        ps.mulPose(com.mojang.math.Axis.ZP.rotationDegrees(0));
         ps.mulPose(com.mojang.math.Axis.XP.rotationDegrees(cam.getXRot()));
         ps.mulPose(com.mojang.math.Axis.YP.rotationDegrees(cam.getYRot() + 180));
         ps.mulPose(com.mojang.math.Axis.YP.rotationDegrees(-90));
-        ps.mulPose(com.mojang.math.Axis.XP.rotationDegrees(skyAngle * 360 + 180)); // +180 — другая сторона
+        ps.mulPose(com.mojang.math.Axis.XP.rotationDegrees(skyAngle * 360 + 180));
 
         for (int i = 3; i < 6; i++) {
+            ps.pushPose();
+
+            float factor = parallax[i - 3];
+
+            ps.translate(
+                    -cam.getPosition().x * factor,
+                    -cam.getPosition().y * factor,
+                    -cam.getPosition().z * factor
+            );
+
             float flicker = 0.92f + 0.08f * (float)Math.sin(time * 0.02f + i * 2.1f);
             RenderSystem.setShaderColor(flicker, flicker, flicker, 1);
+
             starBuffers[i].bind();
             starBuffers[i].drawWithShader(ps.last().pose(), event.getProjectionMatrix(), shader);
             VertexBuffer.unbind();
+
+            ps.popPose();
         }
         ps.popPose();
 
-        // Падающие звёзды
-        if (!shootingStars.isEmpty()) {
-            ps.pushPose();
-            ps.mulPose(com.mojang.math.Axis.XP.rotationDegrees(cam.getXRot()));
-            ps.mulPose(com.mojang.math.Axis.YP.rotationDegrees(cam.getYRot() + 180));
-
-            BufferBuilder shootBuf = Tesselator.getInstance().begin(
-                    VertexFormat.Mode.LINES, DefaultVertexFormat.POSITION_COLOR);
-
-            Iterator<ShootingStar> it = shootingStars.iterator();
-            while (it.hasNext()) {
-                ShootingStar sStar = it.next();
-                Vector3f start = sStar.pos;
-                Vector3f end = new Vector3f(start).add(new Vector3f(sStar.dir).mul(5));
-                shootBuf.addVertex(start.x, start.y, start.z).setColor(1, 1, 1, sStar.life);
-                shootBuf.addVertex(end.x, end.y, end.z).setColor(1, 1, 1, 0);
-                sStar.pos.add(new Vector3f(sStar.dir).mul(2));
-                sStar.life -= 0.02f;
-                if (sStar.life <= 0) it.remove();
-            }
-            BufferUploader.drawWithShader(shootBuf.buildOrThrow());
-            ps.popPose();
-        }
-
-        RenderSystem.setShaderColor(1, 1, 1, 1);
+        RenderSystem.setShaderColor(1,1,1,1);
         RenderSystem.enableDepthTest();
         RenderSystem.depthMask(true);
     }
