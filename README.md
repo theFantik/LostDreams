@@ -7,7 +7,7 @@ Lost Dreams
 - skyblock dimension <- 80% done
 - toys dimension <- 0% done
 - null zone dimension <- 60% done
-- surreal asteroids dimension <- 20% done
+- surreal asteroids dimension <- 55% done
 - retrowave dimension <- 0% done
 - maybe other..
 
@@ -20,3 +20,5 @@ Lucid Wisp
 Clouds biome
 <img width="1919" height="1000" alt="Снимок экрана 2026-03-13 214836" src="https://github.com/user-attachments/assets/e3ee6407-8756-4e4e-88f6-08f983d41afe" />
 
+## First Look Surreal Asteroids 
+<img width="1919" height="1010" alt="Снимок экрана 2026-03-21 162904" src="https://github.com/user-attachments/assets/d17dd739-a4ca-4695-9def-8cec4b2ced68" />
