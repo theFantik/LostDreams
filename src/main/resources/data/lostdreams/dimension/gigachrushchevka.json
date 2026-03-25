@@ -1,0 +1,12 @@
+{
+  "type": "lostdreams:giga_type",
+  "generator": {
+    "type": "lostdreams:gigachrushchevka",
+    "biome_source": {
+      "type": "minecraft:fixed",
+      "biome": "lostdreams:apartments"
+
+    },
+    "seed": 768
+  }
+}

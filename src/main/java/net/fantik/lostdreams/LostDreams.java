@@ -6,9 +6,10 @@ import net.fantik.lostdreams.entity.ModEntities;
 import net.fantik.lostdreams.item.ModCreativeModeTabs;
 import net.fantik.lostdreams.item.ModItems;
 import net.fantik.lostdreams.sound.ModSounds;
-import net.fantik.lostdreams.world.SkyBlockChunkGenerator;
-import net.fantik.lostdreams.world.SurrealAsteroidsChunkGenerator;
+import net.fantik.lostdreams.world.*;
 import net.fantik.lostdreams.world.feature.ModFeatures;
+import net.minecraft.resources.ResourceLocation;
+import net.neoforged.neoforge.registries.RegisterEvent;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -48,12 +49,14 @@ public class LostDreams {
         ModFeatures.register(modEventBus);
         ModEntities.register(modEventBus);
         ModSounds.register(modEventBus);
+        ModBiomeSources.register(modEventBus);
 
 
-        // Register the item to a creative tab
+
         modEventBus.addListener(this::addCreative);
         modEventBus.addListener(SkyBlockChunkGenerator::register);
         modEventBus.addListener(SurrealAsteroidsChunkGenerator::register);
+        modEventBus.addListener(GigachrushchevkaChunkGenerator::register);
 
 
 
