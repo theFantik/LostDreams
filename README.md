@@ -20,5 +20,6 @@ Lucid Waste
 Clouds biome
 <img width="1919" height="1000" alt="Снимок экрана 2026-03-13 214836" src="https://github.com/user-attachments/assets/e3ee6407-8756-4e4e-88f6-08f983d41afe" />
 
-## First Look Surreal Asteroids 
-<img width="1919" height="1010" alt="Снимок экрана 2026-03-21 162904" src="https://github.com/user-attachments/assets/d17dd739-a4ca-4695-9def-8cec4b2ced68" />
+## First Look To Surreal Asteroids 
+<img width="1919" height="998" alt="image" src="https://github.com/user-attachments/assets/f88fbecf-bf1b-4cc0-9598-875ed9310f2e" />
+
