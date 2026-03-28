@@ -67,8 +67,13 @@ public class SurrealAsteroidsChunkGenerator extends ChunkGenerator {
     public CompletableFuture<ChunkAccess> fillFromNoise(Blender blender, RandomState random,
                                                         StructureManager structureManager,
                                                         ChunkAccess chunk) {
+
+
+
         return CompletableFuture.completedFuture(chunk);
     }
+
+
 
     @Override
     public int getSeaLevel() { return -63; }

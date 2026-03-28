@@ -1,6 +1,7 @@
 package net.fantik.lostdreams.events;
 
 import net.fantik.lostdreams.LostDreams;
+import net.fantik.lostdreams.world.dimension.ApartmentsDimension;
 import net.fantik.lostdreams.world.dimension.NullZoneDimension;
 import net.fantik.lostdreams.world.dimension.SkyBlockDimension;
 import net.fantik.lostdreams.world.dimension.SurrealAsteroidsDimension;
@@ -25,7 +26,7 @@ public class FallToOverworld {
     @SubscribeEvent
     public static void onPlayerTick(PlayerTickEvent.Post event) {
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
-        if (!NullZoneDimension.isNullZone(player.level()) && !SkyBlockDimension.isSkyBlock(player.level()) && !SurrealAsteroidsDimension.isSurrealAsteroids(player.level())) return;
+        if (!NullZoneDimension.isNullZone(player.level()) && !SkyBlockDimension.isSkyBlock(player.level()) && !SurrealAsteroidsDimension.isSurrealAsteroids(player.level()) && !ApartmentsDimension.isApartments(player.level())) return;
         if (player.getY() >= FALL_THRESHOLD) return;
 
         MinecraftServer server = player.getServer();
