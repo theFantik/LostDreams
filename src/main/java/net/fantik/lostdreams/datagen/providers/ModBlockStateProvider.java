@@ -46,6 +46,8 @@ public class ModBlockStateProvider extends BlockStateProvider {
         simpleBlock(ModBlocks.DUSKWILLOW_PLANKS.get());
         simpleBlock(ModBlocks.DUSKWILLOW_LEAVES.get());
 
+
+
         // Саженец
         simpleBlock(ModBlocks.DUSKWILLOW_SAPLING.get(),
                 models().cross("duskwillow_sapling",

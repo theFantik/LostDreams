@@ -47,8 +47,12 @@ public class SurrealAsteroidsSkyRenderer {
             {1f, 1f, 0.4f},
     };
 
+    private static void addVertex(BufferBuilder buf, Vector3f v, float r,float g,float b){
+        buf.addVertex(v.x,v.y,v.z).setColor(r,g,b,1f);
+    }
+
+    // ===== генерация слоя звёзд =====
     private static void buildLayer(int bufIdx, float dist, int count, long seed) {
-        if (starBuffers[bufIdx] != null) return;
 
         starBuffers[bufIdx] = new VertexBuffer(VertexBuffer.Usage.STATIC);
         Random rand = new Random(seed);
@@ -56,51 +60,71 @@ public class SurrealAsteroidsSkyRenderer {
         BufferBuilder buf = Tesselator.getInstance().begin(
                 VertexFormat.Mode.TRIANGLES, DefaultVertexFormat.POSITION_COLOR);
 
-        for (int i = 0; i < count; i++) {
-            double theta = rand.nextDouble() * Math.PI * 2;
-            double phi = Math.acos(2 * rand.nextDouble() - 1);
+        int quads=0, triangles=0, diamonds=0;
 
-            float nx = (float)(Math.sin(phi) * Math.cos(theta));
-            float ny = (float)(Math.cos(phi));
-            float nz = (float)(Math.sin(phi) * Math.sin(theta));
+        for(int i=0;i<count;i++){
+            double theta = rand.nextDouble()*Math.PI*2;
+            double phi   = Math.acos(2*rand.nextDouble()-1);
 
-            float px = nx * dist;
-            float py = ny * dist;
-            float pz = nz * dist;
+            float nx=(float)(Math.sin(phi)*Math.cos(theta));
+            float ny=(float)(Math.cos(phi));
+            float nz=(float)(Math.sin(phi)*Math.sin(theta));
 
-            float size = 0.08f + rand.nextFloat() * 0.08f;
-            boolean rainbow = rand.nextFloat() < 0.01f;
+            Vector3f center = new Vector3f(nx,ny,nz).mul(dist);
+
+            float size = 0.06f + rand.nextFloat()*0.1f;
+            int shapeType = rand.nextInt(3);
+
             float[] c = STAR_COLORS[rand.nextInt(STAR_COLORS.length)];
+            float fr=c[0], fg=c[1], fb=c[2];
 
-            // Billboard: right и up перпендикулярны радиус-вектору звезды
-            Vector3f forward = new Vector3f(nx, ny, nz); // уже нормализован (единичная сфера)
-
-            Vector3f helper = (Math.abs(ny) < 0.99f)
-                    ? new Vector3f(0, 1, 0)
-                    : new Vector3f(1, 0, 0);
-
-            // right = forward × helper, затем нормализуем
+            Vector3f forward = new Vector3f(nx,ny,nz);
+            Vector3f helper = Math.abs(ny)<0.99? new Vector3f(0,1,0):new Vector3f(1,0,0);
             Vector3f right = new Vector3f(forward).cross(helper).normalize().mul(size);
-            // up = right × forward (порядок важен!)
-            Vector3f up = new Vector3f(right).cross(forward).normalize().mul(size);
+            Vector3f up    = new Vector3f(right).cross(forward).normalize().mul(size);
 
-            // 4 угла
-            float[] v0 = {px - right.x - up.x, py - right.y - up.y, pz - right.z - up.z};
-            float[] v1 = {px + right.x - up.x, py + right.y - up.y, pz + right.z - up.z};
-            float[] v2 = {px + right.x + up.x, py + right.y + up.y, pz + right.z + up.z};
-            float[] v3 = {px - right.x + up.x, py - right.y + up.y, pz - right.z + up.z};
+            // ===== КВАДРАТ =====
+            if(shapeType==0){
+                quads++;
+                Vector3f v0=new Vector3f(center).sub(right).sub(up);
+                Vector3f v1=new Vector3f(center).add(right).sub(up);
+                Vector3f v2=new Vector3f(center).add(right).add(up);
+                Vector3f v3=new Vector3f(center).sub(right).add(up);
 
-            float[][] tris = {v0, v1, v2, v0, v2, v3};
+                addVertex(buf,v0,fr,fg,fb); addVertex(buf,v1,fr,fg,fb); addVertex(buf,v2,fr,fg,fb);
+                addVertex(buf,v0,fr,fg,fb); addVertex(buf,v2,fr,fg,fb); addVertex(buf,v3,fr,fg,fb);
+            }
 
-            // Фиксируем цвет ДО цикла по вершинам
-            float fr = rainbow ? rand.nextFloat() : c[0];
-            float fg = rainbow ? rand.nextFloat() : c[1];
-            float fb = rainbow ? rand.nextFloat() : c[2];
+            // ===== ТРЕУГОЛЬНИК =====
+            else if(shapeType==1){
+                triangles++;
+                Vector3f v0=new Vector3f(center).sub(new Vector3f(up).mul(1.6f));
+                Vector3f v1=new Vector3f(center).sub(new Vector3f(right).mul(1.3f)).add(up);
+                Vector3f v2=new Vector3f(center).add(new Vector3f(right).mul(1.3f)).add(up);
 
-            for (float[] v : tris) {
-                buf.addVertex(v[0], v[1], v[2]).setColor(fr, fg, fb, 1);
+                addVertex(buf,v0,fr,fg,fb);
+                addVertex(buf,v1,fr,fg,fb);
+                addVertex(buf,v2,fr,fg,fb);
+            }
+
+            // ===== РОМБ =====
+            else{
+                diamonds++;
+                Vector3f v0=new Vector3f(center).sub(new Vector3f(up).mul(1.7f));
+                Vector3f v1=new Vector3f(center).sub(new Vector3f(right).mul(1.2f));
+                Vector3f v2=new Vector3f(center).add(new Vector3f(up).mul(1.7f));
+                Vector3f v3=new Vector3f(center).add(new Vector3f(right).mul(1.2f));
+
+                addVertex(buf,v0,fr,fg,fb);
+                addVertex(buf,v1,fr,fg,fb);
+                addVertex(buf,v2,fr,fg,fb);
+
+                addVertex(buf,v0,fr,fg,fb);
+                addVertex(buf,v2,fr,fg,fb);
+                addVertex(buf,v3,fr,fg,fb);
             }
         }
+
 
         starBuffers[bufIdx].bind();
         starBuffers[bufIdx].upload(buf.buildOrThrow());
@@ -146,8 +170,10 @@ public class SurrealAsteroidsSkyRenderer {
         var cam = mc.gameRenderer.getMainCamera();
         long time = level.getGameTime();
 
+        RenderSystem.disableCull();
         RenderSystem.disableDepthTest();
         RenderSystem.depthMask(false);
+
         FogRenderer.setupNoFog();
 
         PoseStack ps = event.getPoseStack();
@@ -214,6 +240,7 @@ public class SurrealAsteroidsSkyRenderer {
         ps.popPose();
 
         RenderSystem.setShaderColor(1,1,1,1);
+        RenderSystem.enableCull();
         RenderSystem.enableDepthTest();
         RenderSystem.depthMask(true);
     }

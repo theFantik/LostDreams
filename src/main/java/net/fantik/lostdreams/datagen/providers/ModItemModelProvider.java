@@ -64,6 +64,8 @@ public class ModItemModelProvider extends ItemModelProvider {
         withExistingParent("duskwillow_slab",
                 modLoc("block/duskwillow_slab"));
 
+
+
         // Простые блоки
         blockItem(ModBlocks.NULL_STONE);
         blockItem(ModBlocks.SURREAL_BLUE_ROCK);

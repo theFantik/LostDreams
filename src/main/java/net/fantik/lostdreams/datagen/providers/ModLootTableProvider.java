@@ -62,6 +62,8 @@ public class ModLootTableProvider extends LootTableProvider {
             dropSelf(ModBlocks.DUSKWILLOW_TRAPDOOR.get());
             dropSelf(ModBlocks.DUSKWILLOW_SAPLING.get());
 
+
+
             // Плита — особый случай
             add(ModBlocks.DUSKWILLOW_SLAB.get(), createSlabItemTable(ModBlocks.DUSKWILLOW_SLAB.get()));
 

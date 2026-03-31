@@ -2,6 +2,7 @@ package net.fantik.lostdreams.datagen.providers;
 
 import net.fantik.lostdreams.LostDreams;
 import net.fantik.lostdreams.block.ModBlocks;
+import net.fantik.lostdreams.item.ModItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
@@ -117,5 +118,6 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('#', ModBlocks.DUSKWILLOW_PLANKS.get())
                 .unlockedBy("has_planks", has(ModBlocks.DUSKWILLOW_PLANKS.get()))
                 .save(output);
+
     }
 }

@@ -1,9 +1,10 @@
 package net.fantik.lostdreams.item;
 
 import net.fantik.lostdreams.LostDreams;
+import net.fantik.lostdreams.block.ModBlocks;
 import net.fantik.lostdreams.entity.ModEntities;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.SpawnEggItem;
+import net.minecraft.world.entity.vehicle.Boat;
+import net.minecraft.world.item.*;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -31,6 +32,8 @@ public class ModItems {
 
     public static final DeferredItem<Item> LUCID_WISP_SPAWN_EGG = ITEMS.register("lucid_wisp_spawn_egg",
             () -> new SpawnEggItem(ModEntities.LUCID_WISP.get(), 0xffffff, 0xffffff, new Item.Properties()));
+
+
 
 
     public static void register(IEventBus eventBus) {

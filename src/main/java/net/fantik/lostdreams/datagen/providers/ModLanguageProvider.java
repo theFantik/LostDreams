@@ -52,6 +52,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add(ModBlocks.DUSKWILLOW_BUTTON.get(), "Duskwillow Button");
         add(ModBlocks.DUSKWILLOW_PRESSURE_PLATE.get(), "Duskwillow Pressure Plate");
 
+
         // Сюр блоки
 
         add(ModBlocks.SURREAL_BLUE_ROCK.get(), "Surreal Blue Rock");
