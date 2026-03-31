@@ -3,13 +3,22 @@ Lost Dreams
 =======
 
 ## ${\color{cyan}In \space final \space version  \space this \space mod \space will \space add:}$
-- chess dimension <- 0% done
-- skyblock dimension <- 80% done
-- toys dimension <- 0% done
+### Tier ${\color{red}0}$ dimensions:
 - null zone dimension <- 60% done
-- surreal asteroids dimension <- 60% done
+### Tier ${\color{green}1}$ dimensions:
+- skyblock dimension <- 80% done
+- surreal asteroids dimension <- 65% done
+- Giga Apartments dimension <- 15% done
+### Tier ${\color{yellow}2}$ dimensions:
 - retrowave dimension <- 0% done
-- maybe other..
+- chess dimension <- 0% done
+- toys dimension <- 0% done
+- ???
+### Tier ${\color{purple}3}$ dimensions:
+- ???
+### Tier ${\color{magenta}4}$ (finale) dimensions:
+- ???
+
 
 ## First Look to Null Zone dimension
 <img width="1919" height="1000" alt="image" src="https://github.com/user-attachments/assets/8ea16341-def1-46a4-be06-a1f57d224c8b" />
@@ -21,5 +30,6 @@ Clouds biome
 <img width="1919" height="1000" alt="Снимок экрана 2026-03-13 214836" src="https://github.com/user-attachments/assets/e3ee6407-8756-4e4e-88f6-08f983d41afe" />
 
 ## First Look To Surreal Asteroids 
-<img width="1919" height="998" alt="image" src="https://github.com/user-attachments/assets/f88fbecf-bf1b-4cc0-9598-875ed9310f2e" />
+<img width="1919" height="998" alt="image" src="https://github.com/user-attachments/assets/a97f7144-9bf9-4b96-98ad-7ad8a8c485f6" />
+
 
