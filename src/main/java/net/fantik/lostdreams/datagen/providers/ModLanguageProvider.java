@@ -63,6 +63,13 @@ public class ModLanguageProvider extends LanguageProvider {
         add(ModBlocks.SURREAL_PURPLE_ROCK.get(), "Surreal Purple Rock");
         add(ModBlocks.SURREAL_GLOWCRYSTAL.get(), "Surreal Glow Crystal");
 
+        add(ModBlocks.SURREAL_BLUE_RANDOMITE_ORE.get(), "Blue Randomite Ore");
+        add(ModBlocks.SURREAL_LIGHTBLUE_RANDOMITE_ORE.get(), "Light Blue Randomite Ore");
+        add(ModBlocks.SURREAL_GREEN_RANDOMITE_ORE.get(), "Green Randomite Ore");
+        add(ModBlocks.SURREAL_PURPLE_RANDOMITE_ORE.get(), "Purple Randomite Ore");
+        add(ModBlocks.SURREAL_RED_RANDOMITE_ORE.get(), "Red Randomite Ore");
+        add(ModBlocks.SURREAL_YELLOW_RANDOMITE_ORE.get(), "Yellow Randomite Ore");
+
         // Creative tabs
         add("creativetab.lostdreams.bed_items", "Bed Items");
         add("creativetab.lostdreams.dream_blocks", "Dream Blocks");

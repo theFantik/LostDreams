@@ -2,18 +2,36 @@ package net.fantik.lostdreams.datagen.providers;
 
 import net.fantik.lostdreams.LostDreams;
 import net.fantik.lostdreams.block.ModBlocks;
+import net.minecraft.advancements.critereon.*;
+import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.world.flag.FeatureFlags;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
+import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
+import net.minecraft.world.level.storage.loot.predicates.MatchTool;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
+
+import static com.ibm.icu.impl.CurrencyData.provider;
 
 public class ModLootTableProvider extends LootTableProvider {
 
@@ -62,7 +80,13 @@ public class ModLootTableProvider extends LootTableProvider {
             dropSelf(ModBlocks.DUSKWILLOW_TRAPDOOR.get());
             dropSelf(ModBlocks.DUSKWILLOW_SAPLING.get());
 
-
+            // Randomite руды — случайные дропы
+            add(ModBlocks.SURREAL_BLUE_RANDOMITE_ORE.get(), createRandomiteDrops(ModBlocks.SURREAL_BLUE_RANDOMITE_ORE.get()));
+            add(ModBlocks.SURREAL_LIGHTBLUE_RANDOMITE_ORE.get(), createRandomiteDrops(ModBlocks.SURREAL_LIGHTBLUE_RANDOMITE_ORE.get()));
+            add(ModBlocks.SURREAL_GREEN_RANDOMITE_ORE.get(), createRandomiteDrops(ModBlocks.SURREAL_GREEN_RANDOMITE_ORE.get()));
+            add(ModBlocks.SURREAL_PURPLE_RANDOMITE_ORE.get(), createRandomiteDrops(ModBlocks.SURREAL_PURPLE_RANDOMITE_ORE.get()));
+            add(ModBlocks.SURREAL_RED_RANDOMITE_ORE.get(), createRandomiteDrops(ModBlocks.SURREAL_RED_RANDOMITE_ORE.get()));
+            add(ModBlocks.SURREAL_YELLOW_RANDOMITE_ORE.get(), createRandomiteDrops(ModBlocks.SURREAL_YELLOW_RANDOMITE_ORE.get()));
 
             // Плита — особый случай
             add(ModBlocks.DUSKWILLOW_SLAB.get(), createSlabItemTable(ModBlocks.DUSKWILLOW_SLAB.get()));
@@ -75,6 +99,43 @@ public class ModLootTableProvider extends LootTableProvider {
                     ModBlocks.DUSKWILLOW_LEAVES.get(),
                     ModBlocks.DUSKWILLOW_SAPLING.get(),
                     NORMAL_LEAVES_SAPLING_CHANCES));
+        }
+
+        protected LootTable.Builder createRandomiteDrops(Block block)
+        {
+            // Fortune как Holder (1.21 система)
+            Holder<Enchantment> fortune = this.registries
+                    .lookupOrThrow(Registries.ENCHANTMENT)
+                    .getOrThrow(Enchantments.FORTUNE);
+
+            // 🎲 Случайные предметы (ТОЛЬКО если нет Silk Touch)
+            LootPool.Builder randomPool = LootPool.lootPool()
+                    .when(this.doesNotHaveSilkTouch())
+                    .setRolls(ConstantValue.exactly(1))
+
+                    .add(LootItem.lootTableItem(Items.ANCIENT_DEBRIS).setWeight(1))
+                    .add(LootItem.lootTableItem(Items.RAW_COPPER).setWeight(12))
+                    .add(LootItem.lootTableItem(Items.RAW_IRON).setWeight(12))
+                    .add(LootItem.lootTableItem(Items.RAW_GOLD).setWeight(10))
+                    .add(LootItem.lootTableItem(Items.REDSTONE).setWeight(10))
+                    .add(LootItem.lootTableItem(Items.DIAMOND).setWeight(6))
+                    .add(LootItem.lootTableItem(Items.LAPIS_LAZULI).setWeight(8))
+                    .add(LootItem.lootTableItem(Items.EMERALD).setWeight(5))
+                    .add(LootItem.lootTableItem(Items.AMETHYST_SHARD).setWeight(8))
+
+                    // базовое количество
+                    .apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 2)))
+
+                    // Fortune увеличивает количество
+                    .apply(ApplyBonusCount.addOreBonusCount(fortune));
+
+            // 🟣 Silk Touch таблица:
+            // silk → дроп блока
+            // no silk → работает randomPool
+            return createSilkTouchDispatchTable(block,
+                    LootItem.lootTableItem(Items.AIR)
+                            .apply(SetItemCountFunction.setCount(ConstantValue.exactly(0)))
+            ).withPool(randomPool);
         }
 
         @Override

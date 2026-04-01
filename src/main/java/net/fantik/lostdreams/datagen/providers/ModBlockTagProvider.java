@@ -76,7 +76,21 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.SURREAL_PURPLE_ROCK.get())
                 .add(ModBlocks.SURREAL_BLUE_ROCK.get())
                 .add(ModBlocks.SURREAL_YELLOW_ROCK.get())
-                .add(ModBlocks.SURREAL_GLOWCRYSTAL.get());
+                .add(ModBlocks.SURREAL_GLOWCRYSTAL.get())
+                .add(ModBlocks.SURREAL_BLUE_RANDOMITE_ORE.get())
+                .add(ModBlocks.SURREAL_LIGHTBLUE_RANDOMITE_ORE.get())
+                .add(ModBlocks.SURREAL_GREEN_RANDOMITE_ORE.get())
+                .add(ModBlocks.SURREAL_PURPLE_RANDOMITE_ORE.get())
+                .add(ModBlocks.SURREAL_RED_RANDOMITE_ORE.get())
+                .add(ModBlocks.SURREAL_YELLOW_RANDOMITE_ORE.get());
+
+        tag(BlockTags.NEEDS_IRON_TOOL)
+                .add(ModBlocks.SURREAL_BLUE_RANDOMITE_ORE.get())
+                .add(ModBlocks.SURREAL_LIGHTBLUE_RANDOMITE_ORE.get())
+                .add(ModBlocks.SURREAL_GREEN_RANDOMITE_ORE.get())
+                .add(ModBlocks.SURREAL_PURPLE_RANDOMITE_ORE.get())
+                .add(ModBlocks.SURREAL_RED_RANDOMITE_ORE.get())
+                .add(ModBlocks.SURREAL_YELLOW_RANDOMITE_ORE.get());
 
         tag(BlockTags.MINEABLE_WITH_SHOVEL)
                 .add(ModBlocks.NULL_GROUND.get())

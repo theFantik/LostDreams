@@ -164,6 +164,20 @@ public class ModBlocks {
                     .sound(ModSounds.getglowcSoundType())
                     .noOcclusion()));
 
+    // Randomite руды
+    public static final DeferredBlock<Block> SURREAL_BLUE_RANDOMITE_ORE = registerBlock("surreal_blue_randomite_ore",
+            () -> new XpDropsBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_ORE)));
+    public static final DeferredBlock<Block> SURREAL_LIGHTBLUE_RANDOMITE_ORE = registerBlock("surreal_lightblue_randomite_ore",
+            () -> new XpDropsBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_ORE)));
+    public static final DeferredBlock<Block> SURREAL_GREEN_RANDOMITE_ORE = registerBlock("surreal_green_randomite_ore",
+            () -> new XpDropsBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_ORE)));
+    public static final DeferredBlock<Block> SURREAL_PURPLE_RANDOMITE_ORE = registerBlock("surreal_purple_randomite_ore",
+            () -> new XpDropsBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_ORE)));
+    public static final DeferredBlock<Block> SURREAL_RED_RANDOMITE_ORE = registerBlock("surreal_red_randomite_ore",
+            () -> new XpDropsBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_ORE)));
+    public static final DeferredBlock<Block> SURREAL_YELLOW_RANDOMITE_ORE = registerBlock("surreal_yellow_randomite_ore",
+            () -> new XpDropsBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_ORE)));
+
     // -----------------------------------------------------------------------
     // Регистрация
     // -----------------------------------------------------------------------
@@ -177,9 +191,7 @@ public class ModBlocks {
         ModItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
     }
 
-    private static <T extends Block> DeferredBlock<T> registerBlockNoItem(String name, Supplier<T> block) {
-        return BLOCKS.register(name, block);
-    }
+
 
     public static void register(IEventBus eventBus) {
         BLOCKS.register(eventBus);

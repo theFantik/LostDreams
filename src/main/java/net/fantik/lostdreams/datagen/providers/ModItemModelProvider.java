@@ -44,6 +44,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         withExistingParent("duskwillow_trapdoor", modLoc("block/duskwillow_trapdoor_bottom"));
         blockItem(ModBlocks.DUSKWILLOW_PRESSURE_PLATE);
 
+
         // Саженец — item/generated
         withExistingParent("duskwillow_sapling", mcLoc("item/generated"))
                 .texture("layer0", modLoc("block/duskwillow_sapling"));
@@ -75,6 +76,12 @@ public class ModItemModelProvider extends ItemModelProvider {
         blockItem(ModBlocks.SURREAL_PURPLE_ROCK);
         blockItem(ModBlocks.SURREAL_YELLOW_ROCK);
         blockItem(ModBlocks.SURREAL_GLOWCRYSTAL);
+        blockItem(ModBlocks.SURREAL_BLUE_RANDOMITE_ORE);
+        blockItem(ModBlocks.SURREAL_LIGHTBLUE_RANDOMITE_ORE);
+        blockItem(ModBlocks.SURREAL_GREEN_RANDOMITE_ORE);
+        blockItem(ModBlocks.SURREAL_PURPLE_RANDOMITE_ORE);
+        blockItem(ModBlocks.SURREAL_RED_RANDOMITE_ORE);
+        blockItem(ModBlocks.SURREAL_YELLOW_RANDOMITE_ORE);
         blockItem(ModBlocks.NULL_BRICKS);
         blockItem(ModBlocks.NULL_CRACKED_BRICKS);
         blockItem(ModBlocks.NULL_GROUND);

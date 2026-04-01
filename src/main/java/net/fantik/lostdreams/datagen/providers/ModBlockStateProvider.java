@@ -31,6 +31,12 @@ public class ModBlockStateProvider extends BlockStateProvider {
         simpleBlock(ModBlocks.PINK_KNOWLEDGE_BLOCK.get());
         simpleBlock(ModBlocks.BLUE_KNOWLEDGE_BLOCK.get());
         simpleBlock(ModBlocks.GREEN_KNOWLEDGE_BLOCK.get());
+        simpleBlock(ModBlocks.SURREAL_BLUE_RANDOMITE_ORE.get());
+        simpleBlock(ModBlocks.SURREAL_LIGHTBLUE_RANDOMITE_ORE.get());
+        simpleBlock(ModBlocks.SURREAL_GREEN_RANDOMITE_ORE.get());
+        simpleBlock(ModBlocks.SURREAL_PURPLE_RANDOMITE_ORE.get());
+        simpleBlock(ModBlocks.SURREAL_RED_RANDOMITE_ORE.get());
+        simpleBlock(ModBlocks.SURREAL_YELLOW_RANDOMITE_ORE.get());
 
         // Duskwillow дерево
         logBlock(ModBlocks.DUSKWILLOW_LOG.get());

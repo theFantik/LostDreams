@@ -60,6 +60,12 @@ public class ModCreativeModeTabs {
                         output.accept(ModBlocks.SURREAL_LIGHTBLUE_ROCK);
                         output.accept(ModBlocks.SURREAL_PURPLE_ROCK);
                         output.accept(ModBlocks.SURREAL_GLOWCRYSTAL);
+                        output.accept(ModBlocks.SURREAL_BLUE_RANDOMITE_ORE);
+                        output.accept(ModBlocks.SURREAL_LIGHTBLUE_RANDOMITE_ORE);
+                        output.accept(ModBlocks.SURREAL_RED_RANDOMITE_ORE);
+                        output.accept(ModBlocks.SURREAL_YELLOW_RANDOMITE_ORE);
+                        output.accept(ModBlocks.SURREAL_GREEN_RANDOMITE_ORE);
+                        output.accept(ModBlocks.SURREAL_PURPLE_RANDOMITE_ORE);
                     }).build());
 
     public static final Supplier<CreativeModeTab> DREAM_MOBS_TAB = CREATIVE_MODE_TAB.register("dream_mobs_tab",
