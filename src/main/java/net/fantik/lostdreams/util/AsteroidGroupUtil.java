@@ -3,7 +3,7 @@ package net.fantik.lostdreams.util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.chunk.ChunkAccess;
-import net.minecraft.world.level.block.state.BlockState;
+// ИМПОРТ BlockState БОЛЬШЕ НЕ НУЖЕН, НО МОЖНО ОСТАВИТЬ, ЧТОБЫ НЕ МЕШАЛ
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,10 +55,10 @@ public class AsteroidGroupUtil {
             AsteroidUtil.AsteroidType t = sameColor ? type :
                     AsteroidUtil.AsteroidType.values()[random.nextInt(AsteroidUtil.AsteroidType.values().length)];
 
-            BlockState rock = AsteroidUtil.getRock(t);
             int rr = AsteroidUtil.getRadius(s, r);
 
-            AsteroidUtil.generateAsteroidInChunk(chunk, pos, rr, s, rock, random);
+            // ИЗМЕНЕНИЕ: Передаем тип 't' вместо 'rock'
+            AsteroidUtil.generateAsteroidInChunk(chunk, pos, rr, s, t, random);
         }
     }
 }

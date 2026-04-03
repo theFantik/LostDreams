@@ -69,18 +69,24 @@ public class SurrealAsteroidsChunkGenerator extends ChunkGenerator {
         int chunkX = chunk.getPos().x;
         int chunkZ = chunk.getPos().z;
 
-        // Проверяем соседние чанки в радиусе — там могут быть центры астероидов
-        int searchRadius = (MAX_RADIUS >> 4) + 2; // в чанках
+        // 1. Вычисляем координаты ЯЧЕЙКИ сетки, в которой находится текущий чанк
+        int currentGridX = Math.floorDiv(chunkX, GRID_STEP);
+        int currentGridZ = Math.floorDiv(chunkZ, GRID_STEP);
 
-        for (int cx = chunkX - searchRadius; cx <= chunkX + searchRadius; cx++) {
-            for (int cz = chunkZ - searchRadius; cz <= chunkZ + searchRadius; cz++) {
+        // 2. Задаем радиус поиска в ЯЧЕЙКАХ сетки, а не в чанках.
+        // 1 ячейка = GRID_STEP * 16 = 32 блока.
+        // Радиус 2 ячейки = 64 блока во все стороны. Этого с запасом хватит для MAX_RADIUS (30) + смещения групп.
+        // Если группы разлетаются еще дальше, увеличь до 3.
+        int gridSearchRadius = 2;
 
-                int gridX = Math.floorDiv(cx, GRID_STEP);
-                int gridZ = Math.floorDiv(cz, GRID_STEP);
+        for (int gridX = currentGridX - gridSearchRadius; gridX <= currentGridX + gridSearchRadius; gridX++) {
+            for (int gridZ = currentGridZ - gridSearchRadius; gridZ <= currentGridZ + gridSearchRadius; gridZ++) {
 
+                // Сид привязан строго к ячейке сетки, поэтому астероид всегда будет на одном месте
                 long seed = (long) gridX * 341873128712L + (long) gridZ * 132897987541L;
                 RandomSource rand = new XoroshiroRandomSource(seed);
 
+                // Шанс появления астероида в этой ячейке
                 if (rand.nextFloat() > 0.6f) continue;
 
                 int cellMinX = gridX * GRID_STEP * 16;
@@ -97,7 +103,6 @@ public class SurrealAsteroidsChunkGenerator extends ChunkGenerator {
                         AsteroidUtil.AsteroidType.values()[rand.nextInt(AsteroidUtil.AsteroidType.values().length)];
                 AsteroidUtil.ShapeType shape =
                         AsteroidUtil.ShapeType.values()[rand.nextInt(AsteroidUtil.ShapeType.values().length)];
-                BlockState rock = AsteroidUtil.getRock(type);
 
                 float sizeRoll = rand.nextFloat();
                 int baseR;
@@ -121,7 +126,7 @@ public class SurrealAsteroidsChunkGenerator extends ChunkGenerator {
                             rand.nextInt(offset) - offset / 2,
                             rand.nextInt(offset) - offset / 2
                     );
-                    AsteroidUtil.generateAsteroidInChunk(chunk, second, r, shape, rock, rand);
+                    AsteroidUtil.generateAsteroidInChunk(chunk, second, r, shape, type, rand);
                 }
 
                 // Группы астероидов
@@ -130,7 +135,7 @@ public class SurrealAsteroidsChunkGenerator extends ChunkGenerator {
                     boolean sameColor = !sameShape;
                     AsteroidGroupUtil.generateGroup(chunk, base, r, rand, sameShape, sameColor);
                 } else {
-                    AsteroidUtil.generateAsteroidInChunk(chunk, base, r, shape, rock, rand);
+                    AsteroidUtil.generateAsteroidInChunk(chunk, base, r, shape, type, rand);
                 }
             }
         }

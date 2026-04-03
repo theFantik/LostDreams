@@ -5,7 +5,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.synth.NormalNoise;
 
 public class AsteroidUtil {
@@ -28,6 +27,17 @@ public class AsteroidUtil {
         };
     }
 
+    public static BlockState getOre(AsteroidType type) {
+        return switch (type) {
+            case RED       -> ModBlocks.SURREAL_RED_RANDOMITE_ORE.get().defaultBlockState();
+            case GREEN     -> ModBlocks.SURREAL_GREEN_RANDOMITE_ORE.get().defaultBlockState();
+            case PURPLE    -> ModBlocks.SURREAL_PURPLE_RANDOMITE_ORE.get().defaultBlockState();
+            case LIGHTBLUE -> ModBlocks.SURREAL_LIGHTBLUE_RANDOMITE_ORE.get().defaultBlockState();
+            case BLUE      -> ModBlocks.SURREAL_BLUE_RANDOMITE_ORE.get().defaultBlockState();
+            case YELLOW    -> ModBlocks.SURREAL_YELLOW_RANDOMITE_ORE.get().defaultBlockState();
+        };
+    }
+
     public static int getRadius(ShapeType shape, int baseR) {
         return switch (shape) {
             case CUBE                        -> Math.max(2, (int)(baseR * 0.65f));
@@ -37,19 +47,23 @@ public class AsteroidUtil {
         };
     }
 
-    /**
-     * Генерирует астероид — записывает только блоки которые попадают в данный чанк.
-     * @param chunk    — текущий чанк
-     * @param base     — центр астероида в мировых координатах
-     * @param r        — радиус
-     * @param shape    — форма
-     * @param rock     — материал
-     * @param random   — генератор случайных чисел (сидирован по чанку)
-     */
+    // ИСПРАВЛЕНИЕ: Добавлена функция для создания детерминированной случайности по координатам блока.
+    // Это гарантирует, что каждый блок (X,Y,Z) всегда будет давать один и тот же результат,
+    // независимо от того, какой чанк в данный момент его генерирует.
+    private static float getDeterministicFloat(int x, int y, int z, long baseSeed) {
+        long hash = (long) x * 73856093L ^ (long) y * 19128883L ^ (long) z * 82468361L ^ baseSeed;
+        hash = (hash ^ (hash >>> 33)) * 0xff51afd7ed558ccdL;
+        hash = (hash ^ (hash >>> 33)) * 0xc4ceb9fe1a85ec53L;
+        hash = hash ^ (hash >>> 33);
+        return (Math.abs(hash) % 1000000) / 1000000.0f;
+    }
+
     public static void generateAsteroidInChunk(ChunkAccess chunk, BlockPos base,
                                                int r, ShapeType shape,
-                                               BlockState rock, RandomSource random) {
-        // Границы чанка в мировых координатах
+                                               AsteroidType type, RandomSource random) {
+        BlockState rock = getRock(type);
+        BlockState ore = getOre(type);
+
         int chunkMinX = chunk.getPos().getMinBlockX();
         int chunkMaxX = chunk.getPos().getMaxBlockX();
         int chunkMinZ = chunk.getPos().getMinBlockZ();
@@ -61,6 +75,7 @@ public class AsteroidUtil {
         boolean large  = r >= 12;
         boolean hollow = random.nextFloat() < 0.04f && r >= 5;
 
+        // Генерация шума и базовых смещений ДО отсечения по чанкам — это абсолютно безопасно.
         NormalNoise noise = NormalNoise.create(random, 0, 1.0);
         int caveOffsetX = random.nextInt(Math.max(1, r / 2)) - r / 4;
         int caveOffsetY = random.nextInt(Math.max(1, r / 2)) - r / 4;
@@ -68,10 +83,12 @@ public class AsteroidUtil {
 
         int bound = r + 1;
 
-        // Дополнительное условие: разрешаем "открытые" пещеры только для сфер, кубов и сатурнов
         boolean allowOpenCaves = large &&
                 (shape == ShapeType.SPHERE || shape == ShapeType.CUBE || shape == ShapeType.SATURN) &&
-                random.nextFloat() < 0.15f; // шанс на открытые пещеры
+                random.nextFloat() < 0.15f;
+
+        // ИСПРАВЛЕНИЕ: Берем уникальный "сид" для конкретного астероида
+        long asteroidSeed = base.asLong();
 
         for (int x = -bound; x <= bound; x++) {
             int wx = base.getX() + x;
@@ -96,14 +113,11 @@ public class AsteroidUtil {
                         double nz = (z + caveOffsetZ) * 0.12;
                         double noiseVal = noise.getValue(nx, ny, nz);
 
-                        // Внутренние пустоты
                         if (noiseVal > 0.45 && distSq < r*r * 0.5) {
-                            // если разрешены открытые пещеры — не проверяем distSq
                             if (allowOpenCaves) continue;
                             if (distSq < r*r * 0.5) continue;
                         }
 
-                        // Тоннели
                         double tunnel = noise.getValue(nx * 2, ny * 2, nz * 2);
                         if (Math.abs(tunnel) < 0.008 && distSq < r*r * 0.35) {
                             if (allowOpenCaves) continue;
@@ -111,34 +125,33 @@ public class AsteroidUtil {
                         }
                     }
 
-                    // Записываем относительно чанка
-                    chunk.setBlockState(new BlockPos(wx, wy, wz), rock, false);
+                    // ИСПРАВЛЕНИЕ: Используем функцию хэширования координат вместо random.nextFloat()
+                    float oreChance = getDeterministicFloat(wx, wy, wz, asteroidSeed);
+                    BlockState stateToPlace = (oreChance < 0.035f) ? ore : rock;
+
+                    chunk.setBlockState(new BlockPos(wx, wy, wz), stateToPlace, false);
                 }
             }
         }
 
-        // Кристаллы только для больших астероидов
         if (large) {
             placeCrystalsInChunk(chunk, base, r, bound, shape, random,
-                    chunkMinX, chunkMaxX, chunkMinZ, chunkMaxZ, minY, maxY);
+                    chunkMinX, chunkMaxX, chunkMinZ, chunkMaxZ, minY, maxY, asteroidSeed);
         }
     }
 
     private static void placeCrystalsInChunk(ChunkAccess chunk, BlockPos base,
-                                              int r, int bound, ShapeType shape,
-                                              RandomSource random,
-                                              int chunkMinX, int chunkMaxX,
-                                              int chunkMinZ, int chunkMaxZ,
-                                              int minY, int maxY) {
+                                             int r, int bound, ShapeType shape,
+                                             RandomSource random,
+                                             int chunkMinX, int chunkMaxX,
+                                             int chunkMinZ, int chunkMaxZ,
+                                             int minY, int maxY, long asteroidSeed) {
         BlockState crystal = ModBlocks.SURREAL_GLOWCRYSTAL.get().defaultBlockState();
-        // Для сравнения блоков
         net.minecraft.world.level.block.Block crystalBlock = crystal.getBlock();
 
-        // Параметр: минимальное расстояние между кристаллами (в блоках)
         final int minDist = 4;
         final int minDistSq = minDist * minDist;
 
-        // Вспомогательная лямбда/метод для проверки близости кристаллов
         java.util.function.BiFunction<BlockPos, Integer, Boolean> isNearbyCrystal = (pos, dist) -> {
             int d = dist;
             int dSq = d * d;
@@ -148,6 +161,10 @@ public class AsteroidUtil {
                         int dd = dx*dx + dy*dy + dz*dz;
                         if (dd >= dSq) continue;
                         BlockPos check = pos.offset(dx, dy, dz);
+
+                        // Обрати внимание: Чтение блоков за пределами чанка может вернуть воздух во время генерации.
+                        // Но это повлияет лишь на то, что на границе чанка кристаллы могут появиться чуть ближе
+                        // друг к другу. Это нормально и визуально незаметно.
                         if (chunk.getBlockState(check).getBlock() == crystalBlock) {
                             return true;
                         }
@@ -178,9 +195,10 @@ public class AsteroidUtil {
                     if (!solid.isSolid()) continue;
                     if (!below.isAir()) continue;
 
-                    if (random.nextFloat() < 0.03f) {
+                    // ИСПРАВЛЕНИЕ: Детерминированный шанс, модификатор сида +1 чтобы отличался от руд
+                    float crystalChance = getDeterministicFloat(wx, wyBelow, wz, asteroidSeed + 1);
+                    if (crystalChance < 0.03f) {
                         BlockPos placePos = new BlockPos(wx, wyBelow, wz);
-                        // Проверяем, нет ли рядом других кристаллов
                         if (!isNearbyCrystal.apply(placePos, minDist)) {
                             chunk.setBlockState(placePos, crystal, false);
                         }
@@ -201,7 +219,9 @@ public class AsteroidUtil {
                     if (!solid.isSolid()) continue;
                     if (!above.isAir()) continue;
 
-                    if (random.nextFloat() < 0.02f) {
+                    // ИСПРАВЛЕНИЕ: Детерминированный шанс, модификатор сида +2
+                    float crystalChance = getDeterministicFloat(wx, wyAbove, wz, asteroidSeed + 2);
+                    if (crystalChance < 0.02f) {
                         BlockPos placePos = new BlockPos(wx, wyAbove, wz);
                         if (!isNearbyCrystal.apply(placePos, minDist)) {
                             chunk.setBlockState(placePos, crystal, false);
@@ -216,29 +236,23 @@ public class AsteroidUtil {
     public static boolean isInsideShape(ShapeType shape, int x, int y, int z, int r) {
         return switch (shape) {
             case SPHERE -> x*x + y*y + z*z <= r*r;
-
             case CUBE -> Math.abs(x) <= r && Math.abs(y) <= r && Math.abs(z) <= r;
-
             case PYRAMID -> y >= -r && y <= r && Math.abs(x) + Math.abs(z) <= (r - Math.abs(y));
-
             case CONE -> {
                 if (y < -r || y > r) yield false;
                 double cr = (1.0 - (double)(y + r) / (2 * r)) * r;
                 yield x*x + z*z <= cr * cr;
             }
-
             case TORUS -> {
                 double q = Math.sqrt(x*x + z*z) - r * 0.6;
                 yield q*q + y*y <= (r * 0.35) * (r * 0.35);
             }
-
             case SATURN -> {
                 boolean sphere = x*x + y*y + z*z <= r*r;
                 double ring = Math.sqrt(x*x + z*z);
                 boolean disk = ring > r * 0.8 && ring < r * 1.2 && Math.abs(y) < r * 0.2;
                 yield sphere || disk;
             }
-
             case KETTLEBELL -> {
                 int ballR = (int)(r * 0.75);
                 int ballCenterY = (int)(r * 0.2);
@@ -249,7 +263,6 @@ public class AsteroidUtil {
                         <= (r*0.18)*(r*0.18) && y >= handleY;
                 yield ball || handle;
             }
-
             case DUMBBELL -> {
                 int ballR = (int)(r * 0.45);
                 int co = (int)(r * 0.55);
@@ -258,21 +271,16 @@ public class AsteroidUtil {
                 boolean bar = Math.abs(x) <= co && y*y + z*z <= (r*0.15)*(r*0.15);
                 yield b1 || b2 || bar;
             }
-
             case STELLATED -> {
-                // базовый радиус
                 double baseR = r;
-                // переводим координаты в сферические углы
-                double theta = Math.atan2(z, x); // угол в плоскости XZ
-                double phi   = Math.atan2(Math.sqrt(x*x+z*z), y); // угол от оси Y
+                double theta = Math.atan2(z, x);
+                double phi   = Math.atan2(Math.sqrt(x*x+z*z), y);
 
-                // модифицируем радиус с помощью "звёздчатой" функции
                 double spikes = 0.25 * r * Math.sin(5 * theta) * Math.sin(5 * phi);
                 double effectiveR = baseR + spikes;
 
                 yield (x*x + y*y + z*z) <= effectiveR * effectiveR;
             }
-
             case CHAIN -> {
                 int ls = (int)(r * 0.5);
                 double q1 = Math.sqrt(x*x + z*z) - r * 0.4;
