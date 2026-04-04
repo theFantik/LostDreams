@@ -20,9 +20,14 @@ import java.util.*;
 @EventBusSubscriber(modid = LostDreams.MOD_ID, value = Dist.CLIENT)
 public class SurrealAsteroidsSkyRenderer {
 
-    private static VertexBuffer[] starBuffers = new VertexBuffer[6];
+    // Объединяем в 2 буфера вместо 6 — меньше draw calls
+    private static VertexBuffer starBufferTop = null;
+    private static VertexBuffer starBufferBottom = null;
+    private static boolean starsBuilt = false;
+
     private static final Random RANDOM = new Random();
     private static final List<ShootingStar> shootingStars = new ArrayList<>();
+    private static final int MAX_SHOOTING_STARS = 5;
 
     private static class ShootingStar {
         Vector3f pos;
@@ -47,103 +52,94 @@ public class SurrealAsteroidsSkyRenderer {
             {1f, 1f, 0.4f},
     };
 
-    private static void addVertex(BufferBuilder buf, Vector3f v, float r,float g,float b){
-        buf.addVertex(v.x,v.y,v.z).setColor(r,g,b,1f);
+    private static void addVertex(BufferBuilder buf, Vector3f v, float r, float g, float b) {
+        buf.addVertex(v.x, v.y, v.z).setColor(r, g, b, 1f);
     }
 
-    // ===== генерация слоя звёзд =====
-    private static void buildLayer(int bufIdx, float dist, int count, long seed) {
-
-        starBuffers[bufIdx] = new VertexBuffer(VertexBuffer.Usage.STATIC);
+    private static void buildHalfSphere(BufferBuilder buf, int count, long seed, float dist) {
         Random rand = new Random(seed);
+        for (int i = 0; i < count; i++) {
+            double theta = rand.nextDouble() * Math.PI * 2;
+            double phi   = Math.acos(2 * rand.nextDouble() - 1);
 
-        BufferBuilder buf = Tesselator.getInstance().begin(
-                VertexFormat.Mode.TRIANGLES, DefaultVertexFormat.POSITION_COLOR);
+            float nx = (float)(Math.sin(phi) * Math.cos(theta));
+            float ny = (float)(Math.cos(phi));
+            float nz = (float)(Math.sin(phi) * Math.sin(theta));
 
-        int quads=0, triangles=0, diamonds=0;
-
-        for(int i=0;i<count;i++){
-            double theta = rand.nextDouble()*Math.PI*2;
-            double phi   = Math.acos(2*rand.nextDouble()-1);
-
-            float nx=(float)(Math.sin(phi)*Math.cos(theta));
-            float ny=(float)(Math.cos(phi));
-            float nz=(float)(Math.sin(phi)*Math.sin(theta));
-
-            Vector3f center = new Vector3f(nx,ny,nz).mul(dist);
-
-            float size = 0.06f + rand.nextFloat()*0.1f;
+            Vector3f center = new Vector3f(nx, ny, nz).mul(dist);
+            float size = 0.06f + rand.nextFloat() * 0.1f;
             int shapeType = rand.nextInt(3);
 
             float[] c = STAR_COLORS[rand.nextInt(STAR_COLORS.length)];
-            float fr=c[0], fg=c[1], fb=c[2];
+            float fr = c[0], fg = c[1], fb = c[2];
 
-            Vector3f forward = new Vector3f(nx,ny,nz);
-            Vector3f helper = Math.abs(ny)<0.99? new Vector3f(0,1,0):new Vector3f(1,0,0);
+            Vector3f forward = new Vector3f(nx, ny, nz);
+            Vector3f helper = Math.abs(ny) < 0.99f ? new Vector3f(0, 1, 0) : new Vector3f(1, 0, 0);
             Vector3f right = new Vector3f(forward).cross(helper).normalize().mul(size);
             Vector3f up    = new Vector3f(right).cross(forward).normalize().mul(size);
 
-            // ===== КВАДРАТ =====
-            if(shapeType==0){
-                quads++;
-                Vector3f v0=new Vector3f(center).sub(right).sub(up);
-                Vector3f v1=new Vector3f(center).add(right).sub(up);
-                Vector3f v2=new Vector3f(center).add(right).add(up);
-                Vector3f v3=new Vector3f(center).sub(right).add(up);
-
-                addVertex(buf,v0,fr,fg,fb); addVertex(buf,v1,fr,fg,fb); addVertex(buf,v2,fr,fg,fb);
-                addVertex(buf,v0,fr,fg,fb); addVertex(buf,v2,fr,fg,fb); addVertex(buf,v3,fr,fg,fb);
-            }
-
-            // ===== ТРЕУГОЛЬНИК =====
-            else if(shapeType==1){
-                triangles++;
-                Vector3f v0=new Vector3f(center).sub(new Vector3f(up).mul(1.6f));
-                Vector3f v1=new Vector3f(center).sub(new Vector3f(right).mul(1.3f)).add(up);
-                Vector3f v2=new Vector3f(center).add(new Vector3f(right).mul(1.3f)).add(up);
-
-                addVertex(buf,v0,fr,fg,fb);
-                addVertex(buf,v1,fr,fg,fb);
-                addVertex(buf,v2,fr,fg,fb);
-            }
-
-            // ===== РОМБ =====
-            else{
-                diamonds++;
-                Vector3f v0=new Vector3f(center).sub(new Vector3f(up).mul(1.7f));
-                Vector3f v1=new Vector3f(center).sub(new Vector3f(right).mul(1.2f));
-                Vector3f v2=new Vector3f(center).add(new Vector3f(up).mul(1.7f));
-                Vector3f v3=new Vector3f(center).add(new Vector3f(right).mul(1.2f));
-
-                addVertex(buf,v0,fr,fg,fb);
-                addVertex(buf,v1,fr,fg,fb);
-                addVertex(buf,v2,fr,fg,fb);
-
-                addVertex(buf,v0,fr,fg,fb);
-                addVertex(buf,v2,fr,fg,fb);
-                addVertex(buf,v3,fr,fg,fb);
+            if (shapeType == 0) {
+                // Квадрат
+                Vector3f v0 = new Vector3f(center).sub(right).sub(up);
+                Vector3f v1 = new Vector3f(center).add(right).sub(up);
+                Vector3f v2 = new Vector3f(center).add(right).add(up);
+                Vector3f v3 = new Vector3f(center).sub(right).add(up);
+                addVertex(buf, v0, fr, fg, fb); addVertex(buf, v1, fr, fg, fb); addVertex(buf, v2, fr, fg, fb);
+                addVertex(buf, v0, fr, fg, fb); addVertex(buf, v2, fr, fg, fb); addVertex(buf, v3, fr, fg, fb);
+            } else if (shapeType == 1) {
+                // Треугольник
+                Vector3f v0 = new Vector3f(center).sub(new Vector3f(up).mul(1.6f));
+                Vector3f v1 = new Vector3f(center).sub(new Vector3f(right).mul(1.3f)).add(up);
+                Vector3f v2 = new Vector3f(center).add(new Vector3f(right).mul(1.3f)).add(up);
+                addVertex(buf, v0, fr, fg, fb);
+                addVertex(buf, v1, fr, fg, fb);
+                addVertex(buf, v2, fr, fg, fb);
+            } else {
+                // Ромб
+                Vector3f v0 = new Vector3f(center).sub(new Vector3f(up).mul(1.7f));
+                Vector3f v1 = new Vector3f(center).sub(new Vector3f(right).mul(1.2f));
+                Vector3f v2 = new Vector3f(center).add(new Vector3f(up).mul(1.7f));
+                Vector3f v3 = new Vector3f(center).add(new Vector3f(right).mul(1.2f));
+                addVertex(buf, v0, fr, fg, fb); addVertex(buf, v1, fr, fg, fb); addVertex(buf, v2, fr, fg, fb);
+                addVertex(buf, v0, fr, fg, fb); addVertex(buf, v2, fr, fg, fb); addVertex(buf, v3, fr, fg, fb);
             }
         }
-
-
-        starBuffers[bufIdx].bind();
-        starBuffers[bufIdx].upload(buf.buildOrThrow());
-        VertexBuffer.unbind();
     }
 
     private static void buildStars() {
-        buildLayer(0, 80f,  1000, 1000L);
-        buildLayer(1, 130f, 800,  2000L);
-        buildLayer(2, 200f, 600,  3000L);
-        buildLayer(3, 80f,  1000, 4000L);
-        buildLayer(4, 130f, 800,  5000L);
-        buildLayer(5, 200f, 600,  6000L);
+        if (starsBuilt) return;
+        starsBuilt = true;
+
+        // Верхняя полусфера — все слои в одном буфере
+        starBufferTop = new VertexBuffer(VertexBuffer.Usage.STATIC);
+        BufferBuilder bufTop = Tesselator.getInstance().begin(
+                VertexFormat.Mode.TRIANGLES, DefaultVertexFormat.POSITION_COLOR);
+        buildHalfSphere(bufTop, 1000, 1000L, 80f);
+        buildHalfSphere(bufTop, 800,  2000L, 130f);
+        buildHalfSphere(bufTop, 600,  3000L, 200f);
+        starBufferTop.bind();
+        starBufferTop.upload(bufTop.buildOrThrow());
+        VertexBuffer.unbind();
+
+        // Нижняя полусфера
+        starBufferBottom = new VertexBuffer(VertexBuffer.Usage.STATIC);
+        BufferBuilder bufBottom = Tesselator.getInstance().begin(
+                VertexFormat.Mode.TRIANGLES, DefaultVertexFormat.POSITION_COLOR);
+        buildHalfSphere(bufBottom, 1000, 4000L, 80f);
+        buildHalfSphere(bufBottom, 800,  5000L, 130f);
+        buildHalfSphere(bufBottom, 600,  6000L, 200f);
+        starBufferBottom.bind();
+        starBufferBottom.upload(bufBottom.buildOrThrow());
+        VertexBuffer.unbind();
     }
 
     private static void spawnShootingStar() {
+        if (shootingStars.size() >= MAX_SHOOTING_STARS) return;
         if (RANDOM.nextFloat() < 0.002f) {
             shootingStars.add(new ShootingStar(
-                    new Vector3f(RANDOM.nextFloat()*200-100, RANDOM.nextFloat()*100, RANDOM.nextFloat()*200-100),
+                    new Vector3f(RANDOM.nextFloat() * 200 - 100,
+                            RANDOM.nextFloat() * 100,
+                            RANDOM.nextFloat() * 200 - 100),
                     new Vector3f(0.2f, -1f, 0.2f).normalize()
             ));
         }
@@ -166,80 +162,67 @@ public class SurrealAsteroidsSkyRenderer {
 
         float pt = event.getPartialTick().getGameTimeDeltaPartialTick(false);
         float skyAngle = level.getTimeOfDay(pt);
-
-        var cam = mc.gameRenderer.getMainCamera();
         long time = level.getGameTime();
+        var cam = mc.gameRenderer.getMainCamera();
+
+        // Мерцание — один расчёт на кадр
+        float flicker = 0.92f + 0.08f * (float)Math.sin(time * 0.02f);
 
         RenderSystem.disableCull();
         RenderSystem.disableDepthTest();
         RenderSystem.depthMask(false);
-
         FogRenderer.setupNoFog();
+        RenderSystem.setShaderColor(flicker, flicker, flicker, 1);
 
         PoseStack ps = event.getPoseStack();
 
-        // === ПАРАЛЛАКС ФАКТОРЫ (ОЧЕНЬ МАЛЕНЬКИЕ!) ===
-        float[] parallax = {0.002f, 0.001f, 0.0005f};
-
-        // -------- ВЕРХ --------
+        // Верхняя полусфера — 1 draw call
         ps.pushPose();
         ps.mulPose(com.mojang.math.Axis.XP.rotationDegrees(cam.getXRot()));
         ps.mulPose(com.mojang.math.Axis.YP.rotationDegrees(cam.getYRot() + 180));
         ps.mulPose(com.mojang.math.Axis.YP.rotationDegrees(-90));
         ps.mulPose(com.mojang.math.Axis.XP.rotationDegrees(skyAngle * 360));
-
-        for (int i = 0; i < 3; i++) {
-            ps.pushPose();
-
-            // 🔥 ВОТ ОН — ПРАВИЛЬНЫЙ ПАРАЛЛАКС
-            ps.translate(
-                    -cam.getPosition().x * parallax[i],
-                    -cam.getPosition().y * parallax[i],
-                    -cam.getPosition().z * parallax[i]
-            );
-
-            float flicker = 0.92f + 0.08f * (float)Math.sin(time * 0.02f + i * 2.1f);
-            RenderSystem.setShaderColor(flicker, flicker, flicker, 1);
-
-            starBuffers[i].bind();
-            starBuffers[i].drawWithShader(ps.last().pose(), event.getProjectionMatrix(), shader);
-            VertexBuffer.unbind();
-
-            ps.popPose();
-        }
+        starBufferTop.bind();
+        starBufferTop.drawWithShader(ps.last().pose(), event.getProjectionMatrix(), shader);
+        VertexBuffer.unbind();
         ps.popPose();
 
-        // -------- НИЗ --------
+        // Нижняя полусфера — 1 draw call
         ps.pushPose();
-        ps.mulPose(com.mojang.math.Axis.ZP.rotationDegrees(0));
         ps.mulPose(com.mojang.math.Axis.XP.rotationDegrees(cam.getXRot()));
         ps.mulPose(com.mojang.math.Axis.YP.rotationDegrees(cam.getYRot() + 180));
         ps.mulPose(com.mojang.math.Axis.YP.rotationDegrees(-90));
         ps.mulPose(com.mojang.math.Axis.XP.rotationDegrees(skyAngle * 360 + 180));
-
-        for (int i = 3; i < 6; i++) {
-            ps.pushPose();
-
-            float factor = parallax[i - 3];
-
-            ps.translate(
-                    -cam.getPosition().x * factor,
-                    -cam.getPosition().y * factor,
-                    -cam.getPosition().z * factor
-            );
-
-            float flicker = 0.92f + 0.08f * (float)Math.sin(time * 0.02f + i * 2.1f);
-            RenderSystem.setShaderColor(flicker, flicker, flicker, 1);
-
-            starBuffers[i].bind();
-            starBuffers[i].drawWithShader(ps.last().pose(), event.getProjectionMatrix(), shader);
-            VertexBuffer.unbind();
-
-            ps.popPose();
-        }
+        starBufferBottom.bind();
+        starBufferBottom.drawWithShader(ps.last().pose(), event.getProjectionMatrix(), shader);
+        VertexBuffer.unbind();
         ps.popPose();
 
-        RenderSystem.setShaderColor(1,1,1,1);
+        // Падающие звёзды — динамический буфер только если есть звёзды
+        if (!shootingStars.isEmpty()) {
+            ps.pushPose();
+            ps.mulPose(com.mojang.math.Axis.XP.rotationDegrees(cam.getXRot()));
+            ps.mulPose(com.mojang.math.Axis.YP.rotationDegrees(cam.getYRot() + 180));
+
+            BufferBuilder shootBuf = Tesselator.getInstance().begin(
+                    VertexFormat.Mode.LINES, DefaultVertexFormat.POSITION_COLOR);
+
+            Iterator<ShootingStar> it = shootingStars.iterator();
+            while (it.hasNext()) {
+                ShootingStar s = it.next();
+                Vector3f end = new Vector3f(s.pos).add(new Vector3f(s.dir).mul(8));
+                shootBuf.addVertex(s.pos.x, s.pos.y, s.pos.z).setColor(1f, 1f, 1f, s.life);
+                shootBuf.addVertex(end.x, end.y, end.z).setColor(1f, 1f, 1f, 0f);
+                s.pos.add(new Vector3f(s.dir).mul(2));
+                s.life -= 0.025f;
+                if (s.life <= 0) it.remove();
+            }
+
+            BufferUploader.drawWithShader(shootBuf.buildOrThrow());
+            ps.popPose();
+        }
+
+        RenderSystem.setShaderColor(1, 1, 1, 1);
         RenderSystem.enableCull();
         RenderSystem.enableDepthTest();
         RenderSystem.depthMask(true);

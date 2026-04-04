@@ -102,6 +102,7 @@ public class ModBlockTagProvider extends BlockTagsProvider {
         tag(BlockTags.DIRT)
                 .add(ModBlocks.PINK_KNOWLEDGE_BLOCK.get())
                 .add(ModBlocks.BLUE_KNOWLEDGE_BLOCK.get())
-                .add(ModBlocks.GREEN_KNOWLEDGE_BLOCK.get());
+                .add(ModBlocks.GREEN_KNOWLEDGE_BLOCK.get())
+                .add(ModBlocks.NULL_GROUND.get());
     }
 }

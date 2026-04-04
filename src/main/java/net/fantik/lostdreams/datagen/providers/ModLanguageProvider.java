@@ -21,7 +21,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add(ModItems.LUCID_ESSENCE.get(), "Lucid Essence");
         add(ModItems.DREAM_CATCHER.get(), "Dream Catcher");
         add(ModItems.NULL_BUG_SPAWN_EGG.get(), "Null Bug Spawn Egg");
-        add(ModItems.LUCID_WISP_SPAWN_EGG.get(), "Lucid Wisp Spawn Egg");
+        add(ModItems.LUCID_WASTE_SPAWN_EGG.get(), "Lucid Waste Spawn Egg");
 
         // Null Zone блоки
         add(ModBlocks.FEATHER_BLOCK.get(), "Feather Block");

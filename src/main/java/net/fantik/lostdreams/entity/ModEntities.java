@@ -23,11 +23,11 @@ public class ModEntities {
                             .build(ResourceLocation.parse("lostdreams:null_bug").toString())
             );
 
-    public static final DeferredHolder<EntityType<?>, EntityType<LucidWispEntity>> LUCID_WISP =
-            ENTITY_TYPES.register("lucid_wisp", () ->
-                    EntityType.Builder.<LucidWispEntity>of(LucidWispEntity::new, MobCategory.MONSTER)
+    public static final DeferredHolder<EntityType<?>, EntityType<LucidWasteEntity>> LUCID_WASTE =
+            ENTITY_TYPES.register("lucid_waste", () ->
+                    EntityType.Builder.<LucidWasteEntity>of(LucidWasteEntity::new, MobCategory.MONSTER)
                             .sized(0.6F, 1.0F)   // ширина, высота хитбокса
-                            .build(ResourceLocation.parse("lostdreams:lucid_wisp").toString())
+                            .build(ResourceLocation.parse("lostdreams:lucid_waste").toString())
             );
 
 

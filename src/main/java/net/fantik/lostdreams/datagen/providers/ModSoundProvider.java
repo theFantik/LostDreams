@@ -31,7 +31,7 @@ public class ModSoundProvider implements DataProvider {
         add("entity.null_bug.death",   "lostdreams:entity/null_bug/death");
 
         // Моб: lucid_wisp
-        add("entity.lucid_wisp.ambient", "lostdreams:entity/lucid_wisp/ambient");
+        add("entity.lucid_waste.ambient", "lostdreams:entity/lucid_waste/ambient");
 
         // Блок: null_ground
         add("block.null_ground.break", "lostdreams:block/null_ground/break");

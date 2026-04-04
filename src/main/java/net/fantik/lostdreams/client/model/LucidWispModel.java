@@ -2,7 +2,7 @@ package net.fantik.lostdreams.client.model;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.fantik.lostdreams.entity.LucidWispEntity;
+import net.fantik.lostdreams.entity.LucidWasteEntity;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
@@ -10,7 +10,7 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 
-public class LucidWispModel extends EntityModel<LucidWispEntity> {
+public class LucidWispModel extends EntityModel<LucidWasteEntity> {
 
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(
 			ResourceLocation.fromNamespaceAndPath("lostdreams", "lucid_wisp"), "main"
@@ -72,7 +72,7 @@ public class LucidWispModel extends EntityModel<LucidWispEntity> {
 	}
 
 	@Override
-	public void setupAnim(LucidWispEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+	public void setupAnim(LucidWasteEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		this.root.getAllParts().forEach(ModelPart::resetPose);
 
 		// Боббинг вверх-вниз

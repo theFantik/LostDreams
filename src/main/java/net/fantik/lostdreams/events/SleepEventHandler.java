@@ -18,6 +18,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.level.block.BedBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BedPart;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -36,12 +37,15 @@ public class SleepEventHandler {
     private static final Set<UUID> CURSING = new HashSet<>();
 
     private static final int SLOW_FALLING_DURATION_TICKS = 20 * 20;
-    private static final String NBT_KEY = "lostdreams_cursed_bed";
-    private static final String NBT_KEY_NULL = "lostdreams_null_cursed_bed";
+
+    // NBT ключи для BlockEntity
+    private static final String CURSE_TAG = "lostdreams_bed_curse";
+    private static final String CURSE_TYPE_NULL = "null_zone";
+    private static final String CURSE_TYPE_ASTEROIDS = "skyblock_asteroids";
 
     @SubscribeEvent
     public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
-        // Блокировка кровати в Null Zone
+        // Блокировка сна в Null Zone
         if (NullZoneDimension.isNullZone(event.getEntity().level())) {
             BlockPos pos = event.getPos();
             if (event.getEntity().level().getBlockState(pos).getBlock() instanceof BedBlock) {
@@ -56,89 +60,66 @@ public class SleepEventHandler {
         }
 
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
-        if (NullZoneDimension.isNullZone(player.level())) return;
         if (event.getHand() != InteractionHand.MAIN_HAND) return;
 
-        // --- NULL PILLOW -> SkyBlock / Asteroids ---
-        if (player.getMainHandItem().is(ModItems.NULL_PILLOW.get())) {
-            BlockPos clickedPos = event.getPos();
-            BlockState bedState = player.level().getBlockState(clickedPos);
-            if (!(bedState.getBlock() instanceof BedBlock)) return;
+        boolean isPillow = player.getMainHandItem().is(ModItems.PILLOW.get());
+        boolean isNullPillow = player.getMainHandItem().is(ModItems.NULL_PILLOW.get());
 
-            if (bedState.getValue(BedBlock.PART) == BedPart.FOOT) {
-                event.setCanceled(true);
-                Direction facing = bedState.getValue(BedBlock.FACING);
-                BlockPos headPos = clickedPos.relative(facing);
-                BlockPos existing = getNullCursedBed(player);
-                if (existing != null && existing.equals(headPos)) {
-                    player.displayClientMessage(Component.literal("§cThis bed is already cursed!"), true);
-                }
-                return;
-            }
-
-            event.setCanceled(true);
-
-            if (CURSING.contains(player.getUUID())) return;
-            CURSING.add(player.getUUID());
-            player.getServer().execute(() -> CURSING.remove(player.getUUID()));
-
-            BlockPos existing = getNullCursedBed(player);
-            if (existing != null && existing.equals(clickedPos)) {
-                player.displayClientMessage(Component.literal("§cThis bed is already cursed!"), true);
-                return;
-            }
-
-            setNullCursedBed(player, clickedPos);
-            player.getPersistentData().remove(NBT_KEY);
-
-            if (!player.isCreative()) {
-                player.getMainHandItem().shrink(1);
-            }
-
-            spawnTeleportParticles((ServerLevel) player.level(), clickedPos);
-            return;
-        }
-
-        // --- PILLOW -> Null Zone ---
-        if (!player.getMainHandItem().is(ModItems.PILLOW.get())) return;
-        if (SkyBlockDimension.isSkyBlock(player.level())) return;
+        if (!isPillow && !isNullPillow) return;
 
         BlockPos clickedPos = event.getPos();
         BlockState bedState = player.level().getBlockState(clickedPos);
         if (!(bedState.getBlock() instanceof BedBlock)) return;
 
+        event.setCanceled(true);
+
+        // Находим обе части кровати, чтобы проклясть сразу весь блок (и Head, и Foot)
+        BlockPos headPos = clickedPos;
+        BlockPos footPos = clickedPos;
+        Direction facing = bedState.getValue(BedBlock.FACING);
+
         if (bedState.getValue(BedBlock.PART) == BedPart.FOOT) {
-            event.setCanceled(true);
-            Direction facing = bedState.getValue(BedBlock.FACING);
-            BlockPos headPos = clickedPos.relative(facing);
-            BlockPos existing = getCursedBed(player);
-            if (existing != null && existing.equals(headPos)) {
-                player.displayClientMessage(Component.literal("§cThis bed is already cursed!"), true);
-            }
-            return;
+            headPos = clickedPos.relative(facing);
+        } else {
+            footPos = clickedPos.relative(facing.getOpposite());
         }
 
-        event.setCanceled(true);
+        BlockEntity headBE = player.level().getBlockEntity(headPos);
+        BlockEntity footBE = player.level().getBlockEntity(footPos);
+
+        // Проверяем, есть ли уже проклятие на кровати
+        if ((headBE != null && headBE.getPersistentData().contains(CURSE_TAG)) ||
+                (footBE != null && footBE.getPersistentData().contains(CURSE_TAG))) {
+            player.displayClientMessage(Component.literal("§cThis bed is already cursed!"), true);
+            return;
+        }
 
         if (CURSING.contains(player.getUUID())) return;
         CURSING.add(player.getUUID());
         player.getServer().execute(() -> CURSING.remove(player.getUUID()));
 
-        BlockPos existing = getCursedBed(player);
-        if (existing != null && existing.equals(clickedPos)) {
-            player.displayClientMessage(Component.literal("§cThis bed is already cursed!"), true);
-            return;
+        // --- Наложение проклятия ---
+        String curseType = isNullPillow ? CURSE_TYPE_ASTEROIDS : CURSE_TYPE_NULL;
+
+        if (isPillow && SkyBlockDimension.isSkyBlock(player.level())) {
+            return; // В скайблоке обычная подушка не работает
         }
 
-        setCursedBed(player, clickedPos);
-        player.getPersistentData().remove(NBT_KEY_NULL);
+        // Записываем NBT в обе части кровати
+        if (headBE != null) headBE.getPersistentData().putString(CURSE_TAG, curseType);
+        if (footBE != null) footBE.getPersistentData().putString(CURSE_TAG, curseType);
 
         if (!player.isCreative()) {
             player.getMainHandItem().shrink(1);
         }
 
-        spawnTeleportParticles((ServerLevel) player.level(), clickedPos);
-        LostDreams.LOGGER.info("{} cursed bed at {}", player.getName().getString(), clickedPos);
+        // Спавн разных партиклов в зависимости от подушки
+        if (isNullPillow) {
+            spawnAsteroidsParticles((ServerLevel) player.level(), clickedPos);
+        } else {
+            spawnNullZoneParticles((ServerLevel) player.level(), clickedPos);
+            LostDreams.LOGGER.info("{} cursed bed at {}", player.getName().getString(), clickedPos);
+        }
     }
 
     @SubscribeEvent
@@ -154,97 +135,57 @@ public class SleepEventHandler {
         MinecraftServer server = player.getServer();
         if (server == null) return;
 
-        // --- Проверка null_pillow (SkyBlock / Asteroids) ---
-        BlockPos nullCursedBed = getNullCursedBed(player);
-        if (nullCursedBed != null && isPlayerSleepingAt(player, nullCursedBed)) {
-            float roll = player.getRandom().nextFloat();
+        // Ищем проклятие на кровати, на которой спал игрок
+        player.getSleepingPos().ifPresent(sleepPos -> {
+            BlockEntity be = player.level().getBlockEntity(sleepPos);
+            String curseType = "";
 
+            if (be != null && be.getPersistentData().contains(CURSE_TAG)) {
+                curseType = be.getPersistentData().getString(CURSE_TAG);
+            }
+
+            // Логика телепортации
             TELEPORTING.add(player.getUUID());
             try {
-                player.stopSleeping();
-                if (roll < 0.30f) {
-                    // 30% — SkyBlock
-                    teleportToSkyBlock(player, server);
-                } else if (roll < 0.60f) {
-                    // 30% — Surreal Asteroids
-                    teleportToSurrealAsteroids(player, server);
+                // --- NULL PILLOW (Skyblock / Asteroids) ---
+                if (CURSE_TYPE_ASTEROIDS.equals(curseType)) {
+                    player.stopSleeping();
+                    float roll = player.getRandom().nextFloat();
+                    if (roll < 0.30f) {
+                        teleportToSkyBlock(player, server);
+                    } else if (roll < 0.60f) {
+                        teleportToSurrealAsteroids(player, server);
+                    }
+                    return;
                 }
-                // 40% — просто просыпаемся в обычном мире
+
+                // --- NORMAL PILLOW (Null Zone) ---
+                ServerLevel nullZone = server.getLevel(NullZoneDimension.NULL_ZONE_KEY);
+                if (nullZone == null) {
+                    LostDreams.LOGGER.warn("Null Zone dimension not found!");
+                    return;
+                }
+
+                boolean shouldTeleportToNullZone = false;
+
+                if (CURSE_TYPE_NULL.equals(curseType)) {
+                    shouldTeleportToNullZone = true; // 100% если проклята
+                } else {
+                    // Если кровать обычная (без проклятия вообще), оставляем шанс 40% (как было в старом коде)
+                    if (player.getRandom().nextFloat() < 0.4f) {
+                        shouldTeleportToNullZone = true;
+                    }
+                }
+
+                if (shouldTeleportToNullZone) {
+                    player.stopSleeping();
+                    teleportToNullZone(player, nullZone);
+                }
+
             } finally {
                 TELEPORTING.remove(player.getUUID());
             }
-            return;
-        }
-
-        // --- Проверка pillow (Null Zone) ---
-        ServerLevel nullZone = server.getLevel(NullZoneDimension.NULL_ZONE_KEY);
-        if (nullZone == null) {
-            LostDreams.LOGGER.warn("Null Zone dimension not found!");
-            return;
-        }
-
-        boolean shouldTeleport;
-        BlockPos cursedBed = getCursedBed(player);
-
-        if (cursedBed != null && isPlayerSleepingAt(player, cursedBed)) {
-            shouldTeleport = true;
-        } else {
-            shouldTeleport = player.getRandom().nextFloat() < 0.4f;
-        }
-
-        if (!shouldTeleport) return;
-
-        TELEPORTING.add(player.getUUID());
-        try {
-            player.stopSleeping();
-            teleportToNullZone(player, nullZone);
-        } finally {
-            TELEPORTING.remove(player.getUUID());
-        }
-    }
-
-    private static boolean isPlayerSleepingAt(ServerPlayer player, BlockPos cursedBed) {
-        return player.getSleepingPos().map(pos -> {
-            if (pos.equals(cursedBed)) return true;
-            for (Direction dir : Direction.Plane.HORIZONTAL) {
-                if (pos.relative(dir).equals(cursedBed)) return true;
-            }
-            return false;
-        }).orElse(false);
-    }
-
-    // --- NBT: pillow (Null Zone) ---
-    private static void setCursedBed(ServerPlayer player, BlockPos pos) {
-        CompoundTag data = player.getPersistentData();
-        CompoundTag tag = new CompoundTag();
-        tag.putInt("x", pos.getX());
-        tag.putInt("y", pos.getY());
-        tag.putInt("z", pos.getZ());
-        data.put(NBT_KEY, tag);
-    }
-
-    private static BlockPos getCursedBed(ServerPlayer player) {
-        CompoundTag data = player.getPersistentData();
-        if (!data.contains(NBT_KEY)) return null;
-        CompoundTag tag = data.getCompound(NBT_KEY);
-        return new BlockPos(tag.getInt("x"), tag.getInt("y"), tag.getInt("z"));
-    }
-
-    // --- NBT: null_pillow (SkyBlock / Asteroids) ---
-    private static void setNullCursedBed(ServerPlayer player, BlockPos pos) {
-        CompoundTag data = player.getPersistentData();
-        CompoundTag tag = new CompoundTag();
-        tag.putInt("x", pos.getX());
-        tag.putInt("y", pos.getY());
-        tag.putInt("z", pos.getZ());
-        data.put(NBT_KEY_NULL, tag);
-    }
-
-    private static BlockPos getNullCursedBed(ServerPlayer player) {
-        CompoundTag data = player.getPersistentData();
-        if (!data.contains(NBT_KEY_NULL)) return null;
-        CompoundTag tag = data.getCompound(NBT_KEY_NULL);
-        return new BlockPos(tag.getInt("x"), tag.getInt("y"), tag.getInt("z"));
+        });
     }
 
     // --- Телепортация ---
@@ -314,7 +255,9 @@ public class SleepEventHandler {
     }
 
     // --- Частицы ---
-    private static void spawnTeleportParticles(ServerLevel level, BlockPos pos) {
+
+    // Старые частицы (Обычная подушка)
+    private static void spawnNullZoneParticles(ServerLevel level, BlockPos pos) {
         double cx = pos.getX() + 0.5;
         double cy = pos.getY() + 0.6;
         double cz = pos.getZ() + 0.5;
@@ -329,6 +272,23 @@ public class SleepEventHandler {
         }
         level.sendParticles(ParticleTypes.LARGE_SMOKE, cx, cy + 0.5, cz, 8, 0.3, 0.2, 0.3, 0.01);
         level.sendParticles(ParticleTypes.ENCHANT, cx, cy + 0.5, cz, 20, 0.4, 0.4, 0.4, 0.1);
+    }
+
+    // Новые частицы (Null Pillow: пепел, дым, красные споры и огонь)
+    private static void spawnAsteroidsParticles(ServerLevel level, BlockPos pos) {
+        double cx = pos.getX() + 0.5;
+        double cy = pos.getY() + 0.6;
+        double cz = pos.getZ() + 0.5;
+
+        // Пепел и массивный дым
+        level.sendParticles(ParticleTypes.ASH, cx, cy + 0.5, cz, 40, 0.5, 0.5, 0.5, 0.02);
+        level.sendParticles(ParticleTypes.LARGE_SMOKE, cx, cy + 0.5, cz, 15, 0.4, 0.2, 0.4, 0.03);
+
+        // Красные частицы (Кровавые споры)
+        level.sendParticles(ParticleTypes.CRIMSON_SPORE, cx, cy + 0.5, cz, 30, 0.6, 0.6, 0.6, 0.05);
+
+        // Немного пламени
+        level.sendParticles(ParticleTypes.FLAME, cx, cy + 0.2, cz, 10, 0.3, 0.1, 0.3, 0.02);
     }
 
     // --- Поиск безопасной позиции (Null Zone) ---

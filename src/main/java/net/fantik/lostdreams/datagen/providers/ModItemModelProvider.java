@@ -29,7 +29,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         // Spawn eggs — используют builtin/template_spawn_egg
         withExistingParent(ModItems.NULL_BUG_SPAWN_EGG.get().toString(),
                 mcLoc("item/template_spawn_egg"));
-        withExistingParent(ModItems.LUCID_WISP_SPAWN_EGG.get().toString(),
+        withExistingParent(ModItems.LUCID_WASTE_SPAWN_EGG.get().toString(),
                 mcLoc("item/template_spawn_egg"));
 
         // Блоки — наследуют от блочной модели

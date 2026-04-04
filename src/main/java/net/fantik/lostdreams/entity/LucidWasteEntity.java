@@ -23,9 +23,9 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.EnumSet;
 
-public class LucidWispEntity extends PathfinderMob {
+public class LucidWasteEntity extends PathfinderMob {
 
-    public LucidWispEntity(EntityType<? extends PathfinderMob> type, Level level) {
+    public LucidWasteEntity(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
         this.setNoGravity(true);
         this.setPathfindingMalus(PathType.WATER, -1.0f);
@@ -98,13 +98,13 @@ public class LucidWispEntity extends PathfinderMob {
     // Цель: атака и движение к игроку через velocity
     // -----------------------------------------------------------------------
     static class WispAttackGoal extends Goal {
-        private final LucidWispEntity wisp;
+        private final LucidWasteEntity wisp;
         private int attackCooldown = 0;
         private int strafeTick = 0;
         private boolean strafingClockwise = false;
         private boolean strafingBackwards = false;
 
-        WispAttackGoal(LucidWispEntity wisp) {
+        WispAttackGoal(LucidWasteEntity wisp) {
             this.wisp = wisp;
             this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
         }
@@ -169,11 +169,11 @@ public class LucidWispEntity extends PathfinderMob {
     // Цель: блуждание когда нет цели — активное движение во всех направлениях
     // -----------------------------------------------------------------------
     static class WispIdleWanderGoal extends Goal {
-        private final LucidWispEntity wisp;
+        private final LucidWasteEntity wisp;
         private Vec3 targetPos = null;
         private int wanderCooldown = 0;
 
-        WispIdleWanderGoal(LucidWispEntity wisp) {
+        WispIdleWanderGoal(LucidWasteEntity wisp) {
             this.wisp = wisp;
             this.setFlags(EnumSet.of(Flag.MOVE));
         }
@@ -235,7 +235,7 @@ public class LucidWispEntity extends PathfinderMob {
         }
     }
     protected SoundEvent getAmbientSound() {
-        return ModSounds.LUCID_WISP_AMBIENT.get();
+        return ModSounds.LUCID_WASTE_AMBIENT.get();
     }
 
 

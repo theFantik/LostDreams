@@ -76,7 +76,7 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.BUG_ANTENNA);
                         output.accept(ModItems.NULL_BUG_SPAWN_EGG);
                         output.accept(ModItems.LUCID_ESSENCE);
-                        output.accept(ModItems.LUCID_WISP_SPAWN_EGG);
+                        output.accept(ModItems.LUCID_WASTE_SPAWN_EGG);
                     }).build());
 
 
