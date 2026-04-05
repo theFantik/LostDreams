@@ -2,6 +2,8 @@ package net.fantik.lostdreams.datagen.providers;
 
 import net.fantik.lostdreams.LostDreams;
 import net.fantik.lostdreams.block.ModBlocks;
+import net.fantik.lostdreams.block.PortalBlock;
+import net.minecraft.core.Direction;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.block.*;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
@@ -92,5 +94,14 @@ public class ModBlockStateProvider extends BlockStateProvider {
         // Плита давления
         pressurePlateBlock(ModBlocks.DUSKWILLOW_PRESSURE_PLATE.get(),
                 blockTexture(ModBlocks.DUSKWILLOW_PLANKS.get()));
+
+        // Для каждого портал-блока
+        getVariantBuilder(ModBlocks.NULL_ZONE_PORTAL.get())
+                .partialState().with(PortalBlock.AXIS, Direction.Axis.X)
+                .modelForState().modelFile(models().getExistingFile(
+                        modLoc("block/null_zone_portal_x"))).addModel()
+                .partialState().with(PortalBlock.AXIS, Direction.Axis.Z)
+                .modelForState().modelFile(models().getExistingFile(
+                        modLoc("block/null_zone_portal_z"))).addModel();
     }
 }

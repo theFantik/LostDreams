@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/nether_portal_ew",
+  "textures": {
+    "portal": "lostdreams:block/null_zone_portal"
+  }
+}

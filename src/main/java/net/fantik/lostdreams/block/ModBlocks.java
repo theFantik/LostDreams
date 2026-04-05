@@ -22,6 +22,13 @@ public class ModBlocks {
     public static final DeferredRegister.Blocks BLOCKS =
             DeferredRegister.createBlocks(LostDreams.MOD_ID);
 
+    public static final DeferredBlock<PortalBlock> NULL_ZONE_PORTAL = registerBlock("null_zone_portal",
+            () -> new PortalBlock(BlockBehaviour.Properties.of()
+                    .noCollission()
+                    .lightLevel(s -> 11)
+                    .strength(-1f, 3600000f)
+                    .noLootTable()));
+
     // -----------------------------------------------------------------------
     // Null Zone блоки
     // -----------------------------------------------------------------------

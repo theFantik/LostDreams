@@ -30,6 +30,8 @@ public class ModLanguageProvider extends LanguageProvider {
         add(ModBlocks.NULL_BRICKS.get(), "Null Bricks");
         add(ModBlocks.NULL_CRACKED_BRICKS.get(), "Null Cracked Bricks");
 
+        add(ModBlocks.NULL_ZONE_PORTAL.get(), "Null Zone Portal");
+
         // Knowledge блоки
         add(ModBlocks.PINK_KNOWLEDGE_BLOCK.get(), "Pink Knowledge Block");
         add(ModBlocks.BLUE_KNOWLEDGE_BLOCK.get(), "Blue Knowledge Block");

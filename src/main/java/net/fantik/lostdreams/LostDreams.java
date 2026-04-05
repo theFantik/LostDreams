@@ -5,10 +5,13 @@ import net.fantik.lostdreams.datagen.ModDataGenerator;
 import net.fantik.lostdreams.entity.ModEntities;
 import net.fantik.lostdreams.item.ModCreativeModeTabs;
 import net.fantik.lostdreams.item.ModItems;
+import net.fantik.lostdreams.particle.ModParticles;
+import net.fantik.lostdreams.particle.NullParticle;
 import net.fantik.lostdreams.sound.ModSounds;
 import net.fantik.lostdreams.world.*;
 import net.fantik.lostdreams.world.feature.ModFeatures;
 import net.minecraft.resources.ResourceLocation;
+import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
 import org.slf4j.Logger;
 
@@ -50,6 +53,7 @@ public class LostDreams {
         ModEntities.register(modEventBus);
         ModSounds.register(modEventBus);
         ModBiomeSources.register(modEventBus);
+        ModParticles.register(modEventBus);
 
 
 
@@ -85,6 +89,11 @@ public class LostDreams {
         @SubscribeEvent
         static void onClientSetup(FMLClientSetupEvent event) {
 
+        }
+
+        @SubscribeEvent
+        public static void registerParticleFactories(RegisterParticleProvidersEvent event) {
+            event.registerSpriteSet(ModParticles.NULL_PARTICLE.get(), NullParticle.Provider::new);
         }
     }
 }
