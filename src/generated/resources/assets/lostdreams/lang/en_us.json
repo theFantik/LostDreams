@@ -1,5 +1,6 @@
 {
   "block.lostdreams.blue_knowledge_block": "Blue Knowledge Block",
+  "block.lostdreams.dream_generator": "Dream Generator",
   "block.lostdreams.duskwillow_button": "Duskwillow Button",
   "block.lostdreams.duskwillow_door": "Duskwillow Door",
   "block.lostdreams.duskwillow_fence": "Duskwillow Fence",
@@ -36,6 +37,7 @@
   "block.lostdreams.surreal_red_rock": "Surreal Red Rock",
   "block.lostdreams.surreal_yellow_randomite_ore": "Yellow Randomite Ore",
   "block.lostdreams.surreal_yellow_rock": "Surreal Yellow Rock",
+  "container.lostdreams.dream_generator": "Dream Generator",
   "creativetab.lostdreams.bed_items": "Bed Items",
   "creativetab.lostdreams.dream_blocks": "Dream Blocks",
   "creativetab.lostdreams.dream_mobs": "Dream Mobs",

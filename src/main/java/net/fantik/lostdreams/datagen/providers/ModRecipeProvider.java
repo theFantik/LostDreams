@@ -7,6 +7,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.common.conditions.IConditionBuilder;
 
 import java.util.concurrent.CompletableFuture;
@@ -117,6 +118,16 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern("##")
                 .define('#', ModBlocks.DUSKWILLOW_PLANKS.get())
                 .unlockedBy("has_planks", has(ModBlocks.DUSKWILLOW_PLANKS.get()))
+                .save(output);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.DREAM_GENERATOR.get())
+                .pattern("ISI")
+                .pattern("SBS")
+                .pattern("ISI")
+                .define('I', Items.IRON_INGOT)
+                .define('S', Items.SMOOTH_STONE)
+                .define('B', ModItems.LUCID_ESSENCE)
+                .unlockedBy("has_iron", has(Items.IRON_INGOT))
                 .save(output);
 
     }

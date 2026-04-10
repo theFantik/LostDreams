@@ -14,6 +14,10 @@ public class ModLanguageProvider extends LanguageProvider {
 
     @Override
     protected void addTranslations() {
+
+        add(ModBlocks.DREAM_GENERATOR.get(), "Dream Generator");
+        add("container.lostdreams.dream_generator", "Dream Generator");
+
         // Items
         add(ModItems.PILLOW.get(), "Pillow");
         add(ModItems.NULL_PILLOW.get(), "Null Pillow");

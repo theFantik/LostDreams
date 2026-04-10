@@ -1,16 +1,20 @@
 package net.fantik.lostdreams;
 
 import net.fantik.lostdreams.block.ModBlocks;
+import net.fantik.lostdreams.block.entity.ModBlockEntities;
 import net.fantik.lostdreams.datagen.ModDataGenerator;
 import net.fantik.lostdreams.entity.ModEntities;
 import net.fantik.lostdreams.item.ModCreativeModeTabs;
 import net.fantik.lostdreams.item.ModItems;
 import net.fantik.lostdreams.particle.ModParticles;
 import net.fantik.lostdreams.particle.NullParticle;
+import net.fantik.lostdreams.screen.DreamGeneratorScreen;
+import net.fantik.lostdreams.screen.ModMenuTypes;
 import net.fantik.lostdreams.sound.ModSounds;
 import net.fantik.lostdreams.world.*;
 import net.fantik.lostdreams.world.feature.ModFeatures;
 import net.minecraft.resources.ResourceLocation;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
 import org.slf4j.Logger;
@@ -54,6 +58,8 @@ public class LostDreams {
         ModSounds.register(modEventBus);
         ModBiomeSources.register(modEventBus);
         ModParticles.register(modEventBus);
+        ModBlockEntities.register(modEventBus);
+        ModMenuTypes.register(modEventBus);
 
 
 
@@ -64,6 +70,7 @@ public class LostDreams {
 
 
 
+
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
@@ -71,6 +78,10 @@ public class LostDreams {
 
     private void commonSetup(FMLCommonSetupEvent event) {
 
+    }
+
+    private void registerScreens(RegisterMenuScreensEvent event) {
+        event.register(ModMenuTypes.DREAM_GENERATOR_MENU.get(), DreamGeneratorScreen::new);
     }
 
     // Add the example block item to the building blocks tab
@@ -94,6 +105,10 @@ public class LostDreams {
         @SubscribeEvent
         public static void registerParticleFactories(RegisterParticleProvidersEvent event) {
             event.registerSpriteSet(ModParticles.NULL_PARTICLE.get(), NullParticle.Provider::new);
+        }
+        @SubscribeEvent
+        public static void registerScreens(RegisterMenuScreensEvent event) {
+            event.register(ModMenuTypes.DREAM_GENERATOR_MENU.get(), DreamGeneratorScreen::new);
         }
     }
 }

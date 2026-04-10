@@ -1,6 +1,7 @@
 package net.fantik.lostdreams.block;
 
 import net.fantik.lostdreams.LostDreams;
+import net.fantik.lostdreams.block.custom.DreamGeneratorBlock;
 import net.fantik.lostdreams.item.ModItems;
 import net.fantik.lostdreams.sound.ModSounds;
 import net.fantik.lostdreams.world.tree.DuskwillowTreeGrower;
@@ -28,6 +29,12 @@ public class ModBlocks {
                     .lightLevel(s -> 11)
                     .strength(-1f, 3600000f)
                     .noLootTable()));
+
+    public static final DeferredBlock<DreamGeneratorBlock> DREAM_GENERATOR = registerBlock("dream_generator",
+            () -> new DreamGeneratorBlock(BlockBehaviour.Properties.of()
+                    .strength(3f)
+                    .sound(SoundType.METAL)
+                    .noOcclusion()));
 
     // -----------------------------------------------------------------------
     // Null Zone блоки
