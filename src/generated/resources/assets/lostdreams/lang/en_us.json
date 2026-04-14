@@ -1,5 +1,6 @@
 {
   "block.lostdreams.blue_knowledge_block": "Blue Knowledge Block",
+  "block.lostdreams.dream_advanced_generator": "Dream Advanced Generator",
   "block.lostdreams.dream_generator": "Dream Generator",
   "block.lostdreams.duskwillow_button": "Duskwillow Button",
   "block.lostdreams.duskwillow_door": "Duskwillow Door",
@@ -47,5 +48,6 @@
   "item.lostdreams.lucid_waste_spawn_egg": "Lucid Waste Spawn Egg",
   "item.lostdreams.null_bug_spawn_egg": "Null Bug Spawn Egg",
   "item.lostdreams.null_pillow": "Null Pillow",
-  "item.lostdreams.pillow": "Pillow"
+  "item.lostdreams.pillow": "Pillow",
+  "message.lostdreams.sleep_warning": "Sleeping within a dream is troublesome..."
 }

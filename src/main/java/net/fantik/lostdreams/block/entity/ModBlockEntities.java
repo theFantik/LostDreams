@@ -17,7 +17,8 @@ public class ModBlockEntities {
     public static final Supplier<BlockEntityType<DreamGeneratorBlockEntity>> DREAM_GENERATOR =
             BLOCK_ENTITIES.register("dream_generator",
                     () -> BlockEntityType.Builder.of(DreamGeneratorBlockEntity::new,
-                            ModBlocks.DREAM_GENERATOR.get()).build(null));
+                            ModBlocks.DREAM_GENERATOR.get(),ModBlocks.DREAM_ADVANCED_GENERATOR.get()).build(null));
+
 
     public static void register(IEventBus eventBus) {
         BLOCK_ENTITIES.register(eventBus);

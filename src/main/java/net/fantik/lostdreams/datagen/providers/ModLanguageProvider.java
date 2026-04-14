@@ -16,6 +16,7 @@ public class ModLanguageProvider extends LanguageProvider {
     protected void addTranslations() {
 
         add(ModBlocks.DREAM_GENERATOR.get(), "Dream Generator");
+        add(ModBlocks.DREAM_ADVANCED_GENERATOR.get(), "Dream Advanced Generator");
         add("container.lostdreams.dream_generator", "Dream Generator");
 
         // Items

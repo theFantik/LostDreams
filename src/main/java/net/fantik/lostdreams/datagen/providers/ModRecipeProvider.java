@@ -126,8 +126,18 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern("ISI")
                 .define('I', Items.IRON_INGOT)
                 .define('S', Items.SMOOTH_STONE)
-                .define('B', ModItems.LUCID_ESSENCE)
+                .define('B', Items.STRING)
                 .unlockedBy("has_iron", has(Items.IRON_INGOT))
+                .save(output);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.DREAM_ADVANCED_GENERATOR.get())
+                .pattern("ISI")
+                .pattern("SBS")
+                .pattern("ISI")
+                .define('I', Items.GOLD_INGOT)
+                .define('S', ModItems.LUCID_ESSENCE)
+                .define('B', ModBlocks.DREAM_GENERATOR)
+                .unlockedBy("has_lucid_essence", has(ModItems.LUCID_ESSENCE))
                 .save(output);
 
     }

@@ -90,6 +90,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         blockItem(ModBlocks.BLUE_KNOWLEDGE_BLOCK);
         blockItem(ModBlocks.GREEN_KNOWLEDGE_BLOCK);
         blockItem(ModBlocks.DREAM_GENERATOR);
+        blockItem(ModBlocks.DREAM_ADVANCED_GENERATOR);
     }
 
     private <T extends Block> void blockItem(net.neoforged.neoforge.registries.DeferredBlock<T> block) {

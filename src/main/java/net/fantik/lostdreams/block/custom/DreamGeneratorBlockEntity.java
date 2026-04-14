@@ -1,6 +1,5 @@
 package net.fantik.lostdreams.block.custom;
 
-import net.fantik.lostdreams.block.custom.DreamGeneratorBlock;
 import net.fantik.lostdreams.block.entity.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -14,117 +13,42 @@ import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Random;
-
 public class DreamGeneratorBlockEntity extends BaseContainerBlockEntity {
+
     public static final int SLOT_COUNT = 3;
     private NonNullList<ItemStack> items = NonNullList.withSize(SLOT_COUNT, ItemStack.EMPTY);
-    private final Random random = new Random();
+
+    private GeneratorTier tier = GeneratorTier.BASIC;
 
     public DreamGeneratorBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.DREAM_GENERATOR.get(), pos, state);
     }
 
-    @Override
-    protected Component getDefaultName() {
-        return Component.translatable("container.lostdreams.dream_generator");
+    public void setTier(GeneratorTier tier) {
+        this.tier = tier;
+        this.setChanged(); // ИСПРАВЛЕНО: Уведомляем игру, что блок обновился
     }
 
-    @Override
-    protected NonNullList<ItemStack> getItems() {
-        return items;
-    }
 
-    @Override
-    protected void setItems(NonNullList<ItemStack> items) {
-        this.items = items;
-    }
 
-    @Override
-    protected AbstractContainerMenu createMenu(int containerId, Inventory inventory) {
-        return new DreamGeneratorMenu(containerId, inventory, this);
-    }
-
-    @Override
-    public int getContainerSize() {
-        return SLOT_COUNT;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        for (ItemStack stack : items) {
-            if (!stack.isEmpty()) return false;
-        }
-        return true;
-    }
-
-    @Override
-    public ItemStack getItem(int slot) {
-        return items.get(slot);
-    }
-
-    @Override
-    public ItemStack removeItem(int slot, int amount) {
-        ItemStack stack = ContainerHelper.removeItem(items, slot, amount);
-        if (!stack.isEmpty()) {
-            setChanged();
-        }
-        return stack;
-    }
-
-    @Override
-    public ItemStack removeItemNoUpdate(int slot) {
-        return ContainerHelper.takeItem(items, slot);
-    }
-
-    @Override
-    public void setItem(int slot, ItemStack stack) {
-        items.set(slot, stack);
-        if (stack.getCount() > getMaxStackSize()) {
-            stack.setCount(getMaxStackSize());
-        }
-        setChanged();
-    }
-
-    @Override
-    public boolean canPlaceItem(int slot, ItemStack stack) {
-        return true; // Можно положить любые предметы
-    }
-
-    @Override
-    public void clearContent() {
-        items.clear();
-        setChanged();
-    }
-
-    public void generateRandomResource() {
+    public void generateResources(int bonusItems) {
         if (level == null || level.isClientSide) return;
 
+        // ИСПРАВЛЕНО: Используем RandomSource из Level, а не создаем новый
+        ItemStack resource = tier.roll(level.getRandom(), bonusItems);
+        if (resource.isEmpty()) return;
+
         boolean generated = false;
-        ItemStack resource = ItemStack.EMPTY;
-
-        // 50% шанс на уголь, 50% на железо
-        if (random.nextBoolean()) {
-            int amount = random.nextInt(3) + 1; // 1-3
-            resource = new ItemStack(Items.COAL, amount);
-        } else {
-            int amount = random.nextInt(3) + 1; // 1-3
-            resource = new ItemStack(Items.RAW_IRON, amount);
-        }
-
-        // Пытаемся добавить в слоты
         for (int i = 0; i < items.size(); i++) {
             ItemStack slotStack = items.get(i);
             if (slotStack.isEmpty()) {
-                items.set(i, resource);
+                items.set(i, resource.copy());
                 generated = true;
                 break;
             } else if (ItemStack.isSameItem(slotStack, resource) &&
@@ -138,29 +62,74 @@ public class DreamGeneratorBlockEntity extends BaseContainerBlockEntity {
         if (generated) {
             setChanged();
             level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_ALL);
-
-            // Обновляем состояние блока
-            level.setBlock(worldPosition, getBlockState().setValue(DreamGeneratorBlock.HAS_RESOURCE, true),
+            level.setBlock(worldPosition,
+                    getBlockState().setValue(DreamGeneratorBlock.HAS_RESOURCE, true),
                     Block.UPDATE_ALL);
         }
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, DreamGeneratorBlockEntity be) {
-        // Проверяем, пуст ли инвентарь для обновления состояния блока
-        boolean hasItems = false;
-        for (ItemStack stack : be.items) {
-            if (!stack.isEmpty()) {
-                hasItems = true;
-                break;
-            }
-        }
-
+        boolean hasItems = be.items.stream().anyMatch(s -> !s.isEmpty());
         if (state.getValue(DreamGeneratorBlock.HAS_RESOURCE) != hasItems) {
             level.setBlock(pos, state.setValue(DreamGeneratorBlock.HAS_RESOURCE, hasItems), Block.UPDATE_ALL);
         }
     }
 
-    // Синхронизация с клиентом
+    @Override
+    protected Component getDefaultName() {
+        return Component.translatable("container.lostdreams.dream_generator");
+    }
+
+    @Override
+    protected NonNullList<ItemStack> getItems() { return items; }
+
+    @Override
+    protected void setItems(NonNullList<ItemStack> items) { this.items = items; }
+
+    @Override
+    protected AbstractContainerMenu createMenu(int containerId, Inventory inventory) {
+        return new DreamGeneratorMenu(containerId, inventory, this);
+    }
+
+    @Override
+    public int getContainerSize() { return SLOT_COUNT; }
+
+    @Override
+    public boolean isEmpty() {
+        return items.stream().allMatch(ItemStack::isEmpty);
+    }
+
+    @Override
+    public ItemStack getItem(int slot) { return items.get(slot); }
+
+    @Override
+    public ItemStack removeItem(int slot, int amount) {
+        ItemStack stack = ContainerHelper.removeItem(items, slot, amount);
+        if (!stack.isEmpty()) setChanged();
+        return stack;
+    }
+
+    @Override
+    public ItemStack removeItemNoUpdate(int slot) {
+        return ContainerHelper.takeItem(items, slot);
+    }
+
+    @Override
+    public void setItem(int slot, ItemStack stack) {
+        items.set(slot, stack);
+        if (stack.getCount() > getMaxStackSize()) stack.setCount(getMaxStackSize());
+        setChanged();
+    }
+
+    @Override
+    public boolean canPlaceItem(int slot, ItemStack stack) { return true; }
+
+    @Override
+    public void clearContent() {
+        items.clear();
+        setChanged();
+    }
+
     @Nullable
     @Override
     public Packet<ClientGamePacketListener> getUpdatePacket() {
@@ -174,15 +143,25 @@ public class DreamGeneratorBlockEntity extends BaseContainerBlockEntity {
         return tag;
     }
 
+    // ИСПРАВЛЕНО: Сохраняем Tier генератора
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
         ContainerHelper.saveAllItems(tag, items, registries);
+        tag.putString("GeneratorTier", this.tier.name());
     }
 
+    // ИСПРАВЛЕНО: Загружаем Tier генератора
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
         ContainerHelper.loadAllItems(tag, items, registries);
+        if (tag.contains("GeneratorTier")) {
+            try {
+                this.tier = GeneratorTier.valueOf(tag.getString("GeneratorTier"));
+            } catch (IllegalArgumentException e) {
+                this.tier = GeneratorTier.BASIC;
+            }
+        }
     }
 }

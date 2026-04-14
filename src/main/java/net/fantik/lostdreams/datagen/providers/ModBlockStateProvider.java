@@ -49,6 +49,17 @@ public class ModBlockStateProvider extends BlockStateProvider {
                         modLoc("block/dream_generator_top")    // верх
                 ).texture("particle", modLoc("block/dream_generator_side"))
         );
+        horizontalBlock(ModBlocks.DREAM_ADVANCED_GENERATOR.get(),
+                models().orientableWithBottom(
+                        "dream_advanced_generator",
+                        modLoc("block/dream_advanced_generator_side"),  // сторона
+                        modLoc("block/dream_advanced_generator_front"), // перед (без ресурсов)
+                        modLoc("block/dream_advanced_generator_bottom"), // низ
+                        modLoc("block/dream_advanced_generator_top")    // верх
+                ).texture("particle", modLoc("block/dream_advanced_generator_side"))
+        );
+
+
 
         // Duskwillow дерево
         logBlock(ModBlocks.DUSKWILLOW_LOG.get());

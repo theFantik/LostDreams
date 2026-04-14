@@ -6,6 +6,7 @@ import net.fantik.lostdreams.block.entity.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -33,13 +34,21 @@ public class DreamGeneratorBlock extends BaseEntityBlock {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final BooleanProperty HAS_RESOURCE = BooleanProperty.create("has_resource");
 
+    private final GeneratorTier tier;
+
+
     private static final VoxelShape SHAPE = Block.box(0, 0, 0, 16, 16, 16);
 
-    public DreamGeneratorBlock(BlockBehaviour.Properties properties) {
+    public DreamGeneratorBlock(BlockBehaviour.Properties properties, GeneratorTier tier) {
         super(properties);
+        this.tier = tier;
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(FACING, Direction.NORTH)
                 .setValue(HAS_RESOURCE, false));
+    }
+
+    public DreamGeneratorBlock(BlockBehaviour.Properties properties) {
+        this(properties, GeneratorTier.BASIC); // дефолт
     }
 
     @Override
@@ -51,6 +60,8 @@ public class DreamGeneratorBlock extends BaseEntityBlock {
     public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return SHAPE;
     }
+
+
 
     @Override
     public RenderShape getRenderShape(BlockState state) {
@@ -78,11 +89,19 @@ public class DreamGeneratorBlock extends BaseEntityBlock {
         return state.rotate(mirror.getRotation(state.getValue(FACING)));
     }
 
+
+
     // BlockEntity методы
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new DreamGeneratorBlockEntity(pos, state);
+        DreamGeneratorBlockEntity be = new DreamGeneratorBlockEntity(pos, state);
+        be.setTier(this.tier);
+        return be;
+    }
+
+    public GeneratorTier getTier() {
+        return tier;
     }
 
     @Nullable
@@ -123,7 +142,6 @@ public class DreamGeneratorBlock extends BaseEntityBlock {
         }
     }
 
-
     // Совместимость с воронкой
     @Override
     protected boolean hasAnalogOutputSignal(BlockState state) {
@@ -134,7 +152,6 @@ public class DreamGeneratorBlock extends BaseEntityBlock {
     protected int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
         BlockEntity be = level.getBlockEntity(pos);
         if (be instanceof DreamGeneratorBlockEntity generator) {
-            // Вычисляем сигнал вручную
             int totalItems = 0;
             int maxItems = 0;
             for (int i = 0; i < generator.getContainerSize(); i++) {
@@ -147,22 +164,15 @@ public class DreamGeneratorBlock extends BaseEntityBlock {
                 }
             }
             if (totalItems == 0) return 0;
-            return 1 + (totalItems * 14 / maxItems); // 1-15 уровень сигнала
+            return 1 + (totalItems * 14 / maxItems);
         }
         return 0;
     }
 
-    // Метод для генерации ресурсов (вызывается из события)
-    public static void generateResources(Level level, BlockPos pos) {
-        BlockEntity be = level.getBlockEntity(pos);
-        if (be instanceof DreamGeneratorBlockEntity generator) {
-            generator.generateRandomResource();
-        }
-    }
-
-    // Проверка наличия кровати над блоком
+    // ИСПРАВЛЕНО: Теперь использует тег кроватей, а не жесткую проверку класса.
+    // Мертвый метод generateResources удален за ненадобностью.
     public static boolean hasBedAbove(Level level, BlockPos pos) {
         BlockState aboveState = level.getBlockState(pos.above());
-        return aboveState.getBlock() instanceof BedBlock;
+        return aboveState.is(BlockTags.BEDS);
     }
 }
