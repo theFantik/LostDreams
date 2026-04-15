@@ -2,6 +2,7 @@ package net.fantik.lostdreams.datagen.providers;
 
 import net.fantik.lostdreams.LostDreams;
 import net.fantik.lostdreams.block.ModBlocks;
+import net.fantik.lostdreams.util.ModTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
@@ -33,6 +34,8 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 ModBlocks.DUSKWILLOW_WOOD.get().asItem(),
                 ModBlocks.STRIPPED_DUSKWILLOW_LOG.get().asItem(),
                 ModBlocks.STRIPPED_DUSKWILLOW_WOOD.get().asItem());
+
+
 
         tag(ItemTags.PLANKS).add(ModBlocks.DUSKWILLOW_PLANKS.get().asItem());
         tag(ItemTags.WOODEN_FENCES).add(ModBlocks.DUSKWILLOW_FENCE.get().asItem());

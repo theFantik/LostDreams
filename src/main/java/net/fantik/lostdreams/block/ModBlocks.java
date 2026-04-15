@@ -42,6 +42,11 @@ public class ModBlocks {
                     .strength(3f)
                     .sound(SoundType.METAL)
                     .noOcclusion(), GeneratorTier.ADVANCED));
+    public static final DeferredBlock<DreamGeneratorBlock> DREAM_ELITE_GENERATOR = registerBlock("dream_elite_generator",
+            () -> new DreamGeneratorBlock(BlockBehaviour.Properties.of()
+                    .strength(3f)
+                    .sound(SoundType.METAL)
+                    .noOcclusion(), GeneratorTier.ELITE));
 
     // -----------------------------------------------------------------------
     // Null Zone блоки

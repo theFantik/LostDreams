@@ -17,6 +17,7 @@ public class ModLanguageProvider extends LanguageProvider {
 
         add(ModBlocks.DREAM_GENERATOR.get(), "Dream Generator");
         add(ModBlocks.DREAM_ADVANCED_GENERATOR.get(), "Dream Advanced Generator");
+        add(ModBlocks.DREAM_ELITE_GENERATOR.get(), "Dream Elite Generator");
         add("container.lostdreams.dream_generator", "Dream Generator");
 
         // Items
@@ -77,9 +78,10 @@ public class ModLanguageProvider extends LanguageProvider {
         add(ModBlocks.SURREAL_RED_RANDOMITE_ORE.get(), "Red Randomite Ore");
         add(ModBlocks.SURREAL_YELLOW_RANDOMITE_ORE.get(), "Yellow Randomite Ore");
 
-        // Creative tabs
+        // Other
         add("creativetab.lostdreams.bed_items", "Bed Items");
         add("creativetab.lostdreams.dream_blocks", "Dream Blocks");
         add("creativetab.lostdreams.dream_mobs", "Dream Mobs");
+        add("message.lostdreams.sleep_warning", "Sleeping within a dream is troublesome...");
     }
 }

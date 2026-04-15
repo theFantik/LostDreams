@@ -67,6 +67,7 @@ public class ModLootTableProvider extends LootTableProvider {
             dropSelf(ModBlocks.SURREAL_GLOWCRYSTAL.get());
             dropSelf(ModBlocks.DREAM_GENERATOR.get());
             dropSelf(ModBlocks.DREAM_ADVANCED_GENERATOR.get());
+            dropSelf(ModBlocks.DREAM_ELITE_GENERATOR.get());
 
             // Duskwillow дерево
             dropSelf(ModBlocks.DUSKWILLOW_LOG.get());

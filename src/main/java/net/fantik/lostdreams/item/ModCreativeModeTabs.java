@@ -68,6 +68,7 @@ public class ModCreativeModeTabs {
                         output.accept(ModBlocks.SURREAL_PURPLE_RANDOMITE_ORE);
                         output.accept(ModBlocks.DREAM_GENERATOR);
                         output.accept(ModBlocks.DREAM_ADVANCED_GENERATOR);
+                        output.accept(ModBlocks.DREAM_ELITE_GENERATOR);
                     }).build());
 
     public static final Supplier<CreativeModeTab> DREAM_MOBS_TAB = CREATIVE_MODE_TAB.register("dream_mobs_tab",

@@ -58,6 +58,15 @@ public class ModBlockStateProvider extends BlockStateProvider {
                         modLoc("block/dream_advanced_generator_top")    // верх
                 ).texture("particle", modLoc("block/dream_advanced_generator_side"))
         );
+        horizontalBlock(ModBlocks.DREAM_ELITE_GENERATOR.get(),
+                models().orientableWithBottom(
+                        "dream_elite_generator",
+                        modLoc("block/dream_elite_generator_side"),  // сторона
+                        modLoc("block/dream_elite_generator_front"), // перед (без ресурсов)
+                        modLoc("block/dream_elite_generator_bottom"), // низ
+                        modLoc("block/dream_elite_generator_top")    // верх
+                ).texture("particle", modLoc("block/dream_elite_generator_side"))
+        );
 
 
 

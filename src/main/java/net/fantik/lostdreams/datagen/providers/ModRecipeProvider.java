@@ -3,6 +3,7 @@ package net.fantik.lostdreams.datagen.providers;
 import net.fantik.lostdreams.LostDreams;
 import net.fantik.lostdreams.block.ModBlocks;
 import net.fantik.lostdreams.item.ModItems;
+import net.fantik.lostdreams.util.ModTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
@@ -138,6 +139,17 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('S', ModItems.LUCID_ESSENCE)
                 .define('B', ModBlocks.DREAM_GENERATOR)
                 .unlockedBy("has_lucid_essence", has(ModItems.LUCID_ESSENCE))
+                .save(output);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.DREAM_ELITE_GENERATOR.get())
+                .pattern("ITI")
+                .pattern("SBS")
+                .pattern("ITI")
+                .define('I', Items.DIAMOND)
+                .define('T', ModTags.Items.KNOWLEDGE_BLOCKS)
+                .define('S', ModBlocks.SURREAL_GLOWCRYSTAL)
+                .define('B', ModBlocks.DREAM_ADVANCED_GENERATOR)
+                .unlockedBy("has_adv_generator", has(ModBlocks.DREAM_ADVANCED_GENERATOR))
                 .save(output);
 
     }

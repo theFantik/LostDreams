@@ -67,7 +67,7 @@ public class GeneratorTier {
             .build();
 
     public static final GeneratorTier ELITE = new Builder("ELITE")
-            .add(Items.DIAMOND,   20, 1, 2)
+            .add(Items.DIAMOND,   20, 1, 3)
             .add(Items.EMERALD,   15, 1, 1)
             .add(Items.RAW_GOLD,  30, 1, 3)
             .add(Items.AMETHYST_SHARD, 35, 2, 4)
