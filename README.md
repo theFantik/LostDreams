@@ -7,7 +7,7 @@ Lost Dreams
 - null zone dimension <- 60% done
 ### Tier ${\color{green}1}$ dimensions:
 - skyblock dimension <- 80% done
-- surreal asteroids dimension <- 80% done
+- surreal asteroids dimension <- 82% done
 - Giga Apartments dimension <- 15% done
 ### Tier ${\color{yellow}2}$ dimensions:
 - retrowave dimension <- 0% done
