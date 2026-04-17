@@ -12,7 +12,8 @@ public class ModBiomeSources {
     public static final DeferredRegister<MapCodec<? extends BiomeSource>> BIOME_SOURCES =
             DeferredRegister.create(Registries.BIOME_SOURCE, LostDreams.MOD_ID);
 
-
+    public static final DeferredHolder<MapCodec<? extends BiomeSource>, MapCodec<NullZoneBiomeSource>> NULL_ZONE_SOURCE =
+            BIOME_SOURCES.register("null_zone_source", () -> NullZoneBiomeSource.CODEC);
 
     public static void register(IEventBus bus) {
         BIOME_SOURCES.register(bus);

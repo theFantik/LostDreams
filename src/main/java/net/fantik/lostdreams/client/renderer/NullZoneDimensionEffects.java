@@ -3,23 +3,13 @@ package net.fantik.lostdreams.client.renderer;
 import net.minecraft.client.renderer.DimensionSpecialEffects;
 import net.minecraft.world.phys.Vec3;
 
-/**
- * Эффекты измерения Null Zone.
- *
- * Регистрируется через ClientEvents.java
- *
- * Настройки:
- * - SkyType.NONE: нет солнца и луны (как в Энде)
- * - Тёмный туман
- * - Нет облаков
- */
 public class NullZoneDimensionEffects extends DimensionSpecialEffects {
 
     public NullZoneDimensionEffects() {
         super(
                 Float.NaN,      // cloudHeight - нет облаков
                 false,          // hasGround
-                SkyType.NONE,   // skyType - НЕТ солнца и луны!
+                SkyType.NONE,   // skyType - небо рисуем сами
                 false,          // forceBrightness
                 false           // constantAmbientLight
         );
@@ -27,13 +17,17 @@ public class NullZoneDimensionEffects extends DimensionSpecialEffects {
 
     @Override
     public Vec3 getBrightnessDependentFogColor(Vec3 fogColor, float brightness) {
-        // Очень тёмный туман (почти чёрный)
-        return fogColor.multiply(0.01, 0.005, 0.02);
+        // Если хочешь, чтобы туман вообще не окрашивал мир,
+        // возвращай fogColor без изменений или слегка приглушённым.
+        // Сейчас мы сделаем его нейтральным, чтобы он не "давил" на зрение.
+        return fogColor.multiply(1.0, 1.0, 1.0);
     }
 
     @Override
     public boolean isFoggyAt(int x, int z) {
-        // Всегда туман
-        return true;
+        // ГЛАВНОЕ ИЗМЕНЕНИЕ:
+        // Ставим false. Если здесь true, Minecraft включает "густой" режим тумана
+        // (как в Незере или во время ливня), который обрезает видимость.
+        return false;
     }
 }

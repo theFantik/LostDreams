@@ -1,15 +1,11 @@
 package net.fantik.lostdreams.client.renderer;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.BufferUploader;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.blaze3d.vertex.*;
 import net.fantik.lostdreams.LostDreams;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.FogRenderer;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
@@ -18,127 +14,116 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import org.joml.Matrix4f;
 
-/**
- * Рендерит небо как в Энде — текстура натянута на большой куб (skybox).
- *
- * ============================================
- * НАСТРОЙКА ТЕКСТУРЫ
- * ============================================
- * Файл: assets/lostdreams/textures/environment/null_zone_sky.png
- * Размер: 128x128 или больше (степень двойки)
- * Текстура будет повторяться (тайл) на каждой грани куба — как в Энде.
- */
 @EventBusSubscriber(modid = LostDreams.MOD_ID, value = Dist.CLIENT)
 public class NullZoneSkyRenderer {
 
     private static final ResourceLocation SKY_TEXTURE =
-            ResourceLocation.parse("lostdreams:textures/environment/null_zone_sky.png");
+            ResourceLocation.fromNamespaceAndPath(LostDreams.MOD_ID, "textures/environment/null_zone_sky.png");
 
     private static final ResourceLocation NULL_ZONE_ID =
-            ResourceLocation.parse("lostdreams:null_zone_dim");
+            ResourceLocation.fromNamespaceAndPath(LostDreams.MOD_ID, "null_zone_dim");
 
-    // Размер куба (как в Энде)
-    private static final float SIZE = 100.0f;
+    private static VertexBuffer skyBuffer = null;
 
-    // Сколько раз текстура тайлится на каждой грани (как в Энде — 16 раз)
-    private static final float TILE = 32.0f;
+    private static void buildSky() {
+        if (skyBuffer != null) return;
+
+        skyBuffer = new VertexBuffer(VertexBuffer.Usage.STATIC);
+        Tesselator tesselator = Tesselator.getInstance();
+        BufferBuilder bufferBuilder = tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+
+        float s = 100.0F;
+        float t = 64.0F; // Тайлинг (как в Энде)
+
+        // Рисуем куб. UV координаты от 0 до t заставляют текстуру повторяться
+        // ВЕРХ
+        bufferBuilder.addVertex(-s,  s, -s).setUv(0.0F, 0.0F);
+        bufferBuilder.addVertex(-s,  s,  s).setUv(0.0F, t);
+        bufferBuilder.addVertex( s,  s,  s).setUv(t, t);
+        bufferBuilder.addVertex( s,  s, -s).setUv(t, 0.0F);
+        // НИЗ
+        bufferBuilder.addVertex(-s, -s,  s).setUv(0.0F, 0.0F);
+        bufferBuilder.addVertex(-s, -s, -s).setUv(0.0F, t);
+        bufferBuilder.addVertex( s, -s, -s).setUv(t, t);
+        bufferBuilder.addVertex( s, -s,  s).setUv(t, 0.0F);
+        // СЕВЕР
+        bufferBuilder.addVertex(-s,  s, -s).setUv(0.0F, 0.0F);
+        bufferBuilder.addVertex( s,  s, -s).setUv(t, 0.0F);
+        bufferBuilder.addVertex( s, -s, -s).setUv(t, t);
+        bufferBuilder.addVertex(-s, -s, -s).setUv(0.0F, t);
+        // ЮГ
+        bufferBuilder.addVertex( s,  s,  s).setUv(0.0F, 0.0F);
+        bufferBuilder.addVertex(-s,  s,  s).setUv(t, 0.0F);
+        bufferBuilder.addVertex(-s, -s,  s).setUv(t, t);
+        bufferBuilder.addVertex( s, -s,  s).setUv(0.0F, t);
+        // ЗАПАД
+        bufferBuilder.addVertex(-s,  s,  s).setUv(0.0F, 0.0F);
+        bufferBuilder.addVertex(-s,  s, -s).setUv(t, 0.0F);
+        bufferBuilder.addVertex(-s, -s, -s).setUv(t, t);
+        bufferBuilder.addVertex(-s, -s,  s).setUv(0.0F, t);
+        // ВОСТОК
+        bufferBuilder.addVertex( s,  s, -s).setUv(0.0F, 0.0F);
+        bufferBuilder.addVertex( s,  s,  s).setUv(t, 0.0F);
+        bufferBuilder.addVertex( s, -s,  s).setUv(t, t);
+        bufferBuilder.addVertex( s, -s, -s).setUv(0.0F, t);
+
+        skyBuffer.bind();
+        skyBuffer.upload(bufferBuilder.buildOrThrow());
+        VertexBuffer.unbind();
+    }
 
     @SubscribeEvent
-    public static void onRenderLevel(RenderLevelStageEvent event) {
-        if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_SKY) {
-            return;
-        }
+    public static void onRenderLevelStage(RenderLevelStageEvent event) {
+        if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_SKY) return;
 
         Minecraft mc = Minecraft.getInstance();
         ClientLevel level = mc.level;
 
-        if (level == null || !level.dimension().location().equals(NULL_ZONE_ID)) {
-            return;
-        }
+        if (level == null || !level.dimension().location().equals(NULL_ZONE_ID)) return;
 
-        renderEndStyleSky(event.getPoseStack());
-    }
+        buildSky();
 
-    private static void renderEndStyleSky(PoseStack poseStack) {
+        // 1. Подготовка стейта (как в примере с астероидами)
         RenderSystem.enableBlend();
+        RenderSystem.disableCull();
+        RenderSystem.disableDepthTest();
         RenderSystem.depthMask(false);
+        FogRenderer.setupNoFog();
+
+        // Устанавливаем текстурный шейдер
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderTexture(0, SKY_TEXTURE);
-        RenderSystem.setShaderColor(0.5f, 0.5f, 0.5f, 1.0f);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
-        // GL_REPEAT для тайлинга текстуры (как в Энде)
-        RenderSystem.texParameter(3553, 10242, 10497); // GL_TEXTURE_WRAP_S = GL_REPEAT
-        RenderSystem.texParameter(3553, 10243, 10497); // GL_TEXTURE_WRAP_T = GL_REPEAT
+        // Настройка повторения текстуры
+        RenderSystem.texParameter(3553, 10242, 10497); // GL_REPEAT
+        RenderSystem.texParameter(3553, 10243, 10497); // GL_REPEAT
 
-        Tesselator tesselator = Tesselator.getInstance();
-        Matrix4f matrix = poseStack.last().pose();
-        float s = SIZE;
-        float t = TILE;
+        PoseStack ps = event.getPoseStack();
+        var cam = mc.gameRenderer.getMainCamera();
 
-        // ===== ВЕРХНЯЯ ГРАНЬ =====
-        drawQuad(tesselator, matrix,
-                -s,  s, -s,  0,  0,
-                s,  s, -s,  t,  0,
-                s,  s,  s,  t,  t,
-                -s,  s,  s,  0,  t);
+        ps.pushPose();
 
-        // ===== НИЖНЯЯ ГРАНЬ =====
-        drawQuad(tesselator, matrix,
-                -s, -s,  s,  0,  0,
-                s, -s,  s,  t,  0,
-                s, -s, -s,  t,  t,
-                -s, -s, -s,  0,  t);
+        // 2. МАГИЯ СТАТИЧНОСТИ (Инверсия вращения камеры)
+        // Это заставляет куб вращаться вместе с камерой так, что текстура кажется неподвижной в мире
+        ps.mulPose(com.mojang.math.Axis.XP.rotationDegrees(cam.getXRot()));
+        ps.mulPose(com.mojang.math.Axis.YP.rotationDegrees(cam.getYRot() + 180));
 
-        // ===== СЕВЕРНАЯ ГРАНЬ (Z-) =====
-        drawQuad(tesselator, matrix,
-                -s,  s, -s,  0,  0,
-                -s, -s, -s,  0,  t,
-                s, -s, -s,  t,  t,
-                s,  s, -s,  t,  0);
+        // Если хочешь медленное вращение самого неба (как время суток), добавь это:
+        // float skyAngle = level.getTimeOfDay(event.getPartialTick().getGameTimeDeltaPartialTick(false));
+        // ps.mulPose(com.mojang.math.Axis.XP.rotationDegrees(skyAngle * 360));
 
-        // ===== ЮЖНАЯ ГРАНЬ (Z+) =====
-        drawQuad(tesselator, matrix,
-                s,  s,  s,  0,  0,
-                s, -s,  s,  0,  t,
-                -s, -s,  s,  t,  t,
-                -s,  s,  s,  t,  0);
+        Matrix4f projection = event.getProjectionMatrix();
+        skyBuffer.bind();
+        skyBuffer.drawWithShader(ps.last().pose(), projection, RenderSystem.getShader());
+        VertexBuffer.unbind();
 
-        // ===== ЗАПАДНАЯ ГРАНЬ (X-) =====
-        drawQuad(tesselator, matrix,
-                -s,  s,  s,  0,  0,
-                -s, -s,  s,  0,  t,
-                -s, -s, -s,  t,  t,
-                -s,  s, -s,  t,  0);
+        ps.popPose();
 
-        // ===== ВОСТОЧНАЯ ГРАНЬ (X+) =====
-        drawQuad(tesselator, matrix,
-                s,  s, -s,  0,  0,
-                s, -s, -s,  0,  t,
-                s, -s,  s,  t,  t,
-                s,  s,  s,  t,  0);
-
-        RenderSystem.disableBlend();
+        // 3. Возвращаем стейты назад
+        RenderSystem.enableCull();
+        RenderSystem.enableDepthTest();
         RenderSystem.depthMask(true);
-    }
-
-    /**
-     * Рисует один квад (грань куба) с UV-координатами.
-     */
-    private static void drawQuad(
-            Tesselator tesselator, Matrix4f matrix,
-            float x1, float y1, float z1, float u1, float v1,
-            float x2, float y2, float z2, float u2, float v2,
-            float x3, float y3, float z3, float u3, float v3,
-            float x4, float y4, float z4, float u4, float v4
-    ) {
-        BufferBuilder buffer = tesselator.begin(
-                VertexFormat.Mode.QUADS,
-                DefaultVertexFormat.POSITION_TEX
-        );
-        buffer.addVertex(matrix, x1, y1, z1).setUv(u1, v1);
-        buffer.addVertex(matrix, x2, y2, z2).setUv(u2, v2);
-        buffer.addVertex(matrix, x3, y3, z3).setUv(u3, v3);
-        buffer.addVertex(matrix, x4, y4, z4).setUv(u4, v4);
-        BufferUploader.drawWithShader(buffer.build());
+        RenderSystem.setShaderColor(1, 1, 1, 1);
     }
 }
