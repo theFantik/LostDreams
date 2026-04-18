@@ -7,6 +7,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.tags.ItemTags;
+import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 
@@ -46,6 +47,8 @@ public class ModItemTagProvider extends ItemTagsProvider {
         tag(ItemTags.WOODEN_STAIRS).add(ModBlocks.DUSKWILLOW_STAIRS.get().asItem());
         tag(ItemTags.LEAVES).add(ModBlocks.DUSKWILLOW_LEAVES.get().asItem());
         tag(ItemTags.SAPLINGS).add(ModBlocks.DUSKWILLOW_SAPLING.get().asItem());
+        tag(ItemTags.FLOWERS).add(ModBlocks.NULL_BLOSSOM.get().asItem());
+
         tag(ItemTags.STONE_CRAFTING_MATERIALS).add(ModBlocks.SURREAL_BLUE_ROCK.get().asItem(),
                 ModBlocks.SURREAL_RED_ROCK.get().asItem(),
                 ModBlocks.SURREAL_PURPLE_ROCK.get().asItem(),

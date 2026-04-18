@@ -3,9 +3,12 @@ package net.fantik.lostdreams.block;
 import net.fantik.lostdreams.LostDreams;
 import net.fantik.lostdreams.block.custom.DreamGeneratorBlock;
 import net.fantik.lostdreams.block.custom.GeneratorTier;
+import net.fantik.lostdreams.block.custom.NullGrassBlock;
 import net.fantik.lostdreams.item.ModItems;
 import net.fantik.lostdreams.sound.ModSounds;
 import net.fantik.lostdreams.world.tree.DuskwillowTreeGrower;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.*;
@@ -24,12 +27,17 @@ public class ModBlocks {
     public static final DeferredRegister.Blocks BLOCKS =
             DeferredRegister.createBlocks(LostDreams.MOD_ID);
 
+    // порталы
+
     public static final DeferredBlock<PortalBlock> NULL_ZONE_PORTAL = registerBlock("null_zone_portal",
             () -> new PortalBlock(BlockBehaviour.Properties.of()
                     .noCollission()
                     .lightLevel(s -> 11)
                     .strength(-1f, 3600000f)
                     .noLootTable()));
+
+
+    // функциональные блоки
 
     public static final DeferredBlock<DreamGeneratorBlock> DREAM_GENERATOR = registerBlock("dream_generator",
             () -> new DreamGeneratorBlock(BlockBehaviour.Properties.of()
@@ -73,6 +81,9 @@ public class ModBlocks {
             () -> new Block(BlockBehaviour.Properties.of()
                     .strength(2f).sound(SoundType.STONE).destroyTime(1.5f)
             ));
+
+    public static final DeferredBlock<Block> NULL_BLOSSOM = registerBlock("null_blossom",() -> new FlowerBlock(MobEffects.BLINDNESS, 5,BlockBehaviour.Properties.ofFullCopy(Blocks.RED_TULIP)));
+    public static final DeferredBlock<Block> NULL_GRASS = registerBlock("null_grass",()-> new NullGrassBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SHORT_GRASS)));
 
     // -----------------------------------------------------------------------
     // Knowledge блоки

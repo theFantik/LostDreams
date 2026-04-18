@@ -33,6 +33,6 @@
   "features": [
     [], [], [], [], [], [], [], [], [],
     ["lostdreams:void_hole_placed",
-      "lostdreams:dream_building_placed", "lostdreams:cloud_placed"]
+      "lostdreams:dream_building_placed", "lostdreams:cloud_placed", "lostdreams:null_flowers_placed", "lostdreams:null_plains_grass"]
   ]
 }

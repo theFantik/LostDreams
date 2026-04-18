@@ -49,6 +49,9 @@ public class ModItemModelProvider extends ItemModelProvider {
         withExistingParent("duskwillow_sapling", mcLoc("item/generated"))
                 .texture("layer0", modLoc("block/duskwillow_sapling"));
 
+        withExistingParent("null_blossom",mcLoc("item/generated")).texture("layer0", modLoc("block/null_blossom"));
+        withExistingParent("null_grass",mcLoc("item/generated")).texture("layer0", modLoc("block/null_grass"));
+
         // Дверь — item/generated с нижней текстурой
         withExistingParent("duskwillow_door", mcLoc("item/generated"))
                 .texture("layer0", modLoc("block/duskwillow_door_bottom"));

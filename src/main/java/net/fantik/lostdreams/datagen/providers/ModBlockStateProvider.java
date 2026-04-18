@@ -84,6 +84,14 @@ public class ModBlockStateProvider extends BlockStateProvider {
         simpleBlock(ModBlocks.DUSKWILLOW_PLANKS.get());
         simpleBlock(ModBlocks.DUSKWILLOW_LEAVES.get());
 
+        simpleBlock(ModBlocks.NULL_BLOSSOM.get(),
+                models().cross("null_blossom",
+                        blockTexture(ModBlocks.NULL_BLOSSOM.get())).renderType("cutout"));
+
+        simpleBlock(ModBlocks.NULL_GRASS.get(),
+                models().cross("null_grass",
+                        blockTexture(ModBlocks.NULL_GRASS.get())).renderType("cutout"));
+
 
 
         // Саженец

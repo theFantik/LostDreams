@@ -66,6 +66,9 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.DUSKWILLOW_BUTTON.get())
                 .add(ModBlocks.DUSKWILLOW_PRESSURE_PLATE.get());
 
+        tag(BlockTags.MUSHROOM_GROW_BLOCK)
+                .add(ModBlocks.NULL_GROUND.get());
+
         tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .add(ModBlocks.NULL_STONE.get())
                 .add(ModBlocks.NULL_BRICKS.get())

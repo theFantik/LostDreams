@@ -42,6 +42,11 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("has_stripped_wood", has(ModBlocks.STRIPPED_DUSKWILLOW_WOOD.get()))
                 .save(output, ResourceLocation.fromNamespaceAndPath(LostDreams.MOD_ID, "duskwillow_planks_from_stripped_wood"));
 
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Items.ORANGE_DYE.asItem(),1)
+                .requires(ModBlocks.NULL_BLOSSOM.get())
+                .unlockedBy("has_null_blossom",has(ModBlocks.NULL_BLOSSOM))
+                .save(output,ResourceLocation.fromNamespaceAndPath(LostDreams.MOD_ID,"orange_dye_from_null_blossom"));
+
         // Древесина
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.DUSKWILLOW_WOOD.get(), 3)
                 .pattern("##")

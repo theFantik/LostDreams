@@ -32,6 +32,8 @@ public class ModCreativeModeTabs {
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModBlocks.FEATHER_BLOCK);
                         output.accept(ModBlocks.NULL_GROUND);
+                        output.accept(ModBlocks.NULL_BLOSSOM);
+                        output.accept(ModBlocks.NULL_GRASS);
                         output.accept(ModBlocks.NULL_BRICKS);
                         output.accept(ModBlocks.NULL_CRACKED_BRICKS);
                         output.accept(ModBlocks.NULL_STONE);

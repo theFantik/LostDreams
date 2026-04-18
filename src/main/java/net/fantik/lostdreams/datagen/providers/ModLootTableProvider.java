@@ -10,7 +10,9 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.data.loot.LootTableProvider;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.flag.FeatureFlags;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
@@ -23,6 +25,7 @@ import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
 import net.minecraft.world.level.storage.loot.predicates.MatchTool;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
@@ -51,6 +54,7 @@ public class ModLootTableProvider extends LootTableProvider {
         protected void generate() {
             // Простые блоки — дропают сами себя
             dropSelf(ModBlocks.NULL_STONE.get());
+            dropSelf(ModBlocks.NULL_BLOSSOM.get());
             dropSelf(ModBlocks.NULL_BRICKS.get());
             dropSelf(ModBlocks.NULL_CRACKED_BRICKS.get());
             dropSelf(ModBlocks.NULL_GROUND.get());
@@ -102,6 +106,8 @@ public class ModLootTableProvider extends LootTableProvider {
                     ModBlocks.DUSKWILLOW_LEAVES.get(),
                     ModBlocks.DUSKWILLOW_SAPLING.get(),
                     NORMAL_LEAVES_SAPLING_CHANCES));
+
+            add(ModBlocks.NULL_GRASS.get(), noDrop());
         }
 
         protected LootTable.Builder createRandomiteDrops(Block block)
