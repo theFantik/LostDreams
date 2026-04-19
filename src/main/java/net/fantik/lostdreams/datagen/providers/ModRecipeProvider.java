@@ -42,6 +42,28 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("has_stripped_wood", has(ModBlocks.STRIPPED_DUSKWILLOW_WOOD.get()))
                 .save(output, ResourceLocation.fromNamespaceAndPath(LostDreams.MOD_ID, "duskwillow_planks_from_stripped_wood"));
 
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, ModBlocks.NULL_PLANKS.get(), 4)
+                .requires(ModBlocks.NULL_LOG.get())
+                .unlockedBy("has_log", has(ModBlocks.NULL_LOG.get()))
+                .save(output);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, ModBlocks.NULL_PLANKS.get(), 4)
+                .requires(ModBlocks.NULL_WOOD.get())
+                .unlockedBy("has_wood", has(ModBlocks.NULL_WOOD.get()))
+                .save(output, ResourceLocation.fromNamespaceAndPath(LostDreams.MOD_ID, "null_planks_from_wood"));
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, ModBlocks.NULL_PLANKS.get(), 4)
+                .requires(ModBlocks.STRIPPED_NULL_LOG.get())
+                .unlockedBy("has_stripped_log", has(ModBlocks.STRIPPED_NULL_LOG.get()))
+                .save(output, ResourceLocation.fromNamespaceAndPath(LostDreams.MOD_ID, "null_planks_from_stripped_log"));
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, ModBlocks.NULL_PLANKS.get(), 4)
+                .requires(ModBlocks.STRIPPED_NULL_WOOD.get())
+                .unlockedBy("has_stripped_wood", has(ModBlocks.STRIPPED_NULL_WOOD.get()))
+                .save(output, ResourceLocation.fromNamespaceAndPath(LostDreams.MOD_ID, "null_planks_from_stripped_wood"));
+
+        // CVETOK
+
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Items.ORANGE_DYE.asItem(),1)
                 .requires(ModBlocks.NULL_BLOSSOM.get())
                 .unlockedBy("has_null_blossom",has(ModBlocks.NULL_BLOSSOM))
@@ -62,6 +84,20 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("has_stripped_log", has(ModBlocks.STRIPPED_DUSKWILLOW_LOG.get()))
                 .save(output);
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.NULL_WOOD.get(), 3)
+                .pattern("##")
+                .pattern("##")
+                .define('#', ModBlocks.NULL_LOG.get())
+                .unlockedBy("has_log", has(ModBlocks.NULL_LOG.get()))
+                .save(output);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.STRIPPED_NULL_WOOD.get(), 3)
+                .pattern("##")
+                .pattern("##")
+                .define('#', ModBlocks.STRIPPED_NULL_LOG.get())
+                .unlockedBy("has_stripped_log", has(ModBlocks.STRIPPED_NULL_LOG.get()))
+                .save(output);
+
         // Ступеньки
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.DUSKWILLOW_STAIRS.get(), 4)
                 .pattern("#  ")
@@ -70,12 +106,24 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('#', ModBlocks.DUSKWILLOW_PLANKS.get())
                 .unlockedBy("has_planks", has(ModBlocks.DUSKWILLOW_PLANKS.get()))
                 .save(output);
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.NULL_STAIRS.get(), 4)
+                .pattern("#  ")
+                .pattern("## ")
+                .pattern("###")
+                .define('#', ModBlocks.NULL_PLANKS.get())
+                .unlockedBy("has_planks", has(ModBlocks.NULL_PLANKS.get()))
+                .save(output);
 
         // Плита
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.DUSKWILLOW_SLAB.get(), 6)
                 .pattern("###")
                 .define('#', ModBlocks.DUSKWILLOW_PLANKS.get())
                 .unlockedBy("has_planks", has(ModBlocks.DUSKWILLOW_PLANKS.get()))
+                .save(output);
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.NULL_SLAB.get(), 6)
+                .pattern("###")
+                .define('#', ModBlocks.NULL_PLANKS.get())
+                .unlockedBy("has_planks", has(ModBlocks.NULL_PLANKS.get()))
                 .save(output);
 
         // Забор
@@ -86,6 +134,13 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('S', net.minecraft.world.item.Items.STICK)
                 .unlockedBy("has_planks", has(ModBlocks.DUSKWILLOW_PLANKS.get()))
                 .save(output);
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ModBlocks.NULL_FENCE.get(), 3)
+                .pattern("#S#")
+                .pattern("#S#")
+                .define('#', ModBlocks.NULL_PLANKS.get())
+                .define('S', net.minecraft.world.item.Items.STICK)
+                .unlockedBy("has_planks", has(ModBlocks.NULL_PLANKS.get()))
+                .save(output);
 
         // Калитка
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ModBlocks.DUSKWILLOW_FENCE_GATE.get(), 1)
@@ -94,6 +149,13 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('#', ModBlocks.DUSKWILLOW_PLANKS.get())
                 .define('S', net.minecraft.world.item.Items.STICK)
                 .unlockedBy("has_planks", has(ModBlocks.DUSKWILLOW_PLANKS.get()))
+                .save(output);
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ModBlocks.NULL_FENCE_GATE.get(), 1)
+                .pattern("S#S")
+                .pattern("S#S")
+                .define('#', ModBlocks.NULL_PLANKS.get())
+                .define('S', net.minecraft.world.item.Items.STICK)
+                .unlockedBy("has_planks", has(ModBlocks.NULL_PLANKS.get()))
                 .save(output);
 
         // Дверь
@@ -104,6 +166,13 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('#', ModBlocks.DUSKWILLOW_PLANKS.get())
                 .unlockedBy("has_planks", has(ModBlocks.DUSKWILLOW_PLANKS.get()))
                 .save(output);
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ModBlocks.NULL_DOOR.get(), 3)
+                .pattern("##")
+                .pattern("##")
+                .pattern("##")
+                .define('#', ModBlocks.NULL_PLANKS.get())
+                .unlockedBy("has_planks", has(ModBlocks.NULL_PLANKS.get()))
+                .save(output);
 
         // Люк
         ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ModBlocks.DUSKWILLOW_TRAPDOOR.get(), 2)
@@ -112,11 +181,21 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('#', ModBlocks.DUSKWILLOW_PLANKS.get())
                 .unlockedBy("has_planks", has(ModBlocks.DUSKWILLOW_PLANKS.get()))
                 .save(output);
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ModBlocks.NULL_TRAPDOOR.get(), 2)
+                .pattern("###")
+                .pattern("###")
+                .define('#', ModBlocks.NULL_PLANKS.get())
+                .unlockedBy("has_planks", has(ModBlocks.NULL_PLANKS.get()))
+                .save(output);
 
         // Кнопка
         ShapelessRecipeBuilder.shapeless(RecipeCategory.REDSTONE, ModBlocks.DUSKWILLOW_BUTTON.get(), 1)
                 .requires(ModBlocks.DUSKWILLOW_PLANKS.get())
                 .unlockedBy("has_planks", has(ModBlocks.DUSKWILLOW_PLANKS.get()))
+                .save(output);
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.REDSTONE, ModBlocks.NULL_BUTTON.get(), 1)
+                .requires(ModBlocks.NULL_PLANKS.get())
+                .unlockedBy("has_planks", has(ModBlocks.NULL_PLANKS.get()))
                 .save(output);
 
         // Плита давления
@@ -125,6 +204,13 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('#', ModBlocks.DUSKWILLOW_PLANKS.get())
                 .unlockedBy("has_planks", has(ModBlocks.DUSKWILLOW_PLANKS.get()))
                 .save(output);
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ModBlocks.NULL_PRESSURE_PLATE.get(), 1)
+                .pattern("##")
+                .define('#', ModBlocks.NULL_PLANKS.get())
+                .unlockedBy("has_planks", has(ModBlocks.NULL_PLANKS.get()))
+                .save(output);
+
+        // generators
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.DREAM_GENERATOR.get())
                 .pattern("ISI")

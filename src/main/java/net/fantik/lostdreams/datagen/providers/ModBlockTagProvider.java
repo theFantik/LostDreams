@@ -24,31 +24,43 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.DUSKWILLOW_LOG.get())
                 .add(ModBlocks.DUSKWILLOW_WOOD.get())
                 .add(ModBlocks.STRIPPED_DUSKWILLOW_LOG.get())
-                .add(ModBlocks.STRIPPED_DUSKWILLOW_WOOD.get());
+                .add(ModBlocks.STRIPPED_DUSKWILLOW_WOOD.get())
+                .add(ModBlocks.NULL_LOG.get())
+                .add(ModBlocks.NULL_WOOD.get())
+                .add(ModBlocks.STRIPPED_NULL_LOG.get())
+                .add(ModBlocks.STRIPPED_NULL_WOOD.get())
+
+        ;
 
         tag(BlockTags.LOGS_THAT_BURN)
                 .add(ModBlocks.DUSKWILLOW_LOG.get())
                 .add(ModBlocks.DUSKWILLOW_WOOD.get())
                 .add(ModBlocks.STRIPPED_DUSKWILLOW_LOG.get())
-                .add(ModBlocks.STRIPPED_DUSKWILLOW_WOOD.get());
+                .add(ModBlocks.STRIPPED_DUSKWILLOW_WOOD.get())
+                .add(ModBlocks.NULL_LOG.get())
+                .add(ModBlocks.NULL_WOOD.get())
+                .add(ModBlocks.STRIPPED_NULL_LOG.get())
+                .add(ModBlocks.STRIPPED_NULL_WOOD.get())
+
+        ;
 
         // Планки
-        tag(BlockTags.PLANKS).add(ModBlocks.DUSKWILLOW_PLANKS.get());
+        tag(BlockTags.PLANKS).add(ModBlocks.DUSKWILLOW_PLANKS.get()).add(ModBlocks.NULL_PLANKS.get());
 
         // Листья
         tag(BlockTags.LEAVES).add(ModBlocks.DUSKWILLOW_LEAVES.get());
 
         // Заборы
-        tag(BlockTags.FENCES).add(ModBlocks.DUSKWILLOW_FENCE.get());
-        tag(BlockTags.WOODEN_FENCES).add(ModBlocks.DUSKWILLOW_FENCE.get());
+        tag(BlockTags.FENCES).add(ModBlocks.DUSKWILLOW_FENCE.get()).add(ModBlocks.NULL_FENCE.get());
+        tag(BlockTags.WOODEN_FENCES).add(ModBlocks.DUSKWILLOW_FENCE.get()).add(ModBlocks.NULL_FENCE.get());
 
         // Двери и люки
-        tag(BlockTags.WOODEN_DOORS).add(ModBlocks.DUSKWILLOW_DOOR.get());
-        tag(BlockTags.WOODEN_TRAPDOORS).add(ModBlocks.DUSKWILLOW_TRAPDOOR.get());
-        tag(BlockTags.WOODEN_BUTTONS).add(ModBlocks.DUSKWILLOW_BUTTON.get());
-        tag(BlockTags.WOODEN_PRESSURE_PLATES).add(ModBlocks.DUSKWILLOW_PRESSURE_PLATE.get());
-        tag(BlockTags.WOODEN_SLABS).add(ModBlocks.DUSKWILLOW_SLAB.get());
-        tag(BlockTags.WOODEN_STAIRS).add(ModBlocks.DUSKWILLOW_STAIRS.get());
+        tag(BlockTags.WOODEN_DOORS).add(ModBlocks.DUSKWILLOW_DOOR.get()).add(ModBlocks.NULL_DOOR.get());
+        tag(BlockTags.WOODEN_TRAPDOORS).add(ModBlocks.DUSKWILLOW_TRAPDOOR.get()).add(ModBlocks.NULL_TRAPDOOR.get());
+        tag(BlockTags.WOODEN_BUTTONS).add(ModBlocks.DUSKWILLOW_BUTTON.get()).add(ModBlocks.NULL_BUTTON.get());
+        tag(BlockTags.WOODEN_PRESSURE_PLATES).add(ModBlocks.DUSKWILLOW_PRESSURE_PLATE.get()).add(ModBlocks.NULL_PRESSURE_PLATE.get());
+        tag(BlockTags.WOODEN_SLABS).add(ModBlocks.DUSKWILLOW_SLAB.get()).add(ModBlocks.NULL_SLAB.get());
+        tag(BlockTags.WOODEN_STAIRS).add(ModBlocks.DUSKWILLOW_STAIRS.get()).add(ModBlocks.NULL_TRAPDOOR.get());
 
         // Mineable
         tag(BlockTags.MINEABLE_WITH_AXE)
@@ -64,7 +76,21 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.DUSKWILLOW_DOOR.get())
                 .add(ModBlocks.DUSKWILLOW_TRAPDOOR.get())
                 .add(ModBlocks.DUSKWILLOW_BUTTON.get())
-                .add(ModBlocks.DUSKWILLOW_PRESSURE_PLATE.get());
+                .add(ModBlocks.DUSKWILLOW_PRESSURE_PLATE.get())
+                .add(ModBlocks.NULL_LOG.get())
+                .add(ModBlocks.NULL_WOOD.get())
+                .add(ModBlocks.STRIPPED_NULL_LOG.get())
+                .add(ModBlocks.STRIPPED_NULL_WOOD.get())
+                .add(ModBlocks.NULL_PLANKS.get())
+                .add(ModBlocks.NULL_STAIRS.get())
+                .add(ModBlocks.NULL_SLAB.get())
+                .add(ModBlocks.NULL_FENCE.get())
+                .add(ModBlocks.NULL_FENCE_GATE.get())
+                .add(ModBlocks.NULL_DOOR.get())
+                .add(ModBlocks.NULL_TRAPDOOR.get())
+                .add(ModBlocks.NULL_BUTTON.get())
+                .add(ModBlocks.NULL_PRESSURE_PLATE.get())
+        ;
 
         tag(BlockTags.MUSHROOM_GROW_BLOCK)
                 .add(ModBlocks.NULL_GROUND.get());

@@ -93,6 +93,77 @@ public class ModBlocks {
                             .sound(SoundType.GRASS)
                             .noCollission()));
 
+    public static final DeferredBlock<RotatedPillarBlock> NULL_LOG = registerBlock("null_log",
+            () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LOG)) {
+                @Override
+                public net.minecraft.world.level.block.state.BlockState getToolModifiedState(
+                        net.minecraft.world.level.block.state.BlockState state,
+                        net.minecraft.world.item.context.UseOnContext context,
+                        net.neoforged.neoforge.common.ItemAbility itemAbility,
+                        boolean simulate) {
+                    if (itemAbility == net.neoforged.neoforge.common.ItemAbilities.AXE_STRIP) {
+                        return STRIPPED_NULL_LOG.get().defaultBlockState()
+                                .setValue(RotatedPillarBlock.AXIS, state.getValue(RotatedPillarBlock.AXIS));
+                    }
+                    return super.getToolModifiedState(state, context, itemAbility, simulate);
+                }
+            });
+
+    public static final DeferredBlock<RotatedPillarBlock> NULL_WOOD = registerBlock("null_wood",
+            () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WOOD)) {
+                @Override
+                public net.minecraft.world.level.block.state.BlockState getToolModifiedState(
+                        net.minecraft.world.level.block.state.BlockState state,
+                        net.minecraft.world.item.context.UseOnContext context,
+                        net.neoforged.neoforge.common.ItemAbility itemAbility,
+                        boolean simulate) {
+                    if (itemAbility == net.neoforged.neoforge.common.ItemAbilities.AXE_STRIP) {
+                        return STRIPPED_NULL_WOOD.get().defaultBlockState()
+                                .setValue(RotatedPillarBlock.AXIS, state.getValue(RotatedPillarBlock.AXIS));
+                    }
+                    return super.getToolModifiedState(state, context, itemAbility, simulate);
+                }
+            });
+
+    public static final DeferredBlock<RotatedPillarBlock> STRIPPED_NULL_LOG = registerBlock("stripped_null_log",
+            () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_LOG)));
+
+    public static final DeferredBlock<RotatedPillarBlock> STRIPPED_NULL_WOOD = registerBlock("stripped_null_wood",
+            () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_WOOD)));
+
+
+
+
+
+    public static final DeferredBlock<Block> NULL_PLANKS = registerBlock("null_planks",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS)));
+
+    public static final DeferredBlock<StairBlock> NULL_STAIRS = registerBlock("null_stairs",
+            () -> new StairBlock(NULL_PLANKS.get().defaultBlockState(),
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_STAIRS)));
+
+    public static final DeferredBlock<SlabBlock> NULL_SLAB = registerBlock("null_slab",
+            () -> new SlabBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SLAB)));
+
+    public static final DeferredBlock<FenceBlock> NULL_FENCE = registerBlock("null_fence",
+            () -> new FenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE)));
+
+    public static final DeferredBlock<FenceGateBlock> NULL_FENCE_GATE = registerBlock("null_fence_gate",
+            () -> new FenceGateBlock(WoodType.OAK, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE_GATE)));
+
+    public static final DeferredBlock<DoorBlock> NULL_DOOR = registerBlock("null_door",
+            () -> new DoorBlock(BlockSetType.OAK, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_DOOR)));
+
+    public static final DeferredBlock<TrapDoorBlock> NULL_TRAPDOOR = registerBlock("null_trapdoor",
+            () -> new TrapDoorBlock(BlockSetType.OAK, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_TRAPDOOR)));
+
+    public static final DeferredBlock<ButtonBlock> NULL_BUTTON = registerBlock("null_button",
+            () -> new ButtonBlock(BlockSetType.OAK, 30, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_BUTTON)));
+
+    public static final DeferredBlock<PressurePlateBlock> NULL_PRESSURE_PLATE = registerBlock("null_pressure_plate",
+            () -> new PressurePlateBlock(BlockSetType.OAK, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PRESSURE_PLATE)));
+
+
 
     // -----------------------------------------------------------------------
     // Knowledge блоки

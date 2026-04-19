@@ -47,7 +47,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add(ModBlocks.BLUE_KNOWLEDGE_BLOCK.get(), "Blue Knowledge Block");
         add(ModBlocks.GREEN_KNOWLEDGE_BLOCK.get(), "Green Knowledge Block");
 
-        // Duskwillow дерево
+        //  дерево
         add(ModBlocks.DUSKWILLOW_LOG.get(), "Duskwillow Log");
         add(ModBlocks.DUSKWILLOW_WOOD.get(), "Duskwillow Wood");
         add(ModBlocks.STRIPPED_DUSKWILLOW_LOG.get(), "Stripped Duskwillow Log");
@@ -63,6 +63,20 @@ public class ModLanguageProvider extends LanguageProvider {
         add(ModBlocks.DUSKWILLOW_TRAPDOOR.get(), "Duskwillow Trapdoor");
         add(ModBlocks.DUSKWILLOW_BUTTON.get(), "Duskwillow Button");
         add(ModBlocks.DUSKWILLOW_PRESSURE_PLATE.get(), "Duskwillow Pressure Plate");
+
+        add(ModBlocks.NULL_LOG.get(), "Null Log");
+        add(ModBlocks.NULL_WOOD.get(), "Null Wood");
+        add(ModBlocks.STRIPPED_NULL_LOG.get(), "Stripped Null Log");
+        add(ModBlocks.STRIPPED_NULL_WOOD.get(), "Stripped Null Wood");
+        add(ModBlocks.NULL_PLANKS.get(), "Null Planks");
+        add(ModBlocks.NULL_STAIRS.get(), "Null Stairs");
+        add(ModBlocks.NULL_SLAB.get(), "Null Slab");
+        add(ModBlocks.NULL_FENCE.get(), "Null Fence");
+        add(ModBlocks.NULL_FENCE_GATE.get(), "Null Fence Gate");
+        add(ModBlocks.NULL_DOOR.get(), "Null Door");
+        add(ModBlocks.NULL_TRAPDOOR.get(), "Null Trapdoor");
+        add(ModBlocks.NULL_BUTTON.get(), "Null Button");
+        add(ModBlocks.NULL_PRESSURE_PLATE.get(), "Null Pressure Plate");
 
 
         // Сюр блоки

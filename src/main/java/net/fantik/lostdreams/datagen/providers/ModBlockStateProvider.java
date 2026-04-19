@@ -71,8 +71,10 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
 
 
-        // Duskwillow дерево
+        //  дерево
         logBlock(ModBlocks.DUSKWILLOW_LOG.get());
+        logBlock(ModBlocks.NULL_LOG.get());
+        logBlock(ModBlocks.STRIPPED_NULL_LOG.get());
         logBlock(ModBlocks.STRIPPED_DUSKWILLOW_LOG.get());
         axisBlock(ModBlocks.DUSKWILLOW_WOOD.get(),
                 modLoc("block/duskwillow_log"),
@@ -80,9 +82,16 @@ public class ModBlockStateProvider extends BlockStateProvider {
         axisBlock(ModBlocks.STRIPPED_DUSKWILLOW_WOOD.get(),
                 modLoc("block/stripped_duskwillow_log"),
                 modLoc("block/stripped_duskwillow_log"));
+        axisBlock(ModBlocks.NULL_WOOD.get(),
+                modLoc("block/null_log"),
+                modLoc("block/null_log"));
+        axisBlock(ModBlocks.STRIPPED_NULL_WOOD.get(),
+                modLoc("block/stripped_null_log"),
+                modLoc("block/stripped_null_log"));
 
 
         simpleBlock(ModBlocks.DUSKWILLOW_PLANKS.get());
+        simpleBlock(ModBlocks.NULL_PLANKS.get());
         simpleBlock(ModBlocks.DUSKWILLOW_LEAVES.get());
 
         simpleBlock(ModBlocks.NULL_BLOSSOM.get(),
@@ -103,36 +112,54 @@ public class ModBlockStateProvider extends BlockStateProvider {
         // Ступеньки
         stairsBlock(ModBlocks.DUSKWILLOW_STAIRS.get(),
                 blockTexture(ModBlocks.DUSKWILLOW_PLANKS.get()));
+        stairsBlock(ModBlocks.NULL_STAIRS.get(),
+                blockTexture(ModBlocks.NULL_PLANKS.get()));
 
         // Плита
         slabBlock(ModBlocks.DUSKWILLOW_SLAB.get(),
                 blockTexture(ModBlocks.DUSKWILLOW_PLANKS.get()),
                 blockTexture(ModBlocks.DUSKWILLOW_PLANKS.get()));
+        slabBlock(ModBlocks.NULL_SLAB.get(),
+                blockTexture(ModBlocks.NULL_PLANKS.get()),
+                blockTexture(ModBlocks.NULL_PLANKS.get()));
 
         // Забор
         fenceBlock(ModBlocks.DUSKWILLOW_FENCE.get(),
                 blockTexture(ModBlocks.DUSKWILLOW_PLANKS.get()));
+        fenceBlock(ModBlocks.NULL_FENCE.get(),
+                blockTexture(ModBlocks.NULL_PLANKS.get()));
 
         // Калитка
         fenceGateBlock(ModBlocks.DUSKWILLOW_FENCE_GATE.get(),
                 blockTexture(ModBlocks.DUSKWILLOW_PLANKS.get()));
+        fenceGateBlock(ModBlocks.NULL_FENCE_GATE.get(),
+                blockTexture(ModBlocks.NULL_PLANKS.get()));
 
         // Дверь
         doorBlockWithRenderType(ModBlocks.DUSKWILLOW_DOOR.get(),
                 modLoc("block/duskwillow_door_bottom"),
                 modLoc("block/duskwillow_door_top"), "cutout");
+        doorBlockWithRenderType(ModBlocks.NULL_DOOR.get(),
+                modLoc("block/null_door_bottom"),
+                modLoc("block/null_door_top"), "cutout");
 
         // Люк
         trapdoorBlockWithRenderType(ModBlocks.DUSKWILLOW_TRAPDOOR.get(),
                 modLoc("block/duskwillow_trapdoor"), true, "cutout");
+        trapdoorBlockWithRenderType(ModBlocks.NULL_TRAPDOOR.get(),
+                modLoc("block/null_trapdoor"), true, "cutout");
 
         // Кнопка
         buttonBlock(ModBlocks.DUSKWILLOW_BUTTON.get(),
                 blockTexture(ModBlocks.DUSKWILLOW_PLANKS.get()));
+        buttonBlock(ModBlocks.NULL_BUTTON.get(),
+                blockTexture(ModBlocks.NULL_PLANKS.get()));
 
         // Плита давления
         pressurePlateBlock(ModBlocks.DUSKWILLOW_PRESSURE_PLATE.get(),
                 blockTexture(ModBlocks.DUSKWILLOW_PLANKS.get()));
+        pressurePlateBlock(ModBlocks.NULL_PRESSURE_PLATE.get(),
+                blockTexture(ModBlocks.NULL_PLANKS.get()));
 
         getVariantBuilder(ModBlocks.NULL_BERRY_BUSH.get())
                 .partialState().with(NullBerryBushBlock.AGE, 0)

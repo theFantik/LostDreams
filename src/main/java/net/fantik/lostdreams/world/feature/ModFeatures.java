@@ -25,6 +25,9 @@ public class ModFeatures {
     public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> SKYBLOCK_FLOATING_ISLANDS =
             FEATURES.register("skyblock_floating_islands", () -> new SkyBlockFloatingIslandsFeature(NoneFeatureConfiguration.CODEC));
 
+    public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> DEADN_NULL_TREE_FEATURE =
+            FEATURES.register("dead_null_tree_feature",()-> new DeadNullTreeFeature(NoneFeatureConfiguration.CODEC));
+
     public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> SURREAL_ASTEROIDS =
             FEATURES.register("surreal_asteroids", () -> new SurrealAsteroidsFeature(NoneFeatureConfiguration.CODEC));
 

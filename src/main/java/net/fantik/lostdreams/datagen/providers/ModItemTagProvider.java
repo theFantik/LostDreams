@@ -28,26 +28,37 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 ModBlocks.DUSKWILLOW_LOG.get().asItem(),
                 ModBlocks.DUSKWILLOW_WOOD.get().asItem(),
                 ModBlocks.STRIPPED_DUSKWILLOW_LOG.get().asItem(),
-                ModBlocks.STRIPPED_DUSKWILLOW_WOOD.get().asItem());
+                ModBlocks.STRIPPED_DUSKWILLOW_WOOD.get().asItem(),
+                ModBlocks.NULL_LOG.get().asItem(),
+                ModBlocks.NULL_WOOD.get().asItem(),
+                ModBlocks.STRIPPED_NULL_LOG.get().asItem(),
+                ModBlocks.STRIPPED_NULL_WOOD.get().asItem())
+
+        ;
 
         tag(ItemTags.LOGS_THAT_BURN).add(
                 ModBlocks.DUSKWILLOW_LOG.get().asItem(),
                 ModBlocks.DUSKWILLOW_WOOD.get().asItem(),
                 ModBlocks.STRIPPED_DUSKWILLOW_LOG.get().asItem(),
-                ModBlocks.STRIPPED_DUSKWILLOW_WOOD.get().asItem());
+                ModBlocks.STRIPPED_DUSKWILLOW_WOOD.get().asItem(),
+                ModBlocks.NULL_LOG.get().asItem(),
+                ModBlocks.NULL_WOOD.get().asItem(),
+                ModBlocks.STRIPPED_NULL_LOG.get().asItem(),
+                ModBlocks.STRIPPED_NULL_WOOD.get().asItem());
 
 
 
-        tag(ItemTags.PLANKS).add(ModBlocks.DUSKWILLOW_PLANKS.get().asItem());
-        tag(ItemTags.WOODEN_FENCES).add(ModBlocks.DUSKWILLOW_FENCE.get().asItem());
-        tag(ItemTags.WOODEN_DOORS).add(ModBlocks.DUSKWILLOW_DOOR.get().asItem());
-        tag(ItemTags.WOODEN_TRAPDOORS).add(ModBlocks.DUSKWILLOW_TRAPDOOR.get().asItem());
-        tag(ItemTags.WOODEN_BUTTONS).add(ModBlocks.DUSKWILLOW_BUTTON.get().asItem());
-        tag(ItemTags.WOODEN_SLABS).add(ModBlocks.DUSKWILLOW_SLAB.get().asItem());
-        tag(ItemTags.WOODEN_STAIRS).add(ModBlocks.DUSKWILLOW_STAIRS.get().asItem());
+        tag(ItemTags.PLANKS).add(ModBlocks.DUSKWILLOW_PLANKS.get().asItem(),ModBlocks.NULL_PLANKS.get().asItem());
+        tag(ItemTags.WOODEN_FENCES).add(ModBlocks.DUSKWILLOW_FENCE.get().asItem(),ModBlocks.NULL_FENCE.get().asItem());
+        tag(ItemTags.WOODEN_DOORS).add(ModBlocks.DUSKWILLOW_DOOR.get().asItem(),ModBlocks.NULL_DOOR.get().asItem());
+        tag(ItemTags.WOODEN_TRAPDOORS).add(ModBlocks.DUSKWILLOW_TRAPDOOR.get().asItem(),ModBlocks.NULL_TRAPDOOR.get().asItem());
+        tag(ItemTags.WOODEN_BUTTONS).add(ModBlocks.DUSKWILLOW_BUTTON.get().asItem(),ModBlocks.NULL_BUTTON.get().asItem());
+        tag(ItemTags.WOODEN_SLABS).add(ModBlocks.DUSKWILLOW_SLAB.get().asItem(),ModBlocks.NULL_SLAB.get().asItem());
+        tag(ItemTags.WOODEN_STAIRS).add(ModBlocks.DUSKWILLOW_STAIRS.get().asItem(),ModBlocks.NULL_STAIRS.get().asItem());
         tag(ItemTags.LEAVES).add(ModBlocks.DUSKWILLOW_LEAVES.get().asItem());
         tag(ItemTags.SAPLINGS).add(ModBlocks.DUSKWILLOW_SAPLING.get().asItem());
         tag(ItemTags.FLOWERS).add(ModBlocks.NULL_BLOSSOM.get().asItem());
+
 
         tag(ItemTags.STONE_CRAFTING_MATERIALS).add(ModBlocks.SURREAL_BLUE_ROCK.get().asItem(),
                 ModBlocks.SURREAL_RED_ROCK.get().asItem(),

@@ -35,15 +35,24 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         // Блоки — наследуют от блочной модели
         blockItem(ModBlocks.DUSKWILLOW_LOG);
+        blockItem(ModBlocks.NULL_LOG);
         blockItem(ModBlocks.DUSKWILLOW_WOOD);
+        blockItem(ModBlocks.NULL_WOOD);
         blockItem(ModBlocks.STRIPPED_DUSKWILLOW_LOG);
+        blockItem(ModBlocks.STRIPPED_NULL_LOG);
         blockItem(ModBlocks.STRIPPED_DUSKWILLOW_WOOD);
+        blockItem(ModBlocks.STRIPPED_NULL_WOOD);
         blockItem(ModBlocks.DUSKWILLOW_PLANKS);
+        blockItem(ModBlocks.NULL_PLANKS);
         blockItem(ModBlocks.DUSKWILLOW_LEAVES);
         blockItem(ModBlocks.DUSKWILLOW_STAIRS);
+        blockItem(ModBlocks.NULL_STAIRS);
         blockItem(ModBlocks.DUSKWILLOW_FENCE_GATE);
+        blockItem(ModBlocks.NULL_FENCE_GATE);
         withExistingParent("duskwillow_trapdoor", modLoc("block/duskwillow_trapdoor_bottom"));
+        withExistingParent("null_trapdoor", modLoc("block/null_trapdoor_bottom"));
         blockItem(ModBlocks.DUSKWILLOW_PRESSURE_PLATE);
+        blockItem(ModBlocks.NULL_PRESSURE_PLATE);
 
 
         // Саженец — item/generated
@@ -57,18 +66,27 @@ public class ModItemModelProvider extends ItemModelProvider {
         // Дверь — item/generated с нижней текстурой
         withExistingParent("duskwillow_door", mcLoc("item/generated"))
                 .texture("layer0", modLoc("block/duskwillow_door_bottom"));
+        withExistingParent("null_door", mcLoc("item/generated"))
+                .texture("layer0", modLoc("item/null_door_item"));
 
         // Забор — inventory модель
         withExistingParent("duskwillow_fence", mcLoc("block/fence_inventory"))
                 .texture("texture", modLoc("block/duskwillow_planks"));
+        withExistingParent("null_fence", mcLoc("block/fence_inventory"))
+                .texture("texture", modLoc("block/null_planks"));
 
         // Кнопка — inventory модель
         withExistingParent("duskwillow_button", mcLoc("block/button_inventory"))
                 .texture("texture", modLoc("block/duskwillow_planks"));
+        withExistingParent("null_button", mcLoc("block/button_inventory"))
+                .texture("texture", modLoc("block/null_planks"));
+
 
         // Плита
         withExistingParent("duskwillow_slab",
                 modLoc("block/duskwillow_slab"));
+        withExistingParent("null_slab",
+                modLoc("block/null_slab"));
 
 
 

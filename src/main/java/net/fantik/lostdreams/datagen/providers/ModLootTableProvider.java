@@ -73,7 +73,7 @@ public class ModLootTableProvider extends LootTableProvider {
             dropSelf(ModBlocks.DREAM_ADVANCED_GENERATOR.get());
             dropSelf(ModBlocks.DREAM_ELITE_GENERATOR.get());
 
-            // Duskwillow дерево
+            //  дерево
             dropSelf(ModBlocks.DUSKWILLOW_LOG.get());
             dropSelf(ModBlocks.DUSKWILLOW_WOOD.get());
             dropSelf(ModBlocks.STRIPPED_DUSKWILLOW_LOG.get());
@@ -86,6 +86,18 @@ public class ModLootTableProvider extends LootTableProvider {
             dropSelf(ModBlocks.DUSKWILLOW_PRESSURE_PLATE.get());
             dropSelf(ModBlocks.DUSKWILLOW_TRAPDOOR.get());
             dropSelf(ModBlocks.DUSKWILLOW_SAPLING.get());
+            dropSelf(ModBlocks.NULL_LOG.get());
+            dropSelf(ModBlocks.NULL_WOOD.get());
+            dropSelf(ModBlocks.STRIPPED_NULL_LOG.get());
+            dropSelf(ModBlocks.STRIPPED_NULL_WOOD.get());
+            dropSelf(ModBlocks.NULL_PLANKS.get());
+            dropSelf(ModBlocks.NULL_STAIRS.get());
+            dropSelf(ModBlocks.NULL_FENCE.get());
+            dropSelf(ModBlocks.NULL_FENCE_GATE.get());
+            dropSelf(ModBlocks.NULL_BUTTON.get());
+            dropSelf(ModBlocks.NULL_PRESSURE_PLATE.get());
+            dropSelf(ModBlocks.NULL_TRAPDOOR.get());
+
 
             // Randomite руды — случайные дропы
             add(ModBlocks.SURREAL_BLUE_RANDOMITE_ORE.get(), createRandomiteDrops(ModBlocks.SURREAL_BLUE_RANDOMITE_ORE.get()));
@@ -97,9 +109,11 @@ public class ModLootTableProvider extends LootTableProvider {
 
             // Плита — особый случай
             add(ModBlocks.DUSKWILLOW_SLAB.get(), createSlabItemTable(ModBlocks.DUSKWILLOW_SLAB.get()));
+            add(ModBlocks.NULL_SLAB.get(), createSlabItemTable(ModBlocks.NULL_SLAB.get()));
 
             // Дверь — дропает только нижняя часть
             add(ModBlocks.DUSKWILLOW_DOOR.get(), createDoorTable(ModBlocks.DUSKWILLOW_DOOR.get()));
+            add(ModBlocks.NULL_DOOR.get(), createDoorTable(ModBlocks.NULL_DOOR.get()));
 
             // Листья — саженец, палки, яблоки
             add(ModBlocks.DUSKWILLOW_LEAVES.get(), createLeavesDrops(
