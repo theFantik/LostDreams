@@ -25,6 +25,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.BUG_ANTENNA.get());
         basicItem(ModItems.LUCID_ESSENCE.get());
         basicItem(ModItems.DREAM_CATCHER.get());
+        basicItem(ModItems.NULL_BERRY.get());
 
         // Spawn eggs — используют builtin/template_spawn_egg
         withExistingParent(ModItems.NULL_BUG_SPAWN_EGG.get().toString(),
@@ -51,6 +52,7 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         withExistingParent("null_blossom",mcLoc("item/generated")).texture("layer0", modLoc("block/null_blossom"));
         withExistingParent("null_grass",mcLoc("item/generated")).texture("layer0", modLoc("block/null_grass"));
+        withExistingParent("null_berry_bush",mcLoc("item/generated")).texture("layer0", modLoc("block/null_berry_bush_stage3"));
 
         // Дверь — item/generated с нижней текстурой
         withExistingParent("duskwillow_door", mcLoc("item/generated"))
@@ -72,6 +74,7 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         // Простые блоки
         blockItem(ModBlocks.NULL_STONE);
+
         blockItem(ModBlocks.SURREAL_BLUE_ROCK);
         blockItem(ModBlocks.SURREAL_RED_ROCK);
         blockItem(ModBlocks.SURREAL_GREEN_ROCK);

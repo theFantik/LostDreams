@@ -16,18 +16,19 @@ public class ModCreativeModeTabs {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TAB =
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, LostDreams.MOD_ID);
 
-    public static final Supplier<CreativeModeTab> BED_ITEMS_TAB = CREATIVE_MODE_TAB.register("bed_items_tab",
+    public static final Supplier<CreativeModeTab> DREAM_ITEMS_TAB = CREATIVE_MODE_TAB.register("dream_items_tab",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.PILLOW.get()))
-                    .title(Component.translatable("creativetab.lostdreams.bed_items"))
+                    .title(Component.translatable("creativetab.lostdreams.dream_items"))
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModItems.PILLOW);
                         output.accept(ModItems.NULL_PILLOW);
                         output.accept(ModItems.DREAM_CATCHER);
+                        output.accept(ModItems.NULL_BERRY);
                     }).build());
 
     public static final Supplier<CreativeModeTab> DREAM_BLOCK_TAB = CREATIVE_MODE_TAB.register("dream_blocks_tab",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModBlocks.FEATHER_BLOCK))
-                    .withTabsBefore(ResourceLocation.fromNamespaceAndPath(LostDreams.MOD_ID, "bed_items_tab"))
+                    .withTabsBefore(ResourceLocation.fromNamespaceAndPath(LostDreams.MOD_ID, "dream_items_tab"))
                     .title(Component.translatable("creativetab.lostdreams.dream_blocks"))
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModBlocks.FEATHER_BLOCK);

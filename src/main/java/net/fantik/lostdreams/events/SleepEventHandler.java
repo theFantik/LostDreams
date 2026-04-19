@@ -85,7 +85,7 @@ public class SleepEventHandler {
 
         if ((headBE != null && headBE.getPersistentData().contains(CURSE_TAG)) ||
                 (footBE != null && footBE.getPersistentData().contains(CURSE_TAG))) {
-            player.displayClientMessage(Component.literal("§cThis bed is already cursed!"), true);
+            player.displayClientMessage(Component.translatable("message.lostdreams.curse_warning").withStyle(style -> style.withColor(0xC82323)), true);
             return;
         }
 

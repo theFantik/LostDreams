@@ -69,6 +69,9 @@ public class ModBlockTagProvider extends BlockTagsProvider {
         tag(BlockTags.MUSHROOM_GROW_BLOCK)
                 .add(ModBlocks.NULL_GROUND.get());
 
+        tag(BlockTags.BEE_GROWABLES)
+                .add(ModBlocks.NULL_BERRY_BUSH.get());
+
         tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .add(ModBlocks.NULL_STONE.get())
                 .add(ModBlocks.NULL_BRICKS.get())

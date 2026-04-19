@@ -3,6 +3,7 @@ package net.fantik.lostdreams.block;
 import net.fantik.lostdreams.LostDreams;
 import net.fantik.lostdreams.block.custom.DreamGeneratorBlock;
 import net.fantik.lostdreams.block.custom.GeneratorTier;
+import net.fantik.lostdreams.block.custom.NullBerryBushBlock;
 import net.fantik.lostdreams.block.custom.NullGrassBlock;
 import net.fantik.lostdreams.item.ModItems;
 import net.fantik.lostdreams.sound.ModSounds;
@@ -84,6 +85,14 @@ public class ModBlocks {
 
     public static final DeferredBlock<Block> NULL_BLOSSOM = registerBlock("null_blossom",() -> new FlowerBlock(MobEffects.BLINDNESS, 5,BlockBehaviour.Properties.ofFullCopy(Blocks.RED_TULIP)));
     public static final DeferredBlock<Block> NULL_GRASS = registerBlock("null_grass",()-> new NullGrassBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SHORT_GRASS)));
+    // В секцию Null Zone блоки
+    public static final DeferredBlock<NullBerryBushBlock> NULL_BERRY_BUSH =
+            registerBlock("null_berry_bush",
+                    () -> new NullBerryBushBlock(BlockBehaviour.Properties
+                            .ofFullCopy(Blocks.SWEET_BERRY_BUSH)
+                            .sound(SoundType.GRASS)
+                            .noCollission()));
+
 
     // -----------------------------------------------------------------------
     // Knowledge блоки

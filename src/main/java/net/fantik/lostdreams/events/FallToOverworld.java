@@ -26,7 +26,7 @@ public class FallToOverworld {
     @SubscribeEvent
     public static void onPlayerTick(PlayerTickEvent.Post event) {
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
-        if (!NullZoneDimension.isNullZone(player.level()) && !SkyBlockDimension.isSkyBlock(player.level()) && !SurrealAsteroidsDimension.isSurrealAsteroids(player.level()) && !ApartmentsDimension.isApartments(player.level())) return;
+        if (!NullZoneDimension.isNullZone(player.level()) && !SurrealAsteroidsDimension.isSurrealAsteroids(player.level()) && !ApartmentsDimension.isApartments(player.level())) return;
         if (player.getY() >= FALL_THRESHOLD) return;
 
         MinecraftServer server = player.getServer();

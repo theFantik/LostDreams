@@ -21,6 +21,8 @@
   "block.lostdreams.null_bricks": "Нулевые кирпичи",
   "block.lostdreams.null_cracked_bricks": "Потрескавшиеся нулевые кирпичи",
   "block.lostdreams.null_ground": "Нулевая почва",
+  "block.lostdreams.null_berry_bush": "Куст нулевой ягоды",
+  "block.lostdreams.null_blossom": "Нулевой цветок",
   "block.lostdreams.null_stone": "Нулевой камень",
   "block.lostdreams.null_zone_portal": "Портал в Нулевую зону",
   "block.lostdreams.pink_knowledge_block": "Розовый блок знаний",
@@ -40,7 +42,7 @@
   "block.lostdreams.surreal_yellow_randomite_ore": "Жёлтая руда рандомита",
   "block.lostdreams.surreal_yellow_rock": "Сюрреалистичный жёлтый камень",
   "container.lostdreams.dream_generator": "Генератор снов",
-  "creativetab.lostdreams.bed_items": "Предметы для сна",
+  "creativetab.lostdreams.dream_items": "Предметы сна",
   "creativetab.lostdreams.dream_blocks": "Блоки снов",
   "creativetab.lostdreams.dream_mobs": "Существа снов",
   "item.lostdreams.bug_antenna": "Усик нулевого жука",
@@ -50,5 +52,7 @@
   "item.lostdreams.null_bug_spawn_egg": "Яйцо призыва нулевого жука",
   "item.lostdreams.null_pillow": "Нулевая подушка",
   "item.lostdreams.pillow": "Подушка",
-  "message.lostdreams.sleep_warning": "Сон во сне проблематичен..."
+  "item.lostdreams.null_berry": "Нулевая ягода",
+  "message.lostdreams.sleep_warning": "Сон во сне проблематичен...",
+  "message.lostdreams.curse_warning": "Эта кровать уже проклята"
 }

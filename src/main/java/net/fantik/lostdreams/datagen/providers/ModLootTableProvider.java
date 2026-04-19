@@ -108,6 +108,7 @@ public class ModLootTableProvider extends LootTableProvider {
                     NORMAL_LEAVES_SAPLING_CHANCES));
 
             add(ModBlocks.NULL_GRASS.get(), noDrop());
+            add(ModBlocks.NULL_BERRY_BUSH.get(), noDrop());
         }
 
         protected LootTable.Builder createRandomiteDrops(Block block)

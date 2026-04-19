@@ -3,6 +3,7 @@ package net.fantik.lostdreams.datagen.providers;
 import net.fantik.lostdreams.LostDreams;
 import net.fantik.lostdreams.block.ModBlocks;
 import net.fantik.lostdreams.block.PortalBlock;
+import net.fantik.lostdreams.block.custom.NullBerryBushBlock;
 import net.minecraft.core.Direction;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.block.*;
@@ -133,6 +134,28 @@ public class ModBlockStateProvider extends BlockStateProvider {
         pressurePlateBlock(ModBlocks.DUSKWILLOW_PRESSURE_PLATE.get(),
                 blockTexture(ModBlocks.DUSKWILLOW_PLANKS.get()));
 
+        getVariantBuilder(ModBlocks.NULL_BERRY_BUSH.get())
+                .partialState().with(NullBerryBushBlock.AGE, 0)
+                .modelForState().modelFile(
+                        models().cross("null_berry_bush_stage0",
+                                        modLoc("block/null_berry_bush_stage0"))
+                                .renderType("cutout")).addModel()
+                .partialState().with(NullBerryBushBlock.AGE, 1)
+                .modelForState().modelFile(
+                        models().cross("null_berry_bush_stage1",
+                                        modLoc("block/null_berry_bush_stage1"))
+                                .renderType("cutout")).addModel()
+                .partialState().with(NullBerryBushBlock.AGE, 2)
+                .modelForState().modelFile(
+                        models().cross("null_berry_bush_stage2",
+                                        modLoc("block/null_berry_bush_stage2"))
+                                .renderType("cutout")).addModel()
+                .partialState().with(NullBerryBushBlock.AGE, 3)
+                .modelForState().modelFile(
+                        models().cross("null_berry_bush_stage3",
+                                        modLoc("block/null_berry_bush_stage3"))
+                                .renderType("cutout")).addModel();
+
         // Для каждого портал-блока
         getVariantBuilder(ModBlocks.NULL_ZONE_PORTAL.get())
                 .partialState().with(PortalBlock.AXIS, Direction.Axis.X)
@@ -141,5 +164,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
                 .partialState().with(PortalBlock.AXIS, Direction.Axis.Z)
                 .modelForState().modelFile(models().getExistingFile(
                         modLoc("block/null_zone_portal_z"))).addModel();
+
+
     }
 }
