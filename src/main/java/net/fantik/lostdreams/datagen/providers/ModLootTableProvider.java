@@ -92,6 +92,7 @@ public class ModLootTableProvider extends LootTableProvider {
             dropSelf(ModBlocks.STRIPPED_NULL_WOOD.get());
             dropSelf(ModBlocks.NULL_PLANKS.get());
             dropSelf(ModBlocks.NULL_STAIRS.get());
+            dropSelf(ModBlocks.NULL_STONE_STAIRS.get());
             dropSelf(ModBlocks.NULL_FENCE.get());
             dropSelf(ModBlocks.NULL_FENCE_GATE.get());
             dropSelf(ModBlocks.NULL_BUTTON.get());
@@ -110,6 +111,7 @@ public class ModLootTableProvider extends LootTableProvider {
             // Плита — особый случай
             add(ModBlocks.DUSKWILLOW_SLAB.get(), createSlabItemTable(ModBlocks.DUSKWILLOW_SLAB.get()));
             add(ModBlocks.NULL_SLAB.get(), createSlabItemTable(ModBlocks.NULL_SLAB.get()));
+            add(ModBlocks.NULL_STONE_SLAB.get(), createSlabItemTable(ModBlocks.NULL_STONE_SLAB.get()));
 
             // Дверь — дропает только нижняя часть
             add(ModBlocks.DUSKWILLOW_DOOR.get(), createDoorTable(ModBlocks.DUSKWILLOW_DOOR.get()));

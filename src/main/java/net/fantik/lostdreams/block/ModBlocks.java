@@ -73,6 +73,11 @@ public class ModBlocks {
     public static final DeferredBlock<Block> NULL_STONE = registerBlock("null_stone",
             () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
 
+    public static final DeferredBlock<SlabBlock> NULL_STONE_SLAB = registerBlock("null_stone_slab", ()-> new SlabBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE_SLAB)));
+    public static final DeferredBlock<StairBlock> NULL_STONE_STAIRS = registerBlock("null_stone_stairs",
+            () -> new StairBlock(NULL_STONE.get().defaultBlockState(),
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.STONE_STAIRS)));
+
     public static final DeferredBlock<Block> NULL_BRICKS = registerBlock("null_bricks",
             () -> new Block(BlockBehaviour.Properties.of()
                     .strength(3f).sound(SoundType.STONE).destroyTime(1.5f)

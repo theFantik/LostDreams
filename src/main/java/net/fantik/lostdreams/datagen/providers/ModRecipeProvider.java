@@ -113,6 +113,13 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('#', ModBlocks.NULL_PLANKS.get())
                 .unlockedBy("has_planks", has(ModBlocks.NULL_PLANKS.get()))
                 .save(output);
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.NULL_STONE_STAIRS.get(), 4)
+                .pattern("#  ")
+                .pattern("## ")
+                .pattern("###")
+                .define('#', ModBlocks.NULL_STONE.get())
+                .unlockedBy("has_stone", has(ModBlocks.NULL_STONE.get()))
+                .save(output);
 
         // Плита
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.DUSKWILLOW_SLAB.get(), 6)
@@ -124,6 +131,11 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern("###")
                 .define('#', ModBlocks.NULL_PLANKS.get())
                 .unlockedBy("has_planks", has(ModBlocks.NULL_PLANKS.get()))
+                .save(output);
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.NULL_STONE_SLAB.get(), 6)
+                .pattern("###")
+                .define('#', ModBlocks.NULL_STONE.get())
+                .unlockedBy("has_stone", has(ModBlocks.NULL_STONE.get()))
                 .save(output);
 
         // Забор

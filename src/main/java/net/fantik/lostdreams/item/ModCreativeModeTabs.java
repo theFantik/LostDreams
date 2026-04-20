@@ -38,6 +38,8 @@ public class ModCreativeModeTabs {
                         output.accept(ModBlocks.NULL_BRICKS);
                         output.accept(ModBlocks.NULL_CRACKED_BRICKS);
                         output.accept(ModBlocks.NULL_STONE);
+                        output.accept(ModBlocks.NULL_STONE_SLAB);
+                        output.accept(ModBlocks.NULL_STONE_STAIRS);
                         output.accept(ModBlocks.NULL_DOOR);
                         output.accept(ModBlocks.NULL_BUTTON);
                         output.accept(ModBlocks.NULL_FENCE);

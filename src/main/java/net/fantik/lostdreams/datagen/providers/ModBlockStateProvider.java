@@ -114,6 +114,8 @@ public class ModBlockStateProvider extends BlockStateProvider {
                 blockTexture(ModBlocks.DUSKWILLOW_PLANKS.get()));
         stairsBlock(ModBlocks.NULL_STAIRS.get(),
                 blockTexture(ModBlocks.NULL_PLANKS.get()));
+        stairsBlock(ModBlocks.NULL_STONE_STAIRS.get(),
+                blockTexture(ModBlocks.NULL_STONE.get()));
 
         // Плита
         slabBlock(ModBlocks.DUSKWILLOW_SLAB.get(),
@@ -122,6 +124,10 @@ public class ModBlockStateProvider extends BlockStateProvider {
         slabBlock(ModBlocks.NULL_SLAB.get(),
                 blockTexture(ModBlocks.NULL_PLANKS.get()),
                 blockTexture(ModBlocks.NULL_PLANKS.get()));
+        slabBlock(ModBlocks.NULL_STONE_SLAB.get(),
+                blockTexture(ModBlocks.NULL_STONE.get()),
+                blockTexture(ModBlocks.NULL_STONE.get()));
+
 
         // Забор
         fenceBlock(ModBlocks.DUSKWILLOW_FENCE.get(),

@@ -34,6 +34,8 @@ public class ModLanguageProvider extends LanguageProvider {
         add(ModBlocks.FEATHER_BLOCK.get(), "Feather Block");
         add(ModBlocks.NULL_GROUND.get(), "Null Ground");
         add(ModBlocks.NULL_STONE.get(), "Null Stone");
+        add(ModBlocks.NULL_STONE_STAIRS.get(), "Null Stone Stairs");
+        add(ModBlocks.NULL_STONE_SLAB.get(), "Null Stone Slab");
         add(ModBlocks.NULL_BRICKS.get(), "Null Bricks");
         add(ModBlocks.NULL_CRACKED_BRICKS.get(), "Null Cracked Bricks");
         add(ModBlocks.NULL_BLOSSOM.get(),"Null Blossom");

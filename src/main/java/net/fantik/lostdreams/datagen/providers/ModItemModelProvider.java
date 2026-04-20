@@ -47,6 +47,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         blockItem(ModBlocks.DUSKWILLOW_LEAVES);
         blockItem(ModBlocks.DUSKWILLOW_STAIRS);
         blockItem(ModBlocks.NULL_STAIRS);
+        blockItem(ModBlocks.NULL_STONE_STAIRS);
         blockItem(ModBlocks.DUSKWILLOW_FENCE_GATE);
         blockItem(ModBlocks.NULL_FENCE_GATE);
         withExistingParent("duskwillow_trapdoor", modLoc("block/duskwillow_trapdoor_bottom"));
@@ -87,6 +88,8 @@ public class ModItemModelProvider extends ItemModelProvider {
                 modLoc("block/duskwillow_slab"));
         withExistingParent("null_slab",
                 modLoc("block/null_slab"));
+        withExistingParent("null_stone_slab",
+                modLoc("block/null_stone_slab"));
 
 
 
