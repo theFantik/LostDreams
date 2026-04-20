@@ -4,6 +4,7 @@ import net.fantik.lostdreams.LostDreams;
 import net.fantik.lostdreams.block.ModBlocks;
 import net.fantik.lostdreams.block.PortalBlock;
 import net.fantik.lostdreams.block.custom.NullBerryBushBlock;
+import net.fantik.lostdreams.block.custom.NullCropBlock;
 import net.minecraft.core.Direction;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.block.*;
@@ -187,6 +188,28 @@ public class ModBlockStateProvider extends BlockStateProvider {
                 .modelForState().modelFile(
                         models().cross("null_berry_bush_stage3",
                                         modLoc("block/null_berry_bush_stage3"))
+                                .renderType("cutout")).addModel();
+
+        getVariantBuilder(ModBlocks.NULL_CROP.get())
+                .partialState().with(NullCropBlock.AGE, 0)
+                .modelForState().modelFile(
+                        models().cross("null_crop_stage0",
+                                        modLoc("block/null_crop_stage0"))
+                                .renderType("cutout")).addModel()
+                .partialState().with(NullCropBlock.AGE, 1)
+                .modelForState().modelFile(
+                        models().cross("null_crop_stage1",
+                                        modLoc("block/null_crop_stage1"))
+                                .renderType("cutout")).addModel()
+                .partialState().with(NullCropBlock.AGE, 2)
+                .modelForState().modelFile(
+                        models().cross("null_crop_stage2",
+                                        modLoc("block/null_crop_stage2"))
+                                .renderType("cutout")).addModel()
+                .partialState().with(NullCropBlock.AGE, 3)
+                .modelForState().modelFile(
+                        models().cross("null_crop_stage3",
+                                        modLoc("block/null_crop_stage3"))
                                 .renderType("cutout")).addModel();
 
         // Для каждого портал-блока

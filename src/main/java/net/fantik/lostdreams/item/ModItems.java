@@ -4,6 +4,7 @@ import net.fantik.lostdreams.LostDreams;
 import net.fantik.lostdreams.block.ModBlocks;
 import net.fantik.lostdreams.entity.ModEntities;
 import net.fantik.lostdreams.item.custom.NullBerryItem;
+import net.fantik.lostdreams.item.custom.NullSeedItem;
 import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.*;
 import net.neoforged.bus.api.IEventBus;
@@ -43,6 +44,13 @@ public class ModItems {
     public static final DeferredItem<Item> NULL_BERRY =
             ITEMS.register("null_berry",
                     () -> new NullBerryItem(new Item.Properties()));
+
+
+
+    public static final DeferredItem<Item> NULL_SEED =
+            ITEMS.register("null_seed",
+                    () -> new NullSeedItem(new Item.Properties()));
+
 
 
 

@@ -24,6 +24,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add(ModItems.PILLOW.get(), "Pillow");
         add(ModItems.NULL_PILLOW.get(), "Null Pillow");
         add(ModItems.NULL_BERRY.get(), "Null Berry");
+        add(ModItems.NULL_SEED.get(), "Null Seed");
         add(ModItems.BUG_ANTENNA.get(), "Null Bug Antenna");
         add(ModItems.LUCID_ESSENCE.get(), "Lucid Essence");
         add(ModItems.DREAM_CATCHER.get(), "Dream Catcher");
@@ -41,6 +42,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add(ModBlocks.NULL_BLOSSOM.get(),"Null Blossom");
         add(ModBlocks.NULL_GRASS.get(),"Null Grass");
         add(ModBlocks.NULL_BERRY_BUSH.get(),"Null Berry Bush");
+        add(ModBlocks.NULL_CROP.get(),"Null Crop");
 
         add(ModBlocks.NULL_ZONE_PORTAL.get(), "Null Zone Portal");
 
@@ -104,5 +106,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("creativetab.lostdreams.dream_mobs", "Dream Mobs");
         add("message.lostdreams.sleep_warning", "Sleeping within a dream is troublesome...");
         add("message.lostdreams.curse_warning", "This bed is already cursed");
+        add("entity.lostdreams.null_bug","Null Bug");
+        add("entity.lostdreams.lucid_waste","Lucid Waste");
     }
 }

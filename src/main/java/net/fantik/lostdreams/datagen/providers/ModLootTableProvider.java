@@ -125,6 +125,7 @@ public class ModLootTableProvider extends LootTableProvider {
 
             add(ModBlocks.NULL_GRASS.get(), noDrop());
             add(ModBlocks.NULL_BERRY_BUSH.get(), noDrop());
+            add(ModBlocks.NULL_CROP.get(), noDrop());
         }
 
         protected LootTable.Builder createRandomiteDrops(Block block)

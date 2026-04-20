@@ -1,10 +1,7 @@
 package net.fantik.lostdreams.block;
 
 import net.fantik.lostdreams.LostDreams;
-import net.fantik.lostdreams.block.custom.DreamGeneratorBlock;
-import net.fantik.lostdreams.block.custom.GeneratorTier;
-import net.fantik.lostdreams.block.custom.NullBerryBushBlock;
-import net.fantik.lostdreams.block.custom.NullGrassBlock;
+import net.fantik.lostdreams.block.custom.*;
 import net.fantik.lostdreams.item.ModItems;
 import net.fantik.lostdreams.sound.ModSounds;
 import net.fantik.lostdreams.world.tree.DuskwillowTreeGrower;
@@ -90,13 +87,24 @@ public class ModBlocks {
 
     public static final DeferredBlock<Block> NULL_BLOSSOM = registerBlock("null_blossom",() -> new FlowerBlock(MobEffects.BLINDNESS, 5,BlockBehaviour.Properties.ofFullCopy(Blocks.RED_TULIP)));
     public static final DeferredBlock<Block> NULL_GRASS = registerBlock("null_grass",()-> new NullGrassBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SHORT_GRASS)));
-    // В секцию Null Zone блоки
+
     public static final DeferredBlock<NullBerryBushBlock> NULL_BERRY_BUSH =
             registerBlock("null_berry_bush",
                     () -> new NullBerryBushBlock(BlockBehaviour.Properties
                             .ofFullCopy(Blocks.SWEET_BERRY_BUSH)
                             .sound(SoundType.GRASS)
                             .noCollission()));
+
+    // Замени registerBlock на прямую регистрацию
+    public static final DeferredBlock<NullCropBlock> NULL_CROP =
+            BLOCKS.register("null_crop",
+                    () -> new NullCropBlock(BlockBehaviour.Properties.of()
+                            .noCollission()
+                            .randomTicks()
+                            .instabreak()
+                            .sound(SoundType.GRASS)
+                            .pushReaction(net.minecraft.world.level.material.PushReaction.DESTROY)));
+
 
     public static final DeferredBlock<RotatedPillarBlock> NULL_LOG = registerBlock("null_log",
             () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LOG)) {

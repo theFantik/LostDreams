@@ -26,6 +26,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.LUCID_ESSENCE.get());
         basicItem(ModItems.DREAM_CATCHER.get());
         basicItem(ModItems.NULL_BERRY.get());
+        basicItem(ModItems.NULL_SEED.get());
 
         // Spawn eggs — используют builtin/template_spawn_egg
         withExistingParent(ModItems.NULL_BUG_SPAWN_EGG.get().toString(),
