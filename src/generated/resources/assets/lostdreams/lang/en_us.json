@@ -58,6 +58,8 @@
   "block.lostdreams.surreal_red_rock": "Surreal Red Rock",
   "block.lostdreams.surreal_yellow_randomite_ore": "Yellow Randomite Ore",
   "block.lostdreams.surreal_yellow_rock": "Surreal Yellow Rock",
+  "block.lostdreams.zircon_ore": "Zircon Ore",
+  "block.lostdreams.zircon_torch": "Zircon Torch",
   "container.lostdreams.dream_generator": "Dream Generator",
   "creativetab.lostdreams.dream_blocks": "Dream Blocks",
   "creativetab.lostdreams.dream_items": "Dream Items",
@@ -73,6 +75,8 @@
   "item.lostdreams.null_pillow": "Null Pillow",
   "item.lostdreams.null_seed": "Null Seed",
   "item.lostdreams.pillow": "Pillow",
+  "item.lostdreams.zircon": "Zircon",
+  "item.lostdreams.zircon_fertilizer": "Zircon Fertilizer",
   "message.lostdreams.curse_warning": "This bed is already cursed",
   "message.lostdreams.sleep_warning": "Sleeping within a dream is troublesome..."
 }

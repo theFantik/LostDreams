@@ -8,7 +8,9 @@ import net.fantik.lostdreams.block.custom.NullCropBlock;
 import net.minecraft.core.Direction;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
+import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 public class ModBlockStateProvider extends BlockStateProvider {
@@ -220,6 +222,21 @@ public class ModBlockStateProvider extends BlockStateProvider {
                 .partialState().with(PortalBlock.AXIS, Direction.Axis.Z)
                 .modelForState().modelFile(models().getExistingFile(
                         modLoc("block/null_zone_portal_z"))).addModel();
+
+        // В registerStatesAndModels()
+
+// Цирконовая руда
+        simpleBlock(ModBlocks.ZIRCON_ORE.get());
+
+// Факел (стоячий)
+        simpleBlock(ModBlocks.ZIRCON_TORCH.get(),
+                models().torch("zircon_torch",
+                                modLoc("block/zircon_torch"))
+                        .renderType("cutout"));
+
+
+
+
 
 
     }

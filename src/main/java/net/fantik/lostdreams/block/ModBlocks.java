@@ -3,6 +3,7 @@ package net.fantik.lostdreams.block;
 import net.fantik.lostdreams.LostDreams;
 import net.fantik.lostdreams.block.custom.*;
 import net.fantik.lostdreams.item.ModItems;
+import net.fantik.lostdreams.particle.ModParticles;
 import net.fantik.lostdreams.sound.ModSounds;
 import net.fantik.lostdreams.world.tree.DuskwillowTreeGrower;
 import net.minecraft.world.effect.MobEffect;
@@ -104,6 +105,28 @@ public class ModBlocks {
                             .instabreak()
                             .sound(SoundType.GRASS)
                             .pushReaction(net.minecraft.world.level.material.PushReaction.DESTROY)));
+
+    public static final DeferredBlock<XpDropsBlock> ZIRCON_ORE =
+            registerBlock("zircon_ore",
+                    () -> new XpDropsBlock(BlockBehaviour.Properties
+                            .ofFullCopy(Blocks.COAL_ORE)
+                            ));
+
+    public static final DeferredBlock<ZirconTorchBlock> ZIRCON_TORCH =
+            BLOCKS.register("zircon_torch",
+                    () -> new ZirconTorchBlock(BlockBehaviour.Properties
+                            .of()
+                            .noCollission()
+                            .instabreak()
+                            .lightLevel(s -> 14)
+                            .sound(SoundType.WOOD)));
+
+    public static final DeferredBlock<ZirconWallTorchBlock> ZIRCON_WALL_TORCH =
+            BLOCKS.register("zircon_wall_torch",
+                    () -> new ZirconWallTorchBlock(
+                            ModParticles.NULL_PARTICLE,
+                            BlockBehaviour.Properties.ofFullCopy(Blocks.WALL_TORCH).lootFrom(ZIRCON_TORCH)
+                    ));
 
 
     public static final DeferredBlock<RotatedPillarBlock> NULL_LOG = registerBlock("null_log",

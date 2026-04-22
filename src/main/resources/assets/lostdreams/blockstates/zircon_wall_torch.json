@@ -1,0 +1,1 @@
+{ "variants": { "facing=east": { "model": "lostdreams:block/zircon_wall_torch" }, "facing=north": { "model": "lostdreams:block/zircon_wall_torch", "y": 270 }, "facing=south": { "model": "lostdreams:block/zircon_wall_torch", "y": 90 }, "facing=west": { "model": "lostdreams:block/zircon_wall_torch", "y": 180 } } }

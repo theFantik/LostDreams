@@ -100,6 +100,7 @@ public class ModBlockTagProvider extends BlockTagsProvider {
 
         tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .add(ModBlocks.NULL_STONE.get())
+                .add(ModBlocks.ZIRCON_ORE.get())
                 .add(ModBlocks.NULL_BRICKS.get())
                 .add(ModBlocks.NULL_CRACKED_BRICKS.get())
                 .add(ModBlocks.SURREAL_RED_ROCK.get())

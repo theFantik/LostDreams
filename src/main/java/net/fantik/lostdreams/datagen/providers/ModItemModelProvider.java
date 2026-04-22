@@ -27,6 +27,12 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.DREAM_CATCHER.get());
         basicItem(ModItems.NULL_BERRY.get());
         basicItem(ModItems.NULL_SEED.get());
+        basicItem(ModItems.ZIRCON.get());
+        basicItem(ModItems.ZIRCON_FERTILIZER.get());
+
+
+        withExistingParent("zircon_torch",mcLoc("item/generated")).texture("layer0", modLoc("block/zircon_torch"));
+
 
         // Spawn eggs — используют builtin/template_spawn_egg
         withExistingParent(ModItems.NULL_BUG_SPAWN_EGG.get().toString(),
@@ -55,6 +61,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         withExistingParent("null_trapdoor", modLoc("block/null_trapdoor_bottom"));
         blockItem(ModBlocks.DUSKWILLOW_PRESSURE_PLATE);
         blockItem(ModBlocks.NULL_PRESSURE_PLATE);
+        blockItem(ModBlocks.ZIRCON_ORE);
 
 
         // Саженец — item/generated

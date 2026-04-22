@@ -36,6 +36,8 @@ public class ModItemTagProvider extends ItemTagsProvider {
 
         ;
 
+
+
         tag(ItemTags.LOGS_THAT_BURN).add(
                 ModBlocks.DUSKWILLOW_LOG.get().asItem(),
                 ModBlocks.DUSKWILLOW_WOOD.get().asItem(),
@@ -66,18 +68,14 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 ModBlocks.SURREAL_LIGHTBLUE_ROCK.get().asItem(),
                 ModBlocks.SURREAL_GREEN_ROCK.get().asItem(),
                 ModBlocks.SURREAL_YELLOW_ROCK.get().asItem(),
-                ModBlocks.NULL_BRICKS.get().asItem(),
-                ModBlocks.NULL_STONE.get().asItem(),
-                ModBlocks.NULL_CRACKED_BRICKS.get().asItem());
+                ModBlocks.NULL_STONE.get().asItem());
         tag(ItemTags.STONE_TOOL_MATERIALS).add(ModBlocks.SURREAL_BLUE_ROCK.get().asItem(),
                 ModBlocks.SURREAL_RED_ROCK.get().asItem(),
                 ModBlocks.SURREAL_PURPLE_ROCK.get().asItem(),
                 ModBlocks.SURREAL_LIGHTBLUE_ROCK.get().asItem(),
                 ModBlocks.SURREAL_GREEN_ROCK.get().asItem(),
                 ModBlocks.SURREAL_YELLOW_ROCK.get().asItem(),
-                ModBlocks.NULL_BRICKS.get().asItem(),
-                ModBlocks.NULL_STONE.get().asItem(),
-                ModBlocks.NULL_CRACKED_BRICKS.get().asItem());
-        ;
+                ModBlocks.NULL_STONE.get().asItem());
+
     }
 }

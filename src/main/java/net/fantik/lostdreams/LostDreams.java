@@ -50,6 +50,7 @@ public class LostDreams {
         modEventBus.addListener(this::commonSetup);
 
         NeoForge.EVENT_BUS.register(this);
+        ModParticles.register(modEventBus);
         ModCreativeModeTabs.register(modEventBus);
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
@@ -57,7 +58,7 @@ public class LostDreams {
         ModEntities.register(modEventBus);
         ModSounds.register(modEventBus);
         ModBiomeSources.register(modEventBus);
-        ModParticles.register(modEventBus);
+
         ModBlockEntities.register(modEventBus);
         ModMenuTypes.register(modEventBus);
 
@@ -101,6 +102,8 @@ public class LostDreams {
         static void onClientSetup(FMLClientSetupEvent event) {
 
         }
+
+
 
         @SubscribeEvent
         public static void registerParticleFactories(RegisterParticleProvidersEvent event) {

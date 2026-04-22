@@ -170,6 +170,26 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("has_planks", has(ModBlocks.NULL_PLANKS.get()))
                 .save(output);
 
+        //Zircon
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ModItems.ZIRCON_TORCH_ITEM.get(), 4)
+                .pattern("#")
+                .pattern("S")
+                .define('#', ModItems.ZIRCON.get())
+                .define('S', net.minecraft.world.item.Items.STICK)
+                .unlockedBy("has_zircon", has(ModItems.ZIRCON.get()))
+
+                .save(output);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.ZIRCON_FERTILIZER.get(), 3)
+                .pattern("S#")
+                .pattern("# ")
+                .define('#', ModItems.ZIRCON.get())
+                .define('S', Items.BONE_MEAL)
+                .unlockedBy("has_zircon", has(ModItems.ZIRCON.get()))
+
+                .save(output);
+
         // Дверь
         ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ModBlocks.DUSKWILLOW_DOOR.get(), 3)
                 .pattern("##")

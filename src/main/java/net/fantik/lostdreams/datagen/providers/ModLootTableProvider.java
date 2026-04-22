@@ -2,6 +2,7 @@ package net.fantik.lostdreams.datagen.providers;
 
 import net.fantik.lostdreams.LostDreams;
 import net.fantik.lostdreams.block.ModBlocks;
+import net.fantik.lostdreams.item.ModItems;
 import net.minecraft.advancements.critereon.*;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
@@ -100,6 +101,7 @@ public class ModLootTableProvider extends LootTableProvider {
             dropSelf(ModBlocks.NULL_TRAPDOOR.get());
 
 
+
             // Randomite руды — случайные дропы
             add(ModBlocks.SURREAL_BLUE_RANDOMITE_ORE.get(), createRandomiteDrops(ModBlocks.SURREAL_BLUE_RANDOMITE_ORE.get()));
             add(ModBlocks.SURREAL_LIGHTBLUE_RANDOMITE_ORE.get(), createRandomiteDrops(ModBlocks.SURREAL_LIGHTBLUE_RANDOMITE_ORE.get()));
@@ -126,6 +128,12 @@ public class ModLootTableProvider extends LootTableProvider {
             add(ModBlocks.NULL_GRASS.get(), noDrop());
             add(ModBlocks.NULL_BERRY_BUSH.get(), noDrop());
             add(ModBlocks.NULL_CROP.get(), noDrop());
+            add(ModBlocks.ZIRCON_TORCH.get(), noDrop());
+            add(ModBlocks.ZIRCON_WALL_TORCH.get(), noDrop());
+
+            add(ModBlocks.ZIRCON_ORE.get(), block ->
+                    createOreDrop(block, ModItems.ZIRCON.get()));
+
         }
 
         protected LootTable.Builder createRandomiteDrops(Block block)

@@ -24,6 +24,9 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.NULL_PILLOW);
                         output.accept(ModItems.DREAM_CATCHER);
                         output.accept(ModItems.NULL_BERRY);
+                        output.accept(ModItems.NULL_SEED);
+                        output.accept(ModItems.ZIRCON);
+                        output.accept(ModItems.ZIRCON_FERTILIZER);
                     }).build());
 
     public static final Supplier<CreativeModeTab> DREAM_BLOCK_TAB = CREATIVE_MODE_TAB.register("dream_blocks_tab",
@@ -38,6 +41,8 @@ public class ModCreativeModeTabs {
                         output.accept(ModBlocks.NULL_BRICKS);
                         output.accept(ModBlocks.NULL_CRACKED_BRICKS);
                         output.accept(ModBlocks.NULL_STONE);
+                        output.accept(ModBlocks.ZIRCON_ORE);
+                        output.accept(ModItems.ZIRCON_TORCH_ITEM);
                         output.accept(ModBlocks.NULL_STONE_SLAB);
                         output.accept(ModBlocks.NULL_STONE_STAIRS);
                         output.accept(ModBlocks.NULL_DOOR);

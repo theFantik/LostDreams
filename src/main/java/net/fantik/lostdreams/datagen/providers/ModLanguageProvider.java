@@ -25,6 +25,9 @@ public class ModLanguageProvider extends LanguageProvider {
         add(ModItems.NULL_PILLOW.get(), "Null Pillow");
         add(ModItems.NULL_BERRY.get(), "Null Berry");
         add(ModItems.NULL_SEED.get(), "Null Seed");
+        add(ModItems.ZIRCON.get(), "Zircon");
+        add(ModItems.ZIRCON_FERTILIZER.get(), "Zircon Fertilizer");
+        add(ModItems.ZIRCON_TORCH_ITEM.get(), "Zircon Torch");
         add(ModItems.BUG_ANTENNA.get(), "Null Bug Antenna");
         add(ModItems.LUCID_ESSENCE.get(), "Lucid Essence");
         add(ModItems.DREAM_CATCHER.get(), "Dream Catcher");
@@ -43,6 +46,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add(ModBlocks.NULL_GRASS.get(),"Null Grass");
         add(ModBlocks.NULL_BERRY_BUSH.get(),"Null Berry Bush");
         add(ModBlocks.NULL_CROP.get(),"Null Crop");
+        add(ModBlocks.ZIRCON_ORE.get(),"Zircon Ore");
 
         add(ModBlocks.NULL_ZONE_PORTAL.get(), "Null Zone Portal");
 

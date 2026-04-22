@@ -5,6 +5,8 @@ import net.fantik.lostdreams.block.ModBlocks;
 import net.fantik.lostdreams.entity.ModEntities;
 import net.fantik.lostdreams.item.custom.NullBerryItem;
 import net.fantik.lostdreams.item.custom.NullSeedItem;
+import net.fantik.lostdreams.item.custom.ZirconFertilizerItem;
+import net.minecraft.core.Direction;
 import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.*;
 import net.neoforged.bus.api.IEventBus;
@@ -50,6 +52,22 @@ public class ModItems {
     public static final DeferredItem<Item> NULL_SEED =
             ITEMS.register("null_seed",
                     () -> new NullSeedItem(new Item.Properties()));
+
+    public static final DeferredItem<Item> ZIRCON =
+            ITEMS.register("zircon",
+                    () -> new Item(new Item.Properties()));
+
+    public static final DeferredItem<Item> ZIRCON_FERTILIZER =
+            ITEMS.register("zircon_fertilizer",
+                    () -> new ZirconFertilizerItem(new Item.Properties()
+                            .stacksTo(16)));
+
+    public static final DeferredItem<StandingAndWallBlockItem> ZIRCON_TORCH_ITEM =
+            ITEMS.register("zircon_torch",
+                    () -> new StandingAndWallBlockItem(
+                            ModBlocks.ZIRCON_TORCH.get(),
+                            ModBlocks.ZIRCON_WALL_TORCH.get(),
+                            new Item.Properties(), Direction.DOWN));
 
 
 
