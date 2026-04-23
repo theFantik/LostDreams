@@ -47,6 +47,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add(ModBlocks.NULL_BERRY_BUSH.get(),"Null Berry Bush");
         add(ModBlocks.NULL_CROP.get(),"Null Crop");
         add(ModBlocks.ZIRCON_ORE.get(),"Zircon Ore");
+        add(ModBlocks.ZIRCON_CAMPFIRE.get(),"Zircon Campfire");
 
         add(ModBlocks.NULL_ZONE_PORTAL.get(), "Null Zone Portal");
 

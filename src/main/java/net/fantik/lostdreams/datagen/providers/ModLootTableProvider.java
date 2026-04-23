@@ -130,6 +130,7 @@ public class ModLootTableProvider extends LootTableProvider {
             add(ModBlocks.NULL_CROP.get(), noDrop());
             add(ModBlocks.ZIRCON_TORCH.get(), noDrop());
             add(ModBlocks.ZIRCON_WALL_TORCH.get(), noDrop());
+            add(ModBlocks.ZIRCON_CAMPFIRE.get(), noDrop());
 
             add(ModBlocks.ZIRCON_ORE.get(), block ->
                     createOreDrop(block, ModItems.ZIRCON.get()));

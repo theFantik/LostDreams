@@ -42,6 +42,7 @@ public class ModCreativeModeTabs {
                         output.accept(ModBlocks.NULL_CRACKED_BRICKS);
                         output.accept(ModBlocks.NULL_STONE);
                         output.accept(ModBlocks.ZIRCON_ORE);
+                        output.accept(ModBlocks.ZIRCON_CAMPFIRE);
                         output.accept(ModItems.ZIRCON_TORCH_ITEM);
                         output.accept(ModBlocks.NULL_STONE_SLAB);
                         output.accept(ModBlocks.NULL_STONE_STAIRS);

@@ -128,6 +128,12 @@ public class ModBlocks {
                             BlockBehaviour.Properties.ofFullCopy(Blocks.WALL_TORCH).lootFrom(ZIRCON_TORCH)
                     ));
 
+    public static final DeferredBlock<ZirconCampfireBlock> ZIRCON_CAMPFIRE =
+            registerBlock("zircon_campfire",
+                    () -> new ZirconCampfireBlock(true, 1,
+                            BlockBehaviour.Properties.ofFullCopy(Blocks.CAMPFIRE)
+                                    .lightLevel(s -> s.getValue(ZirconCampfireBlock.LIT) ? 15 : 0)));
+
 
     public static final DeferredBlock<RotatedPillarBlock> NULL_LOG = registerBlock("null_log",
             () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LOG)) {

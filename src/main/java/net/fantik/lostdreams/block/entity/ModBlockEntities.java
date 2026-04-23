@@ -6,6 +6,7 @@ import net.fantik.lostdreams.block.custom.DreamGeneratorBlockEntity;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.function.Supplier;
@@ -18,6 +19,14 @@ public class ModBlockEntities {
             BLOCK_ENTITIES.register("dream_generator",
                     () -> BlockEntityType.Builder.of(DreamGeneratorBlockEntity::new,
                             ModBlocks.DREAM_GENERATOR.get(),ModBlocks.DREAM_ADVANCED_GENERATOR.get(),ModBlocks.DREAM_ELITE_GENERATOR.get()).build(null));
+
+    public static final DeferredHolder<BlockEntityType<?>,
+                BlockEntityType<ZirconCampfireBlockEntity>> ZIRCON_CAMPFIRE_BE =
+            BLOCK_ENTITIES.register("zircon_campfire",
+                    () -> BlockEntityType.Builder
+                            .of(ZirconCampfireBlockEntity::new,
+                                    ModBlocks.ZIRCON_CAMPFIRE.get())
+                            .build(null));
 
 
     public static void register(IEventBus eventBus) {

@@ -190,6 +190,17 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
                 .save(output);
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.ZIRCON_CAMPFIRE.get(), 1)
+                .pattern(" H ")
+                .pattern("HSH")
+                .pattern("###")
+                .define('S', ModItems.ZIRCON.get())
+                .define('H', Items.STICK)
+                .define('#', ModBlocks.NULL_LOG.get())
+                .unlockedBy("has_zircon", has(ModItems.ZIRCON.get()))
+
+                .save(output);
+
         // Дверь
         ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ModBlocks.DUSKWILLOW_DOOR.get(), 3)
                 .pattern("##")

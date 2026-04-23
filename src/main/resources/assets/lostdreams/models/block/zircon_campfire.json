@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/template_campfire",
+  "render_type": "cutout",
+  "textures": {
+    "fire": "lostdreams:block/zircon_campfire_fire",
+    "lit_log": "lostdreams:block/zircon_campfire_log_lit",
+    "log": "lostdreams:block/zircon_campfire_log"
+  }
+}
