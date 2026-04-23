@@ -4,7 +4,7 @@ Lost Dreams
 
 ## ${\color{cyan}In \space final \space version  \space this \space mod \space will \space add:}$
 ### Tier ${\color{red}0}$ dimensions:
-- null zone dimension <- 75% done
+- null zone dimension <- 85% done
 ### Tier ${\color{green}1}$ dimensions:
 - skyblock dimension <- 80% done
 - surreal asteroids dimension <- 82% done
