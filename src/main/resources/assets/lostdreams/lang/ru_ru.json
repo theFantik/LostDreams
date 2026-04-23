@@ -23,7 +23,10 @@
   "block.lostdreams.null_ground": "Нулевая почва",
   "block.lostdreams.null_berry_bush": "Куст нулевой ягоды",
   "block.lostdreams.null_blossom": "Нулевой цветок",
+  "block.lostdreams.null_crop": "Нулевой урожай",
   "block.lostdreams.null_stone": "Нулевой камень",
+  "block.lostdreams.zircon_ore": "Цирконовая руда",
+  "block.lostdreams.zircon_torch": "Цирконовый факел",
   "block.lostdreams.null_zone_portal": "Портал в Нулевую зону",
   "block.lostdreams.pink_knowledge_block": "Розовый блок знаний",
   "block.lostdreams.stripped_duskwillow_log": "Обтёсанное бревно сумеречной ивы",
@@ -53,6 +56,9 @@
   "item.lostdreams.null_pillow": "Нулевая подушка",
   "item.lostdreams.pillow": "Подушка",
   "item.lostdreams.null_berry": "Нулевая ягода",
+  "item.lostdreams.null_seed": "Нулевое семя",
+  "item.lostdreams.zircon": "Циркон",
+  "item.lostdreams.zircon_fertilizer": "Цирконовое удобрение",
   "message.lostdreams.sleep_warning": "Сон во сне проблематичен...",
   "message.lostdreams.curse_warning": "Эта кровать уже проклята"
 }

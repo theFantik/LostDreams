@@ -1,5 +1,6 @@
 package net.fantik.lostdreams.block.custom;
 
+import net.fantik.lostdreams.particle.ModParticles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -28,7 +29,7 @@ public class ZirconWallTorchBlock extends WallTorchBlock {
         double x = pos.getX() + 0.5 + 0.27 * opposite.getStepX();
         double y = pos.getY() + 0.7 + 0.22 * opposite.getStepY();
         double z = pos.getZ() + 0.5 + 0.27 * opposite.getStepZ();
-        level.addParticle(ParticleTypes.SOUL_FIRE_FLAME,x,y,z,0,0,0);
-        level.addParticle(particleSupplier.get(), x + (random.nextDouble()-0.5) * 0.2, y + random.nextDouble() * 0.1, z + (random.nextDouble() - 0.5) * 0.2, 0, 0, 0);
+        level.addParticle(ModParticles.ZIRCON_FLAME.get(),x,y+0.2,z,0,0,0);
+        level.addParticle(particleSupplier.get(), x + (random.nextDouble()-0.5) * 0.2, y + random.nextDouble() * 0.1, z + (random.nextDouble() - 0.5) * 0.2, 0, 0.01, 0);
     }
 }

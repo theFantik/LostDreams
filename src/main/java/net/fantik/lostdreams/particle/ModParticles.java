@@ -16,6 +16,12 @@ public class ModParticles {
     public static final Supplier<SimpleParticleType> NULL_PARTICLE =
             PARTICLE_TYPES.register("null_particle", ()-> new SimpleParticleType(true));
 
+    public static final Supplier<SimpleParticleType> ZIRCON_FLAME =
+            PARTICLE_TYPES.register("zircon_flame", ()-> new SimpleParticleType(true));
+
+    public static final Supplier<SimpleParticleType> ZIRCON_PARTICLES =
+            PARTICLE_TYPES.register("zircon_particles", ()-> new SimpleParticleType(true));
+
     public static void register(IEventBus eventBus) {
         PARTICLE_TYPES.register(eventBus);
     }

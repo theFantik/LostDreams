@@ -22,10 +22,10 @@ public class ZirconTorchBlock extends TorchBlock {
         double y = pos.getY() + 0.7;
         double z = pos.getZ() + 0.5;
 
-        // Голубоватые частицы циркона
-        level.addParticle(ParticleTypes.SOUL_FIRE_FLAME,
+
+        level.addParticle(ModParticles.ZIRCON_FLAME.get(),
                 x, y, z, 0, 0, 0);
-        level.addParticle(ModParticles.NULL_PARTICLE.get(),
+        level.addParticle(ModParticles.ZIRCON_PARTICLES.get(),
                 x + (random.nextDouble() - 0.5) * 0.2,
                 y + random.nextDouble() * 0.1,
                 z + (random.nextDouble() - 0.5) * 0.2,

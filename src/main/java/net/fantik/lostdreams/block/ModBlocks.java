@@ -124,7 +124,7 @@ public class ModBlocks {
     public static final DeferredBlock<ZirconWallTorchBlock> ZIRCON_WALL_TORCH =
             BLOCKS.register("zircon_wall_torch",
                     () -> new ZirconWallTorchBlock(
-                            ModParticles.NULL_PARTICLE,
+                            ModParticles.ZIRCON_PARTICLES,
                             BlockBehaviour.Properties.ofFullCopy(Blocks.WALL_TORCH).lootFrom(ZIRCON_TORCH)
                     ));
 

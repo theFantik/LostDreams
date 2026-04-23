@@ -28,5 +28,8 @@
   },
   "spawn_costs": {},
   "carvers": {},
-  "features": []
+  "features": [
+    [],[],[],[],[],[],["lostdreams:ore_zircon_upper",
+      "lostdreams:ore_zircon_lower"],[],[]
+  ]
 }

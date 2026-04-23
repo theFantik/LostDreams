@@ -4,10 +4,13 @@ import net.fantik.lostdreams.block.ModBlocks;
 import net.fantik.lostdreams.block.entity.ModBlockEntities;
 import net.fantik.lostdreams.datagen.ModDataGenerator;
 import net.fantik.lostdreams.entity.ModEntities;
+import net.fantik.lostdreams.events.ModFuelEvents;
 import net.fantik.lostdreams.item.ModCreativeModeTabs;
 import net.fantik.lostdreams.item.ModItems;
 import net.fantik.lostdreams.particle.ModParticles;
 import net.fantik.lostdreams.particle.NullParticle;
+import net.fantik.lostdreams.particle.ZirconFlame;
+import net.fantik.lostdreams.particle.ZirconParticles;
 import net.fantik.lostdreams.screen.DreamGeneratorScreen;
 import net.fantik.lostdreams.screen.ModMenuTypes;
 import net.fantik.lostdreams.sound.ModSounds;
@@ -54,6 +57,7 @@ public class LostDreams {
         ModCreativeModeTabs.register(modEventBus);
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
+
         ModFeatures.register(modEventBus);
         ModEntities.register(modEventBus);
         ModSounds.register(modEventBus);
@@ -108,6 +112,8 @@ public class LostDreams {
         @SubscribeEvent
         public static void registerParticleFactories(RegisterParticleProvidersEvent event) {
             event.registerSpriteSet(ModParticles.NULL_PARTICLE.get(), NullParticle.Provider::new);
+            event.registerSpriteSet(ModParticles.ZIRCON_FLAME.get(), ZirconFlame.Provider::new);
+            event.registerSpriteSet(ModParticles.ZIRCON_PARTICLES.get(), ZirconParticles.Provider::new);
         }
         @SubscribeEvent
         public static void registerScreens(RegisterMenuScreensEvent event) {

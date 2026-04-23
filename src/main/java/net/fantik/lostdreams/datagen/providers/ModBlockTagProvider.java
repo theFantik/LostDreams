@@ -92,6 +92,9 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.NULL_PRESSURE_PLATE.get())
         ;
 
+        tag(BlockTags.STONE_ORE_REPLACEABLES)
+                .add(ModBlocks.NULL_STONE.get());
+
         tag(BlockTags.MUSHROOM_GROW_BLOCK)
                 .add(ModBlocks.NULL_GROUND.get());
 
