@@ -3,6 +3,7 @@ package net.fantik.lostdreams;
 import net.fantik.lostdreams.block.ModBlocks;
 import net.fantik.lostdreams.block.entity.ModBlockEntities;
 import net.fantik.lostdreams.datagen.ModDataGenerator;
+import net.fantik.lostdreams.effect.ModEffects;
 import net.fantik.lostdreams.entity.ModEntities;
 import net.fantik.lostdreams.events.ModFuelEvents;
 import net.fantik.lostdreams.item.ModCreativeModeTabs;
@@ -54,6 +55,7 @@ public class LostDreams {
 
         NeoForge.EVENT_BUS.register(this);
         ModParticles.register(modEventBus);
+        ModEffects.register(modEventBus);
         ModCreativeModeTabs.register(modEventBus);
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);

@@ -1,6 +1,7 @@
 package net.fantik.lostdreams.events;
 
 import net.fantik.lostdreams.LostDreams;
+import net.fantik.lostdreams.effect.ModEffects;
 import net.fantik.lostdreams.world.dimension.ApartmentsDimension;
 import net.fantik.lostdreams.world.dimension.NullZoneDimension;
 import net.fantik.lostdreams.world.dimension.SkyBlockDimension;
@@ -57,6 +58,11 @@ public class FallToOverworld {
                 MobEffects.SLOW_FALLING,
                 SLOW_FALLING_DURATION_TICKS,
                 0, false, false, true
+
+        ));
+        player.addEffect(new MobEffectInstance(
+
+                ModEffects.AFTER_DREAMING, 200, 0, false, false, true
         ));
 
         player.setDeltaMovement(

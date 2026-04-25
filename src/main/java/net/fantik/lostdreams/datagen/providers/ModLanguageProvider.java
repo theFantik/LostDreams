@@ -2,6 +2,7 @@ package net.fantik.lostdreams.datagen.providers;
 
 import net.fantik.lostdreams.LostDreams;
 import net.fantik.lostdreams.block.ModBlocks;
+import net.fantik.lostdreams.effect.ModEffects;
 import net.fantik.lostdreams.item.ModItems;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.LanguageProvider;
@@ -104,6 +105,8 @@ public class ModLanguageProvider extends LanguageProvider {
         add(ModBlocks.SURREAL_PURPLE_RANDOMITE_ORE.get(), "Purple Randomite Ore");
         add(ModBlocks.SURREAL_RED_RANDOMITE_ORE.get(), "Red Randomite Ore");
         add(ModBlocks.SURREAL_YELLOW_RANDOMITE_ORE.get(), "Yellow Randomite Ore");
+
+        add(ModEffects.AFTER_DREAMING.get(), "After Dreaming");
 
         // Other
         add("creativetab.lostdreams.dream_items", "Dream Items");

@@ -1,0 +1,18 @@
+{
+  "targets": [
+    "swap"
+  ],
+
+  "passes": [
+    {
+      "name": "lostdreams:after_dreaming",
+      "intarget": "minecraft:main",
+      "outtarget": "swap"
+    },
+    {
+      "name": "blit",
+      "intarget": "swap",
+      "outtarget": "minecraft:main"
+    }
+  ]
+}
