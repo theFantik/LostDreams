@@ -31,6 +31,9 @@ public class ModFeatures {
     public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> SURREAL_ASTEROIDS =
             FEATURES.register("surreal_asteroids", () -> new SurrealAsteroidsFeature(NoneFeatureConfiguration.CODEC));
 
+    public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> NULL_CAVE_SPAWNER =
+            FEATURES.register("null_cave_spawner", () -> new NullCaveSpawnerFeature(NoneFeatureConfiguration.CODEC));
+
 
 
 

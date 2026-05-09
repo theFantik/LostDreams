@@ -35,6 +35,8 @@ public class ModDataGenerator {
                 new ModRecipeProvider(output, lookupProvider));
         generator.addProvider(event.includeServer(),
                 new ModLootTableProvider(output, lookupProvider));
+        generator.addProvider(event.includeServer(),
+                new ModWorldGenProvider(output, lookupProvider));
 
         ModBlockTagProvider blockTags = new ModBlockTagProvider(output, lookupProvider, event.getExistingFileHelper());
         generator.addProvider(event.includeServer(), blockTags);

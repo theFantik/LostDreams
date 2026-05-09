@@ -1,0 +1,6 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "lostdreams:null_zone_caves",
+  "features": "lostdreams:null_cave_spawner_placed",
+  "step": "underground_decoration"
+}

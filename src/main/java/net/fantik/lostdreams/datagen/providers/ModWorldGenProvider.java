@@ -1,0 +1,25 @@
+package net.fantik.lostdreams.datagen.providers;
+
+import net.fantik.lostdreams.world.feature.ModConfiguredFeatures;
+import net.fantik.lostdreams.world.feature.ModPlacedFeatures;
+import net.minecraft.core.RegistrySetBuilder;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.data.PackOutput;
+import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+
+import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+import net.minecraft.core.HolderLookup;
+
+public class ModWorldGenProvider extends DatapackBuiltinEntriesProvider {
+
+    public static final RegistrySetBuilder BUILDER = new RegistrySetBuilder()
+            .add(Registries.CONFIGURED_FEATURE, ModConfiguredFeatures::bootstrap)
+            .add(Registries.PLACED_FEATURE, ModPlacedFeatures::bootstrap);
+
+    public ModWorldGenProvider(PackOutput output,
+                               CompletableFuture<HolderLookup.Provider> lookupProvider) {
+        super(output, lookupProvider, BUILDER, Set.of("lostdreams"));
+    }
+}

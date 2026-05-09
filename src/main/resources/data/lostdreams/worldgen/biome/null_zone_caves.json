@@ -29,7 +29,7 @@
   "spawn_costs": {},
   "carvers": {},
   "features": [
-    [],[],[],[],[],[],["lostdreams:ore_zircon_upper",
+    [],[],[],["lostdreams:null_cave_spawner_placed"],[],[],["lostdreams:ore_zircon_upper",
       "lostdreams:ore_zircon_lower"],[],[]
   ]
 }
