@@ -8,6 +8,7 @@ import net.fantik.lostdreams.entity.ModEntities;
 import net.fantik.lostdreams.events.ModFuelEvents;
 import net.fantik.lostdreams.item.ModCreativeModeTabs;
 import net.fantik.lostdreams.item.ModItems;
+import net.fantik.lostdreams.network.ModNetworking;
 import net.fantik.lostdreams.particle.ModParticles;
 import net.fantik.lostdreams.particle.NullParticle;
 import net.fantik.lostdreams.particle.ZirconFlame;
@@ -54,6 +55,9 @@ public class LostDreams {
         modEventBus.addListener(this::commonSetup);
 
         NeoForge.EVENT_BUS.register(this);
+        // В LostDreams.java
+        ModNetworking.register(modEventBus);
+
         ModParticles.register(modEventBus);
         ModEffects.register(modEventBus);
         ModCreativeModeTabs.register(modEventBus);

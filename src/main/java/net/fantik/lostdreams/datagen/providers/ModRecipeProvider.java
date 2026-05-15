@@ -286,5 +286,17 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("has_adv_generator", has(ModBlocks.DREAM_ADVANCED_GENERATOR))
                 .save(output);
 
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.LUCID_CATCHER.get())
+                .pattern("  I")
+                .pattern("SBD")
+                .pattern("I  ")
+                .define('I', Items.DIAMOND)
+                .define('S', ModTags.Items.KNOWLEDGE_BLOCKS)
+                .define('D', ModBlocks.SURREAL_GLOWCRYSTAL)
+                .define('B', ModItems.DREAM_CATCHER)
+                .unlockedBy("has_dream_catcher", has(ModItems.DREAM_CATCHER))
+                .save(output);
+
     }
 }

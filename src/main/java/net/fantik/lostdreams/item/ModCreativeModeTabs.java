@@ -23,6 +23,7 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.PILLOW);
                         output.accept(ModItems.NULL_PILLOW);
                         output.accept(ModItems.DREAM_CATCHER);
+                        output.accept(ModItems.LUCID_CATCHER);
                         output.accept(ModItems.NULL_BERRY);
                         output.accept(ModItems.NULL_SEED);
                         output.accept(ModItems.ZIRCON);

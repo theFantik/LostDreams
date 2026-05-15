@@ -77,47 +77,9 @@ public class NullCaveSpawnerFeature extends Feature<NoneFeatureConfiguration> {
         return placeStructure(level, placePos, random);
     }
 
-    /**
-     * Ищет пол пещеры — твёрдый блок с воздухом сверху.
-     * Ищет в нескольких случайных точках вокруг origin.
-     */
-    private BlockPos findCaveFloor(WorldGenLevel level, BlockPos origin, RandomSource random) {
-        for (int attempt = 0; attempt < 20; attempt++) {
-            int dx = random.nextInt(9) - 4;
-            int dz = random.nextInt(9) - 4;
 
-            // Сканируем столбец сверху вниз
-            for (int dy = 4; dy >= -4; dy--) {
-                BlockPos pos = origin.offset(dx, dy, dz);
 
-                if (pos.getY() < 5) continue;
 
-                BlockState above = level.getBlockState(pos.above());
-                BlockState here  = level.getBlockState(pos);
-
-                boolean hereIsSolid = here.isSolid();
-                boolean aboveIsAir  = above.isAir() || above.is(Blocks.CAVE_AIR);
-
-                if (hereIsSolid && aboveIsAir) {
-                    return pos; // возвращаем пол
-                }
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Проверяет что над placePos есть минимум 3 воздушных блока.
-     */
-    private boolean hasEnoughSpace(WorldGenLevel level, BlockPos pos) {
-        for (int i = 0; i < 3; i++) {
-            BlockState state = level.getBlockState(pos.above(i));
-            if (!state.isAir() && !state.is(Blocks.CAVE_AIR)) {
-                return false;
-            }
-        }
-        return true;
-    }
 
     /**
      * Пытается разместить NBT структуру.

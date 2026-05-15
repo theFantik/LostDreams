@@ -32,6 +32,9 @@ public class ModItems {
     public static final DeferredItem<Item> DREAM_CATCHER = ITEMS.register("dream_catcher",
             () -> new Item(new Item.Properties()));
 
+    public static final DeferredItem<Item> LUCID_CATCHER = ITEMS.register("lucid_catcher",
+            () -> new Item(new Item.Properties()));
+
 
     // яички
 

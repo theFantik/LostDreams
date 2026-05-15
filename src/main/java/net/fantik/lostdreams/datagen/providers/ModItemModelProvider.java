@@ -25,6 +25,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.BUG_ANTENNA.get());
         basicItem(ModItems.LUCID_ESSENCE.get());
         basicItem(ModItems.DREAM_CATCHER.get());
+        basicItem(ModItems.LUCID_CATCHER.get());
         basicItem(ModItems.NULL_BERRY.get());
         basicItem(ModItems.NULL_SEED.get());
         basicItem(ModItems.ZIRCON.get());
