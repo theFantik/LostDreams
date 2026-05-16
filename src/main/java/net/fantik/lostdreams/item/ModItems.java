@@ -44,6 +44,9 @@ public class ModItems {
     public static final DeferredItem<Item> LUCID_WASTE_SPAWN_EGG = ITEMS.register("lucid_waste_spawn_egg",
             () -> new SpawnEggItem(ModEntities.LUCID_WASTE.get(), 0xffffff, 0xffffff, new Item.Properties()));
 
+    public static final DeferredItem<Item> METEOR_SPAWN_EGG = ITEMS.register("meteor_spawn_egg",
+            () -> new SpawnEggItem(ModEntities.METEOR.get(), 0xffffff,0xffffff, new Item.Properties()));
+
     // еда
 
     public static final DeferredItem<Item> NULL_BERRY =

@@ -70,6 +70,7 @@
   "item.lostdreams.lucid_essence": "Осознанная эссенция",
   "item.lostdreams.lucid_waste_spawn_egg": "Яйцо призыва осознанного отхода",
   "item.lostdreams.null_bug_spawn_egg": "Яйцо призыва нулевого жука",
+  "item.lostdreams.meteor_spawn_egg": "Яйцо призыва метеора",
   "item.lostdreams.null_pillow": "Нулевая подушка",
   "item.lostdreams.pillow": "Подушка",
   "item.lostdreams.null_berry": "Нулевая ягода",
@@ -80,5 +81,6 @@
   "message.lostdreams.curse_warning": "Эта кровать уже проклята",
   "effect.lostdreams.after_dreaming": "Спросонья",
   "entity.lostdreams.lucid_waste": "Осознанный отход",
-  "entity.lostdreams.null_bug": "Нулевой жук"
+  "entity.lostdreams.null_bug": "Нулевой жук",
+  "entity.lostdreams.meteor": "Метеор"
 }

@@ -30,6 +30,16 @@ public class ModEntities {
                             .build(ResourceLocation.parse("lostdreams:lucid_waste").toString())
             );
 
+    public static final DeferredHolder<EntityType<?>, EntityType<MeteorEntity>> METEOR =
+            ENTITY_TYPES.register("meteor", () ->
+                    EntityType.Builder.<MeteorEntity>of(MeteorEntity::new, MobCategory.MONSTER)
+                            .sized(0.8f, 0.8f)
+                            .clientTrackingRange(64)
+                            .updateInterval(3)
+                            .build(ResourceLocation.parse("lostdreams:meteor").toString())
+            );
+
+
 
 
     public static void register(IEventBus eventBus) {

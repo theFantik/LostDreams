@@ -9,7 +9,9 @@
     "water_fog_color": 329011
   },
   "spawners": {
-    "monster": [],
+    "monster": [
+      { "type": "lostdreams:meteor", "weight": 30, "minCount": 1, "maxCount": 2 }
+    ],
     "creature": [],
     "ambient": [],
     "axolotls": [],

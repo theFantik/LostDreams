@@ -107,6 +107,7 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.NULL_BUG_SPAWN_EGG);
                         output.accept(ModItems.LUCID_ESSENCE);
                         output.accept(ModItems.LUCID_WASTE_SPAWN_EGG);
+                        output.accept(ModItems.METEOR_SPAWN_EGG);
                     }).build());
 
 

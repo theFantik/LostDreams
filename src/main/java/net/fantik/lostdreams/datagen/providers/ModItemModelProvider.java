@@ -30,6 +30,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.NULL_SEED.get());
         basicItem(ModItems.ZIRCON.get());
         basicItem(ModItems.ZIRCON_FERTILIZER.get());
+        basicItem(ModItems.METEOR_SPAWN_EGG.get());
 
 
         withExistingParent("zircon_torch",mcLoc("item/generated")).texture("layer0", modLoc("block/zircon_torch"));

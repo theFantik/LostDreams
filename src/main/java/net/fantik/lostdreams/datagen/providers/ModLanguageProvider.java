@@ -35,6 +35,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add(ModItems.LUCID_CATCHER.get(), "Lucid Catcher");
         add(ModItems.NULL_BUG_SPAWN_EGG.get(), "Null Bug Spawn Egg");
         add(ModItems.LUCID_WASTE_SPAWN_EGG.get(), "Lucid Waste Spawn Egg");
+        add(ModItems.METEOR_SPAWN_EGG.get(), "Meteor Spawn Egg");
 
         // Null Zone блоки
         add(ModBlocks.FEATHER_BLOCK.get(), "Feather Block");
@@ -117,5 +118,6 @@ public class ModLanguageProvider extends LanguageProvider {
         add("message.lostdreams.curse_warning", "This bed is already cursed");
         add("entity.lostdreams.null_bug","Null Bug");
         add("entity.lostdreams.lucid_waste","Lucid Waste");
+        add("entity.lostdreams.meteor","Meteor");
     }
 }

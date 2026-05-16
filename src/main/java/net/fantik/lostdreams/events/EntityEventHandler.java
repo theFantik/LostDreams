@@ -2,10 +2,13 @@ package net.fantik.lostdreams.events;
 
 import net.fantik.lostdreams.LostDreams;
 import net.fantik.lostdreams.client.model.LucidWispModel;
+import net.fantik.lostdreams.client.model.MeteorModel;
 import net.fantik.lostdreams.client.model.NullBugModel;
 import net.fantik.lostdreams.client.renderer.LucidWispRenderer;
+import net.fantik.lostdreams.client.renderer.MeteorRenderer;
 import net.fantik.lostdreams.client.renderer.NullBugRenderer;
 import net.fantik.lostdreams.entity.LucidWasteEntity;
+import net.fantik.lostdreams.entity.MeteorEntity;
 import net.fantik.lostdreams.entity.ModEntities;
 import net.fantik.lostdreams.entity.NullBugEntity;
 import net.neoforged.api.distmarker.Dist;
@@ -21,6 +24,7 @@ public class EntityEventHandler {
     public static void onAttributeCreate(EntityAttributeCreationEvent event) {
         event.put(ModEntities.NULL_BUG.get(), NullBugEntity.createAttributes());
         event.put(ModEntities.LUCID_WASTE.get(), LucidWasteEntity.createAttributes().build());
+        event.put(ModEntities.METEOR.get(), MeteorEntity.createAttributes().build());
     }
 
     @EventBusSubscriber(modid = LostDreams.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
@@ -30,6 +34,7 @@ public class EntityEventHandler {
         public static void onRegisterLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
             event.registerLayerDefinition(NullBugModel.LAYER_LOCATION, NullBugModel::createBodyLayer);
             event.registerLayerDefinition(LucidWispModel.LAYER_LOCATION, LucidWispModel::createBodyLayer);
+            event.registerLayerDefinition(MeteorModel.LAYER_LOCATION, MeteorModel::createBodyLayer);
         }
 
 
@@ -38,6 +43,7 @@ public class EntityEventHandler {
         public static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
             event.registerEntityRenderer(ModEntities.NULL_BUG.get(), NullBugRenderer::new);
             event.registerEntityRenderer(ModEntities.LUCID_WASTE.get(), LucidWispRenderer::new);
+            event.registerEntityRenderer(ModEntities.METEOR.get(), MeteorRenderer::new);
         }
     }
 }
