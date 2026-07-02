@@ -10,8 +10,10 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.BlockLootSubProvider;
+import net.minecraft.data.loot.EntityLootSubProvider;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.flag.FeatureFlag;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -44,6 +46,8 @@ public class ModLootTableProvider extends LootTableProvider {
                 new SubProviderEntry(ModBlockLoot::new, LootContextParamSets.BLOCK)
         ), lookupProvider);
     }
+
+
 
     public static class ModBlockLoot extends BlockLootSubProvider {
 
@@ -102,6 +106,9 @@ public class ModLootTableProvider extends LootTableProvider {
 
 
 
+
+
+
             // Randomite руды — случайные дропы
             add(ModBlocks.SURREAL_BLUE_RANDOMITE_ORE.get(), createRandomiteDrops(ModBlocks.SURREAL_BLUE_RANDOMITE_ORE.get()));
             add(ModBlocks.SURREAL_LIGHTBLUE_RANDOMITE_ORE.get(), createRandomiteDrops(ModBlocks.SURREAL_LIGHTBLUE_RANDOMITE_ORE.get()));
@@ -128,6 +135,10 @@ public class ModLootTableProvider extends LootTableProvider {
             add(ModBlocks.NULL_GRASS.get(), noDrop());
             add(ModBlocks.NULL_BERRY_BUSH.get(), noDrop());
             add(ModBlocks.NULL_CROP.get(), noDrop());
+            add(ModBlocks.NULL_SIGN.get(), noDrop());
+            add(ModBlocks.NULL_WALL_SIGN.get(), noDrop());
+            add(ModBlocks.NULL_HANGING_SIGN.get(), noDrop());
+            add(ModBlocks.NULL_WALL_HANGING_SIGN.get(), noDrop());
             add(ModBlocks.ZIRCON_TORCH.get(), noDrop());
             add(ModBlocks.ZIRCON_WALL_TORCH.get(), noDrop());
             add(ModBlocks.ZIRCON_CAMPFIRE.get(), noDrop());

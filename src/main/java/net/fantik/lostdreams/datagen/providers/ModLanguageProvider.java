@@ -29,6 +29,8 @@ public class ModLanguageProvider extends LanguageProvider {
         add(ModItems.ZIRCON.get(), "Zircon");
         add(ModItems.ZIRCON_FERTILIZER.get(), "Zircon Fertilizer");
         add(ModItems.ZIRCON_TORCH_ITEM.get(), "Zircon Torch");
+        add(ModItems.NULL_SIGN_ITEM.get(), "Null Sign");
+        add(ModItems.NULL_HANGING_SIGN_ITEM.get(), "Null Hanging Sign");
         add(ModItems.BUG_ANTENNA.get(), "Null Bug Antenna");
         add(ModItems.LUCID_ESSENCE.get(), "Lucid Essence");
         add(ModItems.DREAM_CATCHER.get(), "Dream Catcher");
@@ -36,6 +38,10 @@ public class ModLanguageProvider extends LanguageProvider {
         add(ModItems.NULL_BUG_SPAWN_EGG.get(), "Null Bug Spawn Egg");
         add(ModItems.LUCID_WASTE_SPAWN_EGG.get(), "Lucid Waste Spawn Egg");
         add(ModItems.METEOR_SPAWN_EGG.get(), "Meteor Spawn Egg");
+        add(ModItems.METEOR_WATCHER_SPAWN_EGG.get(), "Meteor Watcher Spawn Egg");
+        add(ModItems.METEOR_CORE.get(), "Meteor Core");
+        add(ModItems.METEOR_MOUNT_ITEM.get(), "Meteor Mount Item");
+        add(ModItems.STRANGE_ESSENCE.get(), "Strange Essence");
 
         // Null Zone блоки
         add(ModBlocks.FEATHER_BLOCK.get(), "Feather Block");
@@ -91,6 +97,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add(ModBlocks.NULL_PRESSURE_PLATE.get(), "Null Pressure Plate");
 
 
+
         // Сюр блоки
 
         add(ModBlocks.SURREAL_BLUE_ROCK.get(), "Surreal Blue Rock");
@@ -119,5 +126,6 @@ public class ModLanguageProvider extends LanguageProvider {
         add("entity.lostdreams.null_bug","Null Bug");
         add("entity.lostdreams.lucid_waste","Lucid Waste");
         add("entity.lostdreams.meteor","Meteor");
+        add("entity.lostdreams.meteor_watcher","Meteor Watcher");
     }
 }

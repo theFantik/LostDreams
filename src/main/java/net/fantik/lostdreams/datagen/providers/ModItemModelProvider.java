@@ -6,8 +6,10 @@ import net.fantik.lostdreams.item.ModItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
+import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredItem;
 
@@ -31,6 +33,9 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.ZIRCON.get());
         basicItem(ModItems.ZIRCON_FERTILIZER.get());
         basicItem(ModItems.METEOR_SPAWN_EGG.get());
+        basicItem(ModItems.METEOR_WATCHER_SPAWN_EGG.get());
+        basicItem(ModItems.STRANGE_ESSENCE.get());
+        basicItem(ModItems.METEOR_CORE.get());
 
 
         withExistingParent("zircon_torch",mcLoc("item/generated")).texture("layer0", modLoc("block/zircon_torch"));
@@ -41,6 +46,13 @@ public class ModItemModelProvider extends ItemModelProvider {
                 mcLoc("item/template_spawn_egg"));
         withExistingParent(ModItems.LUCID_WASTE_SPAWN_EGG.get().toString(),
                 mcLoc("item/template_spawn_egg"));
+
+        withExistingParent("meteor_mount_item", mcLoc("item/generated"))
+                .texture("layer0", modLoc("item/meteor_spawn_egg"));
+
+
+
+
 
         // Блоки — наследуют от блочной модели
         blockItem(ModBlocks.DUSKWILLOW_LOG);

@@ -3,6 +3,7 @@ package net.fantik.lostdreams.block.entity;
 import net.fantik.lostdreams.LostDreams;
 import net.fantik.lostdreams.block.ModBlocks;
 import net.fantik.lostdreams.block.custom.DreamGeneratorBlockEntity;
+import net.fantik.lostdreams.block.custom.NullSignBlock;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
@@ -27,6 +28,11 @@ public class ModBlockEntities {
                             .of(ZirconCampfireBlockEntity::new,
                                     ModBlocks.ZIRCON_CAMPFIRE.get())
                             .build(null));
+
+
+
+
+
 
 
     public static void register(IEventBus eventBus) {

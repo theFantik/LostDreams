@@ -57,6 +57,8 @@ public class ModCreativeModeTabs {
                         output.accept(ModBlocks.NULL_TRAPDOOR);
                         output.accept(ModBlocks.NULL_PRESSURE_PLATE);
                         output.accept(ModBlocks.NULL_FENCE_GATE);
+                        output.accept(ModBlocks.NULL_SIGN);
+                        output.accept(ModBlocks.NULL_HANGING_SIGN);
                         output.accept(ModBlocks.STRIPPED_NULL_LOG);
                         output.accept(ModBlocks.NULL_LOG);
                         output.accept(ModBlocks.STRIPPED_NULL_WOOD);
@@ -108,6 +110,10 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.LUCID_ESSENCE);
                         output.accept(ModItems.LUCID_WASTE_SPAWN_EGG);
                         output.accept(ModItems.METEOR_SPAWN_EGG);
+                        output.accept(ModItems.METEOR_WATCHER_SPAWN_EGG);
+                        output.accept(ModItems.METEOR_CORE);
+                        output.accept(ModItems.METEOR_MOUNT_ITEM);
+                        output.accept(ModItems.STRANGE_ESSENCE);
                     }).build());
 
 

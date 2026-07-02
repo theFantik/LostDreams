@@ -44,6 +44,12 @@ public class ModBlockTagProvider extends BlockTagsProvider {
 
         ;
 
+        tag(BlockTags.CEILING_HANGING_SIGNS).add(ModBlocks.NULL_HANGING_SIGN.get());
+        tag(BlockTags.WALL_HANGING_SIGNS).add(ModBlocks.NULL_WALL_HANGING_SIGN.get());
+        tag(BlockTags.STANDING_SIGNS).add(ModBlocks.NULL_SIGN.get());
+        tag(BlockTags.WALL_SIGNS).add(ModBlocks.NULL_WALL_SIGN.get());
+
+
         // Планки
         tag(BlockTags.PLANKS).add(ModBlocks.DUSKWILLOW_PLANKS.get()).add(ModBlocks.NULL_PLANKS.get());
 
@@ -90,6 +96,10 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.NULL_TRAPDOOR.get())
                 .add(ModBlocks.NULL_BUTTON.get())
                 .add(ModBlocks.NULL_PRESSURE_PLATE.get())
+                .add(ModBlocks.NULL_SIGN.get())
+                .add(ModBlocks.NULL_WALL_SIGN.get())
+                .add(ModBlocks.NULL_HANGING_SIGN.get())
+                .add(ModBlocks.NULL_WALL_HANGING_SIGN.get())
         ;
 
 

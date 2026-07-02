@@ -36,7 +36,7 @@ public class MeteorEntity extends Monster {
     //private static final float  EXPLOSION_RADIUS = 2.5f;
     private static final double HIT_DISTANCE_SQ  = 1.5 * 1.5;
     private static final int    CHARGE_TICKS  = 30;
-    private static final double SEARCH_RADIUS = 48.0;
+    private static final double SEARCH_RADIUS = 24.0;
     private static final int    MAX_FLY_TICKS = 400;
 
     private int  explosionCount = 0;
@@ -76,6 +76,9 @@ public class MeteorEntity extends Monster {
         this.setActive(tag.getBoolean("Active"));
         this.explosionCount = tag.getInt("ExplosionCount");
         this.flyTicks = tag.getInt("FlyTicks");
+
+        this.setNoGravity(true);
+
     }
 
     @Override
@@ -84,6 +87,14 @@ public class MeteorEntity extends Monster {
         tag.putBoolean("Active", this.isActive());
         tag.putInt("ExplosionCount", this.explosionCount);
         tag.putInt("FlyTicks", this.flyTicks);
+
+
+
+    }
+
+    @Override
+    public int getMaxSpawnClusterSize() {
+        return 1; // Запрещаем спавнить больше 1 метеора в одном локальном кластере
     }
 
     @Override
@@ -211,6 +222,16 @@ public class MeteorEntity extends Monster {
         }
     }
 
+    @Override
+    public boolean isPickable() {
+        return true; // Позволяет игроку наводиться на моба и бить его
+    }
+
+    @Override
+    public boolean isPushable() {
+        return true; // Позволяет мобу сталкиваться с другими объектами
+    }
+
     // -----------------------------------------------------------------------
     // Поворот тела к цели
     // -----------------------------------------------------------------------
@@ -271,13 +292,20 @@ public class MeteorEntity extends Monster {
 
     private void spawnClientParticles() {
         if (!isActive()) {
-            // Зарядка — чёрные частицы
+            // Зарядка —  частицы
             for (int i = 0; i < 2; i++) {
-                this.level().addParticle(ParticleTypes.SQUID_INK,
-                        this.getX() + (random.nextDouble() - 0.5) * 0.5,
-                        this.getY() + random.nextDouble(),
-                        this.getZ() + (random.nextDouble() - 0.5) * 0.5,
-                        0, 0.05, 0);
+                // Случайная точка ВОКРУГ метеора
+                double xo = (random.nextDouble() - 0.5) * 0.6;
+                double yo = (random.nextDouble() - 0.5) * 0.6;
+                double zo = (random.nextDouble() - 0.5) * 0.6;
+
+                // Спавним частицу на расстоянии, но даем ей ЛЕВУЮ скорость,
+                // направленную К ЦЕНТРУ метеора (инвертируем смещение)
+                this.level().addParticle(ParticleTypes.FLAME,
+                        this.getX() + xo,
+                        this.getY() + 0.5 + yo,
+                        this.getZ() + zo,
+                        -xo * 0.2, -yo * 0.2, -zo * 0.2);
             }
         } else {
             // Полёт — кастомная частица

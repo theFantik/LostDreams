@@ -3,6 +3,7 @@ package net.fantik.lostdreams.item;
 import net.fantik.lostdreams.LostDreams;
 import net.fantik.lostdreams.block.ModBlocks;
 import net.fantik.lostdreams.entity.ModEntities;
+import net.fantik.lostdreams.item.custom.MeteorMountItem;
 import net.fantik.lostdreams.item.custom.NullBerryItem;
 import net.fantik.lostdreams.item.custom.NullSeedItem;
 import net.fantik.lostdreams.item.custom.ZirconFertilizerItem;
@@ -26,6 +27,8 @@ public class ModItems {
             () -> new Item(new Item.Properties()));
 
     public static final DeferredItem<Item> LUCID_ESSENCE = ITEMS.register("lucid_essence", () -> new Item(new Item.Properties()) );
+    public static final DeferredItem<Item> STRANGE_ESSENCE = ITEMS.register("strange_essence", () -> new Item(new Item.Properties()) );
+    public static final DeferredItem<Item> METEOR_CORE = ITEMS.register("meteor_core", () -> new Item(new Item.Properties()) );
 
     // функциональное
 
@@ -46,6 +49,9 @@ public class ModItems {
 
     public static final DeferredItem<Item> METEOR_SPAWN_EGG = ITEMS.register("meteor_spawn_egg",
             () -> new SpawnEggItem(ModEntities.METEOR.get(), 0xffffff,0xffffff, new Item.Properties()));
+
+    public static final DeferredItem<Item> METEOR_WATCHER_SPAWN_EGG = ITEMS.register("meteor_watcher_spawn_egg",
+            () -> new SpawnEggItem(ModEntities.METEOR_WATCHER.get(), 0xffffff,0xffffff, new Item.Properties()));
 
     // еда
 
@@ -68,12 +74,25 @@ public class ModItems {
                     () -> new ZirconFertilizerItem(new Item.Properties()
                             .stacksTo(16)));
 
+    public static final DeferredItem<Item> METEOR_MOUNT_ITEM = ITEMS.register("meteor_mount_item", () -> new MeteorMountItem(new Item.Properties().stacksTo(1)));
+
     public static final DeferredItem<StandingAndWallBlockItem> ZIRCON_TORCH_ITEM =
             ITEMS.register("zircon_torch",
                     () -> new StandingAndWallBlockItem(
                             ModBlocks.ZIRCON_TORCH.get(),
                             ModBlocks.ZIRCON_WALL_TORCH.get(),
                             new Item.Properties(), Direction.DOWN));
+
+    public static final DeferredItem<SignItem> NULL_SIGN_ITEM = ITEMS.register("null_sign",
+            () -> new SignItem(new Item.Properties().stacksTo(16),
+                    ModBlocks.NULL_SIGN.get(),
+                    ModBlocks.NULL_WALL_SIGN.get()));
+
+    public static final DeferredItem<HangingSignItem> NULL_HANGING_SIGN_ITEM = ITEMS.register("null_hanging_sign",
+            () -> new HangingSignItem(
+                    ModBlocks.NULL_HANGING_SIGN.get(),
+                    ModBlocks.NULL_WALL_HANGING_SIGN.get(),
+                    new Item.Properties().stacksTo(16)));
 
 
 

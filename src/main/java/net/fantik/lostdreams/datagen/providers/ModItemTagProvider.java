@@ -79,5 +79,12 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 ModBlocks.SURREAL_YELLOW_ROCK.get().asItem(),
                 ModBlocks.NULL_STONE.get().asItem());
 
+        tag(ModTags.Items.ASTEROID_BLOCKS).add(ModBlocks.SURREAL_BLUE_ROCK.get().asItem(),
+                ModBlocks.SURREAL_RED_ROCK.get().asItem(),
+                ModBlocks.SURREAL_LIGHTBLUE_ROCK.get().asItem(),
+                ModBlocks.SURREAL_PURPLE_ROCK.get().asItem(),
+                ModBlocks.SURREAL_GREEN_ROCK.get().asItem(),
+                ModBlocks.SURREAL_YELLOW_ROCK.get().asItem());
+
     }
 }

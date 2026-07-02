@@ -1,6 +1,7 @@
 package net.fantik.lostdreams;
 
 import net.fantik.lostdreams.block.ModBlocks;
+import net.fantik.lostdreams.block.ModWoodTypes;
 import net.fantik.lostdreams.block.entity.ModBlockEntities;
 import net.fantik.lostdreams.datagen.ModDataGenerator;
 import net.fantik.lostdreams.effect.ModEffects;
@@ -18,6 +19,7 @@ import net.fantik.lostdreams.screen.ModMenuTypes;
 import net.fantik.lostdreams.sound.ModSounds;
 import net.fantik.lostdreams.world.*;
 import net.fantik.lostdreams.world.feature.ModFeatures;
+import net.minecraft.client.renderer.Sheets;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
@@ -110,6 +112,7 @@ public class LostDreams {
     static class ClientModEvents {
         @SubscribeEvent
         static void onClientSetup(FMLClientSetupEvent event) {
+
 
         }
 

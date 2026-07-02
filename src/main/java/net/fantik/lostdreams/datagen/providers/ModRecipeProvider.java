@@ -231,6 +231,26 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("has_planks", has(ModBlocks.NULL_PLANKS.get()))
                 .save(output);
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ModBlocks.NULL_SIGN.get(), 3)
+                .pattern("###")
+                .pattern("###")
+                .pattern(" L ")
+                .define('#', ModBlocks.NULL_PLANKS.get())
+                .define('L', Items.STICK)
+                .unlockedBy("has_planks", has(ModBlocks.NULL_PLANKS.get()))
+                .save(output);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ModBlocks.NULL_HANGING_SIGN.get(), 6)
+                .pattern("# #")
+                .pattern("LLL")
+                .pattern("LLL")
+                .define('L', ModBlocks.STRIPPED_NULL_LOG.get())
+                .define('#', Items.CHAIN)
+                .unlockedBy("has_planks", has(ModBlocks.NULL_PLANKS.get()))
+                .save(output);
+
+
+
         // Кнопка
         ShapelessRecipeBuilder.shapeless(RecipeCategory.REDSTONE, ModBlocks.DUSKWILLOW_BUTTON.get(), 1)
                 .requires(ModBlocks.DUSKWILLOW_PLANKS.get())
@@ -291,11 +311,22 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern("  I")
                 .pattern("SBD")
                 .pattern("I  ")
-                .define('I', Items.DIAMOND)
+                .define('I', ModItems.STRANGE_ESSENCE)
                 .define('S', ModTags.Items.KNOWLEDGE_BLOCKS)
                 .define('D', ModBlocks.SURREAL_GLOWCRYSTAL)
                 .define('B', ModItems.DREAM_CATCHER)
                 .unlockedBy("has_dream_catcher", has(ModItems.DREAM_CATCHER))
+                .save(output);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.METEOR_MOUNT_ITEM.get())
+                .pattern("ISI")
+                .pattern("DBD")
+                .pattern("ISI")
+                .define('S', ModItems.STRANGE_ESSENCE)
+                .define('I', ModTags.Items.ASTEROID_BLOCKS)
+                .define('D', Items.MAGMA_CREAM)
+                .define('B', ModItems.METEOR_CORE)
+                .unlockedBy("has_meteor_core", has(ModItems.METEOR_CORE))
                 .save(output);
 
     }

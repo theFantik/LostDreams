@@ -39,6 +39,25 @@ public class ModEntities {
                             .build(ResourceLocation.parse("lostdreams:meteor").toString())
             );
 
+    public static final DeferredHolder<EntityType<?>, EntityType<MeteorWatcherEntity>> METEOR_WATCHER =
+            ENTITY_TYPES.register("meteor_watcher", () ->
+                    EntityType.Builder.of(MeteorWatcherEntity::new, MobCategory.MONSTER)
+                            .sized(0.8f, 0.8f)
+                            .clientTrackingRange(64)
+                            .updateInterval(3)
+                            .build(ResourceLocation.parse("lostdreams:meteor_watcher").toString())
+            );
+
+    public static final DeferredHolder<EntityType<?>, EntityType<MeteorMountEntity>> METEOR_MOUNT =
+            ENTITY_TYPES.register("meteor_mount", () ->
+                    EntityType.Builder.<MeteorMountEntity>of(MeteorMountEntity::new, MobCategory.MISC)
+                            .sized(0.8f, 0.8f)
+                            .clientTrackingRange(80)
+                            .updateInterval(1)   // Каждый тик — важно для плавного движения
+                            .build("meteor_mount")
+            );
+
+
 
 
 

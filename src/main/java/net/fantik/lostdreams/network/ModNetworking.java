@@ -20,5 +20,10 @@ public class ModNetworking {
                 GlowingBlocksPacket.STREAM_CODEC,
                 GlowingBlocksPacket::handle
         );
+        registrar.playToServer(
+                MeteorSyncPacket.TYPE,
+                MeteorSyncPacket.CODEC,
+                MeteorSyncHandler::handle
+        );
     }
 }

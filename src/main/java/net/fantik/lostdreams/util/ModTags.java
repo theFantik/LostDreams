@@ -17,6 +17,7 @@ public class ModTags {
 
     public static class Items {
         public static final TagKey<Item> KNOWLEDGE_BLOCKS = createTag("knowledge_blocks");
+        public static final TagKey<Item> ASTEROID_BLOCKS = createTag("asteroid_blocks");
 
         private static TagKey<Item> createTag(String name) {
             return ItemTags.create(ResourceLocation.fromNamespaceAndPath(LostDreams.MOD_ID, name));

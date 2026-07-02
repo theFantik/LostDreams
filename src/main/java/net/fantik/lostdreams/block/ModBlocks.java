@@ -6,17 +6,24 @@ import net.fantik.lostdreams.item.ModItems;
 import net.fantik.lostdreams.particle.ModParticles;
 import net.fantik.lostdreams.sound.ModSounds;
 import net.fantik.lostdreams.world.tree.DuskwillowTreeGrower;
+import net.minecraft.client.renderer.Sheets;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.grower.TreeGrower;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.MapColor;
+import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.event.BlockEntityTypeAddBlocksEvent;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -205,6 +212,12 @@ public class ModBlocks {
     public static final DeferredBlock<PressurePlateBlock> NULL_PRESSURE_PLATE = registerBlock("null_pressure_plate",
             () -> new PressurePlateBlock(BlockSetType.OAK, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PRESSURE_PLATE)));
 
+    public static final DeferredBlock<Block> NULL_SIGN = BLOCKS.register("null_sign", () -> new NullSignBlock());
+    public static final DeferredBlock<Block> NULL_WALL_SIGN = BLOCKS.register("null_wall_sign", () -> new NullWallSignBlock());
+    public static final DeferredBlock<Block> NULL_HANGING_SIGN = BLOCKS.register("null_hanging_sign", () -> new NullHangingSignBlock());
+    public static final DeferredBlock<Block> NULL_WALL_HANGING_SIGN = BLOCKS.register("null_wall_hanging_sign", () -> new NullWallHangingSignBlock());
+
+
 
 
     // -----------------------------------------------------------------------
@@ -345,6 +358,12 @@ public class ModBlocks {
         registerBlockItem(name, toReturn);
         return toReturn;
     }
+
+
+
+
+
+
 
     private static <T extends Block> void registerBlockItem(String name, DeferredBlock<T> block) {
         ModItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
