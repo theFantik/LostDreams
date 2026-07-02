@@ -4,16 +4,15 @@ Lost Dreams
 
 ## ${\color{cyan}In \space final \space version  \space this \space mod \space will \space add:}$
 ### Tier ${\color{red}0}$ dimensions:
-- null zone dimension <- 85% done
+- null zone dimension <- 90% done
 ### Tier ${\color{green}1}$ dimensions:
 - skyblock dimension <- 80% done
-- surreal asteroids dimension <- 82% done
+- surreal asteroids dimension <- 85% done
 - Giga Apartments dimension <- 15% done
 ### Tier ${\color{yellow}2}$ dimensions:
 - retrowave dimension <- 0% done
 - chess dimension <- 0% done
 - toys dimension <- 0% done
-- ???
 ### Tier ${\color{purple}3}$ dimensions:
 - ???
 ### Tier ${\color{magenta}4}$ (finale) dimensions:
