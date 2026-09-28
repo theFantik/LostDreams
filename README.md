@@ -11,7 +11,7 @@ Lost Dreams
 - Giga Apartments dimension <- 15% done
 ### Tier ${\color{yellow}2}$ dimensions:
 - retrowave dimension <- 0% done
-- chess dimension <- 0% done
+- chess dimension <- 15% done
 - toys dimension <- 0% done
 ### Tier ${\color{purple}3}$ dimensions:
 - ???
@@ -33,5 +33,9 @@ Clouds biome
 
 ## First Look To Surreal Asteroids 
 <img width="1919" height="998" alt="image" src="https://github.com/user-attachments/assets/a97f7144-9bf9-4b96-98ad-7ad8a8c485f6" />
+
+## First Look To Chess Dimension
+<img width="1919" height="1002" alt="image" src="https://github.com/user-attachments/assets/06fff1be-e30a-4f6e-a470-11ae04607197" />
+
 
 
