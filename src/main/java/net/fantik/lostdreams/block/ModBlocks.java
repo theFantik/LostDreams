@@ -308,7 +308,7 @@ public class ModBlocks {
 
 
 
-    // Сюр блоки
+    // surreal блоки
 
     public static final DeferredBlock<Block> SURREAL_BLUE_ROCK = registerBlock("surreal_blue_rock",
             () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
@@ -350,6 +350,22 @@ public class ModBlocks {
     public static final DeferredBlock<Block> SURREAL_YELLOW_RANDOMITE_ORE = registerBlock("surreal_yellow_randomite_ore",
             () -> new XpDropsBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_ORE)));
 
+    // Шахматное измерение
+
+    public static final DeferredBlock<Block> CHESS_WHITE_PART = registerBlock("chess_white_part", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
+    public static final DeferredBlock<Block> CHESS_BLACK_PART = registerBlock("chess_black_part", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
+    public static final DeferredBlock<Block> CHESS_GRAY_PART = registerBlock("chess_gray_part", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
+    public static final DeferredBlock<Block> CHESS_LIGHTGRAY_PART = registerBlock("chess_lightgray_part", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)));
+
+
+    public static final DeferredBlock<TestPortalBlock> TEST_PORTAL =
+            registerBlock("test_portal",
+                    () -> new TestPortalBlock(
+                            BlockBehaviour.Properties.of()
+                                    .noOcclusion()
+                                    .strength(-1.0f, 3600000.0f)
+                                    .noLootTable()
+                    ));
     // -----------------------------------------------------------------------
     // Регистрация
     // -----------------------------------------------------------------------

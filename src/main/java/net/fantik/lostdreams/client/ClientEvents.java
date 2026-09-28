@@ -1,12 +1,12 @@
 package net.fantik.lostdreams.client;
 
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import net.fantik.lostdreams.LostDreams;
 import net.fantik.lostdreams.block.ModWoodTypes;
 import net.fantik.lostdreams.block.entity.ModBlockEntities;
 import net.fantik.lostdreams.block.entity.ZirconCampfireBlockEntity;
-import net.fantik.lostdreams.client.renderer.NullZoneDimensionEffects;
-import net.fantik.lostdreams.client.renderer.SurrealAsteroidsDimensionEffects;
-import net.fantik.lostdreams.client.renderer.ZirconCampfireRenderer;
+import net.fantik.lostdreams.client.renderer.*;
+import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.CampfireRenderer;
@@ -18,6 +18,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterDimensionSpecialEffectsEvent;
+import net.neoforged.neoforge.client.event.RegisterShadersEvent;
 
 @EventBusSubscriber(
         modid = LostDreams.MOD_ID,
@@ -43,6 +44,32 @@ public class ClientEvents {
                 ModBlockEntities.ZIRCON_CAMPFIRE_BE.get(),
                 ZirconCampfireRenderer::new
         );
+        event.registerBlockEntityRenderer(
+                ModBlockEntities.TEST_PORTAL_BE.get(),
+                TestPortalRenderer::new
+        );
+    }
+
+    @SubscribeEvent
+    public static void registerShaders(RegisterShadersEvent event) {
+        try {
+            ShaderInstance shader = new ShaderInstance(
+                    event.getResourceProvider(),
+                    ResourceLocation.fromNamespaceAndPath(
+                            LostDreams.MOD_ID,
+                            "test_portal"
+                    ),
+                    DefaultVertexFormat.POSITION_TEX
+            );
+
+            TestPortalShader.SHADER = shader;
+
+        } catch (Exception e) {
+            throw new RuntimeException(
+                    "Failed to load TEST_PORTAL shader",
+                    e
+            );
+        }
     }
 
     @SubscribeEvent
@@ -58,5 +85,11 @@ public class ClientEvents {
                 new SurrealAsteroidsDimensionEffects()
         );
         LostDreams.LOGGER.info("Registered Surreal Asteroids dimension effects: lostdreams:surreal_asteroids");
+
+        event.register(
+                ResourceLocation.parse("lostdreams:chess_dimension"),
+                new ChessDimensionEffects()
+        );
+        LostDreams.LOGGER.info("Registered Chess dimension effects: lostdreams:chess_dimension");
     }
 }

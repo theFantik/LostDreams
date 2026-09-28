@@ -138,6 +138,10 @@ public class ModItemModelProvider extends ItemModelProvider {
         blockItem(ModBlocks.PINK_KNOWLEDGE_BLOCK);
         blockItem(ModBlocks.BLUE_KNOWLEDGE_BLOCK);
         blockItem(ModBlocks.GREEN_KNOWLEDGE_BLOCK);
+        blockItem(ModBlocks.CHESS_BLACK_PART);
+        blockItem(ModBlocks.CHESS_GRAY_PART);
+        blockItem(ModBlocks.CHESS_LIGHTGRAY_PART);
+        blockItem(ModBlocks.CHESS_WHITE_PART);
         blockItem(ModBlocks.DREAM_GENERATOR);
         blockItem(ModBlocks.DREAM_ADVANCED_GENERATOR);
         blockItem(ModBlocks.DREAM_ELITE_GENERATOR);

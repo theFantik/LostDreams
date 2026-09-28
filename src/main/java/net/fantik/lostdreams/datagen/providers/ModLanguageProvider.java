@@ -115,6 +115,15 @@ public class ModLanguageProvider extends LanguageProvider {
         add(ModBlocks.SURREAL_RED_RANDOMITE_ORE.get(), "Red Randomite Ore");
         add(ModBlocks.SURREAL_YELLOW_RANDOMITE_ORE.get(), "Yellow Randomite Ore");
 
+        // Шахматное измерение
+
+        add(ModBlocks.CHESS_WHITE_PART.get(), "White Chess Part");
+        add(ModBlocks.CHESS_BLACK_PART.get(), "Black Chess Part");
+        add(ModBlocks.CHESS_GRAY_PART.get(), "Gray Chess Part");
+        add(ModBlocks.CHESS_LIGHTGRAY_PART.get(), "Light Gray Chess Part");
+
+        // Effects
+
         add(ModEffects.AFTER_DREAMING.get(), "After Dreaming");
 
         // Other
@@ -127,5 +136,8 @@ public class ModLanguageProvider extends LanguageProvider {
         add("entity.lostdreams.lucid_waste","Lucid Waste");
         add("entity.lostdreams.meteor","Meteor");
         add("entity.lostdreams.meteor_watcher","Meteor Watcher");
+        add("entity.lostdreams.meteor_mount.boost_activated","§6Meteor boost activated! §e(15s)");
+        add("entity.lostdreams.meteor_mount.boost_already_active","§cBoost is already active!");
+        add("entity.lostdreams.meteor_mount.boost_expired","§7Meteor boost expired.");
     }
 }

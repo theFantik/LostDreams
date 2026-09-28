@@ -37,6 +37,10 @@ public class ModBlockStateProvider extends BlockStateProvider {
         simpleBlock(ModBlocks.PINK_KNOWLEDGE_BLOCK.get());
         simpleBlock(ModBlocks.BLUE_KNOWLEDGE_BLOCK.get());
         simpleBlock(ModBlocks.GREEN_KNOWLEDGE_BLOCK.get());
+        simpleBlock(ModBlocks.CHESS_BLACK_PART.get());
+        simpleBlock(ModBlocks.CHESS_WHITE_PART.get());
+        simpleBlock(ModBlocks.CHESS_LIGHTGRAY_PART.get());
+        simpleBlock(ModBlocks.CHESS_GRAY_PART.get());
         simpleBlock(ModBlocks.SURREAL_BLUE_RANDOMITE_ORE.get());
         simpleBlock(ModBlocks.SURREAL_LIGHTBLUE_RANDOMITE_ORE.get());
         simpleBlock(ModBlocks.SURREAL_GREEN_RANDOMITE_ORE.get());

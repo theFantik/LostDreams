@@ -3,6 +3,7 @@ package net.fantik.lostdreams.entity;
 import net.fantik.lostdreams.item.ModItems;
 import net.fantik.lostdreams.network.MeteorSyncPacket;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -14,6 +15,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -29,38 +31,50 @@ public class MeteorMountEntity extends Entity {
     private static final EntityDataAccessor<Boolean> DATA_HAS_RIDER =
             SynchedEntityData.defineId(MeteorMountEntity.class, EntityDataSerializers.BOOLEAN);
 
+    /**
+     * Синхронизированный флаг буста: клиент читает его чтобы применить
+     * множитель скорости. Сервер устанавливает его при активации.
+     */
+    private static final EntityDataAccessor<Boolean> DATA_BOOSTED =
+            SynchedEntityData.defineId(MeteorMountEntity.class, EntityDataSerializers.BOOLEAN);
+
+    /**
+     * Синхронизированный остаток тиков буста — нужен клиенту для отображения
+     * (например, в HUD или партиклах). Обновляется каждый тик на сервере.
+     */
+    private static final EntityDataAccessor<Integer> DATA_BOOST_TICKS =
+            SynchedEntityData.defineId(MeteorMountEntity.class, EntityDataSerializers.INT);
+
     // =========================================================
     //  КОНСТАНТЫ
     // =========================================================
-    private static final double FLY_SPEED        = 0.6;
-    private static final double VERTICAL_SPEED   = 0.4;
+    private static final double FLY_SPEED         = 0.6;
+    private static final double VERTICAL_SPEED    = 0.4;
     private static final double SPRINT_MULTIPLIER = 1.8;
-    private static final double MAX_SPEED        = 1.5;
-    private static final double FRICTION         = 0.85;
+    private static final double MAX_SPEED         = 1.5;
+    private static final double FRICTION          = 0.85;
+
+    /** Множитель скорости при активном бусте (+30%) */
+    private static final double BOOST_MULTIPLIER  = 1.3;
+    /** Множитель максимальной скорости при бусте */
+    private static final double BOOST_MAX_SPEED   = MAX_SPEED * BOOST_MULTIPLIER;
+    /** Длительность буста в тиках (15 секунд × 20 тиков) */
+    private static final int    BOOST_DURATION_TICKS = 15 * 20; // 300
 
     /** Как часто (тики) клиент шлёт позицию во время полёта */
     private static final int SYNC_INTERVAL_TICKS      = 3;
-    /** Учащённая синхронизация сразу после спешивания */
+    /** Учащённая синхронизация после спешивания */
     private static final int FAST_SYNC_INTERVAL_TICKS = 1;
 
-    /**
-     * Сколько тиков после спешивания клиент продолжает слать isFalling-пакеты
-     * и игнорирует входящий lerpTo от сервера.
-     * Должно быть БОЛЬШЕ, чем GRACE_PERIOD_TICKS на сервере.
-     */
+    /** Сколько тиков клиент предсказывает падение и игнорирует lerpTo */
     private static final int CLIENT_FALL_SYNC_DURATION = 40;
-
-    /**
-     * Сколько тиков сервер доверяет пакетам от lastRider после потери пассажира.
-     * Должно быть МЕНЬШЕ CLIENT_FALL_SYNC_DURATION, чтобы сервер успел
-     * принять все falling-пакеты, а потом перешёл в собственную физику.
-     */
+    /** Сколько тиков сервер принимает пакеты от lastRider после спешивания */
     private static final int GRACE_PERIOD_TICKS = 35;
 
     /** Скорость поворота модели (градусов/тик) */
-    private static final float ROTATION_SPEED = 10f;
+    private static final float  ROTATION_SPEED             = 10f;
     /** Ниже этого квадрата скорости не вращаемся по вектору движения */
-    private static final double MIN_SPEED_FOR_ROTATION_SQ = 0.0025;
+    private static final double MIN_SPEED_FOR_ROTATION_SQ  = 0.0025;
 
     // =========================================================
     //  ИНТЕРПОЛЯЦИЯ (только клиент)
@@ -81,25 +95,16 @@ public class MeteorMountEntity extends Entity {
     private boolean wasLocalPlayerControllingLastTick = false;
     private int     syncTimer                         = 0;
     private boolean dismountPacketSent                = false;
-    /**
-     * Сколько тиков клиент ещё будет слать isFalling-пакеты и
-     * игнорировать lerpTo (предсказание падения на клиенте).
-     */
-    private int clientFallSyncTicksRemaining = 0;
+    /** Сколько тиков клиент ещё предсказывает падение и шлёт isFalling-пакеты */
+    private int     clientFallSyncTicksRemaining      = 0;
 
     // =========================================================
     //  СЕРВЕРНОЕ СОСТОЯНИЕ
     // =========================================================
-    /**
-     * Сколько тиков сервер ещё принимает пакеты от lastRider
-     * и НЕ считает физику самостоятельно.
-     */
-    private int serverGraceTicks = 0;
-    /**
-     * Флаг: сервер получил dismount-пакет и теперь ждёт isFalling-пакеты.
-     * Пока флаг активен — физику на сервере НЕ считаем (клиент авторитетен).
-     */
-    private boolean serverWaitingForClientFall = false;
+    /** Сколько тиков сервер принимает пакеты от lastRider */
+    private int     serverGraceTicks            = 0;
+    /** Сервер ждёт isFalling-пакеты (физику не считает сам) */
+    private boolean serverWaitingForClientFall  = false;
 
     // =========================================================
     //  КОНСТРУКТОР
@@ -114,19 +119,41 @@ public class MeteorMountEntity extends Entity {
     // =========================================================
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        builder.define(DATA_HAS_RIDER, false);
+        builder.define(DATA_HAS_RIDER,   false);
+        builder.define(DATA_BOOSTED,     false);
+        builder.define(DATA_BOOST_TICKS, 0);
     }
 
     public boolean hasRider() {
         return this.entityData.get(DATA_HAS_RIDER);
     }
 
-    private void setHasRider(boolean hasRider) {
-        this.entityData.set(DATA_HAS_RIDER, hasRider);
+    private void setHasRider(boolean value) {
+        this.entityData.set(DATA_HAS_RIDER, value);
+    }
+
+    /** Активен ли бует прямо сейчас (читается на клиенте и сервере) */
+    public boolean isBoosted() {
+        return this.entityData.get(DATA_BOOSTED);
+    }
+
+    /** Сколько тиков осталось до конца буста (0 = неактивен) */
+    public int getBoostTicksRemaining() {
+        return this.entityData.get(DATA_BOOST_TICKS);
+    }
+
+    // Вызывается ТОЛЬКО на сервере
+    private void setBoosted(boolean value) {
+        this.entityData.set(DATA_BOOSTED, value);
+    }
+
+    // Вызывается ТОЛЬКО на сервере
+    private void setBoostTicksRemaining(int ticks) {
+        this.entityData.set(DATA_BOOST_TICKS, ticks);
     }
 
     // =========================================================
-    //  СОХРАНЕНИЕ
+    //  СОХРАНЕНИЕ (буст не сохраняем — он временный)
     // =========================================================
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {}
@@ -137,20 +164,21 @@ public class MeteorMountEntity extends Entity {
     // =========================================================
     //  ФИЗИЧЕСКИЕ СВОЙСТВА
     // =========================================================
-    @Override public boolean canBeCollidedWith()       { return true; }
-    @Override public boolean canCollideWith(Entity e)  { return true; }
-    @Override public boolean isPushable()              { return true; }
-    @Override public boolean isPickable()              { return true; }
-    @Override public boolean isOnFire()                { return false; }
-    @Override public boolean fireImmune()              { return true; }
+    @Override public boolean canBeCollidedWith()      { return true; }
+    @Override public boolean canCollideWith(Entity e) { return true; }
+    @Override public boolean isPushable()             { return true; }
+    @Override public boolean isPickable()             { return true; }
+    @Override public boolean isOnFire()               { return false; }
+    @Override public boolean fireImmune()             { return true; }
+
     @Override
     public boolean causeFallDamage(float fallDistance, float multiplier, DamageSource source) {
-        // Метеор не берёт урон от падения сам и не передаёт его пассажирам.
-        // Без этого override ванильный Entity.causeFallDamage() вызвал бы
-        // causeFallDamage() у каждого пассажира в списке.
         return false;
     }
-    @Override protected MovementEmission getMovementEmission() { return MovementEmission.NONE; }
+
+    @Override
+    protected MovementEmission getMovementEmission() { return MovementEmission.NONE; }
+
     @Override public boolean shouldRiderSit()          { return true; }
     @Override public boolean canAddPassenger(Entity p) { return this.getPassengers().isEmpty(); }
 
@@ -170,13 +198,71 @@ public class MeteorMountEntity extends Entity {
 
     @Override
     public InteractionResult interact(Player player, InteractionHand hand) {
-        if (!this.level().isClientSide && this.getPassengers().isEmpty()) {
-            player.startRiding(this);
-            this.level().playSound(null, this.blockPosition(),
-                    SoundEvents.AMETHYST_BLOCK_CHIME, SoundSource.NEUTRAL, 1.0f, 0.8f);
-            return InteractionResult.SUCCESS;
+        Level level = this.level();
+
+        // ── Посадка (сервер, метеор пустой, игрок не держит meteor_core) ────────
+        if (!level.isClientSide && this.getPassengers().isEmpty()) {
+            ItemStack heldItem = player.getItemInHand(hand);
+
+            // Если игрок держит meteor_core — не садимся, уходим в ветку буста ниже
+            if (!heldItem.is(ModItems.METEOR_CORE.get())) {
+                player.startRiding(this);
+                level.playSound(null, this.blockPosition(),
+                        SoundEvents.AMETHYST_BLOCK_CHIME, SoundSource.NEUTRAL, 1.0f, 0.8f);
+                return InteractionResult.SUCCESS;
+            }
         }
+
+        // ── Активация буста (сервер, игрок — пассажир, держит meteor_core) ──────
+        if (!level.isClientSide
+                && this.hasPassenger(player)
+                && hand == InteractionHand.MAIN_HAND) {
+
+            ItemStack heldItem = player.getItemInHand(hand);
+            if (heldItem.is(ModItems.METEOR_CORE.get())) {
+                activateBoost(player);
+                return InteractionResult.SUCCESS;
+            }
+        }
+
         return InteractionResult.PASS;
+    }
+
+    /**
+     * Активирует (или продлевает) бует на сервере.
+     * Вызывается только на серверной стороне.
+     */
+    private void activateBoost(Player player) {
+        int currentTicks = getBoostTicksRemaining();
+
+        if (currentTicks > 0) {
+            // Бует уже активен — сообщаем игроку, не тратим предмет повторно
+            player.displayClientMessage(
+                    Component.translatable("entity.lostdreams.meteor_mount.boost_already_active"),
+                    true // actionbar
+            );
+            return;
+        }
+
+        // Запускаем бует
+        setBoosted(true);
+        setBoostTicksRemaining(BOOST_DURATION_TICKS);
+
+        // Звук активации
+        this.level().playSound(null, this.blockPosition(),
+                SoundEvents.BEACON_ACTIVATE, SoundSource.NEUTRAL, 0.6f, 1.4f);
+
+        // Сообщение игроку
+        player.displayClientMessage(
+                Component.translatable("entity.lostdreams.meteor_mount.boost_activated"),
+                true
+        );
+
+        // Расход предмета (убираем 1 штуку из стака)
+        // Если не хотите тратить предмет — удалите эти 3 строки
+        if (!player.isCreative()) {
+            player.getItemInHand(InteractionHand.MAIN_HAND).shrink(1);
+        }
     }
 
     // =========================================================
@@ -209,26 +295,14 @@ public class MeteorMountEntity extends Entity {
 
     public boolean isInDismountGracePeriod() { return serverGraceTicks > 0; }
 
-    /**
-     * Вызывается сервером из MeteorSyncHandler когда пришёл dismount-пакет.
-     * Устанавливает начальную скорость и переводит сервер в режим ожидания
-     * falling-пакетов (физику сервер не считает сам).
-     */
     public void onClientDismountSync(double velX, double velY, double velZ) {
         this.setDeltaMovement(velX, velY, velZ);
         this.hasImpulse = true;
         this.serverWaitingForClientFall = true;
     }
 
-    /**
-     * Вызывается сервером из MeteorSyncHandler когда пришёл isFalling-пакет.
-     * Сервер применил позицию — сбрасываем флаг ожидания на этот тик
-     * (фактически он будет установлен снова, если придёт следующий пакет).
-     * Здесь мы только продлеваем грейс-период чтобы физика не запустилась.
-     */
     public void onClientFallSync() {
-        // Грейс-период уже тикает — ничего дополнительного не нужно.
-        // Метод оставлен для явности вызова из Handler-а.
+        // Грейс-период уже тикает — метод оставлен для явности вызова из Handler-а.
     }
 
     // =========================================================
@@ -237,32 +311,25 @@ public class MeteorMountEntity extends Entity {
     @Override
     public void lerpTo(double x, double y, double z,
                        float yRot, float xRot, int steps) {
-
-        // Пока локальный игрок управляет — сервер ничего не говорит нам о позиции
         if (this.isControlledByLocalInstance()) return;
-
-        // Пока мы предсказываем падение после спешивания — игнорируем серверный lerp.
-        // Как только clientFallSyncTicksRemaining истечёт — снова начинаем слушать сервер.
         if (this.clientFallSyncTicksRemaining > 0) return;
 
-        this.lerpX    = x;
-        this.lerpY    = y;
-        this.lerpZ    = z;
-        this.lerpYRot = yRot;
-        this.lerpXRot = xRot;
+        this.lerpX     = x;
+        this.lerpY     = y;
+        this.lerpZ     = z;
+        this.lerpYRot  = yRot;
+        this.lerpXRot  = xRot;
         this.lerpSteps = steps;
     }
 
     @Override
     public void lerpMotion(double x, double y, double z) {
-        // Принимаем обновление скорости от сервера только если не предсказываем сами
         if (this.clientFallSyncTicksRemaining > 0) return;
         this.setDeltaMovement(x, y, z);
         this.hasImpulse = true;
     }
 
     private void tickLerp() {
-        // Этот метод вызывается только для "зрителей" (не управляет никто локально)
         if (this.lerpSteps > 0) {
             double t = 1.0 / this.lerpSteps;
             this.setPos(
@@ -283,8 +350,8 @@ public class MeteorMountEntity extends Entity {
     public void tick() {
         super.tick();
 
-        Player rider      = getRider();
-        boolean isRidden  = rider != null;
+        Player rider     = getRider();
+        boolean isRidden = rider != null;
 
         if (isRidden) {
             this.lastRiderUUID = rider.getUUID();
@@ -293,15 +360,44 @@ public class MeteorMountEntity extends Entity {
         if (!this.level().isClientSide) {
             // --- СЕРВЕР ---
             if (this.hasRider() && !isRidden) {
-                // Пассажир только что слез — запускаем грейс-период
-                this.serverGraceTicks          = GRACE_PERIOD_TICKS;
-                this.serverWaitingForClientFall = false; // ждём dismount-пакет
+                this.serverGraceTicks           = GRACE_PERIOD_TICKS;
+                this.serverWaitingForClientFall = false;
             }
             setHasRider(isRidden);
+            tickBoostServer(); // тикаем бует ДО tickServerSide
             tickServerSide(isRidden);
         } else {
             // --- КЛИЕНТ ---
             tickClientSide(rider, isRidden);
+        }
+    }
+
+    // =========================================================
+    //  ТИК БУСТА (только сервер)
+    // =========================================================
+    /**
+     * Уменьшает счётчик буста каждый тик и сбрасывает флаг когда время вышло.
+     * Вызывается только на сервере — SynchedEntityData сама доставит изменения клиенту.
+     */
+    private void tickBoostServer() {
+        int ticks = getBoostTicksRemaining();
+        if (ticks <= 0) return;
+
+        ticks--;
+        setBoostTicksRemaining(ticks);
+
+        if (ticks == 0) {
+            setBoosted(false);
+            // Уведомляем пассажира об окончании буста
+            Player rider = getRider();
+            if (rider != null) {
+                rider.displayClientMessage(
+                        Component.translatable("entity.lostdreams.meteor_mount.boost_expired"),
+                        true
+                );
+            }
+            this.level().playSound(null, this.blockPosition(),
+                    SoundEvents.BEACON_DEACTIVATE, SoundSource.NEUTRAL, 0.5f, 1.2f);
         }
     }
 
@@ -311,15 +407,14 @@ public class MeteorMountEntity extends Entity {
     private void tickClientSide(Player rider, boolean isRiddenNow) {
         tickClientParticles();
 
-        boolean isLocalPlayerRiding  = isControlledByLocalInstance() && isRiddenNow;
-        boolean justDismounted       = wasLocalPlayerControllingLastTick && !isLocalPlayerRiding;
+        boolean isLocalPlayerRiding = isControlledByLocalInstance() && isRiddenNow;
+        boolean justDismounted      = wasLocalPlayerControllingLastTick && !isLocalPlayerRiding;
 
         // ── Спешивание ──────────────────────────────────────────────────────────
         if (justDismounted && !dismountPacketSent) {
-            // Отправляем финальный пакет с флагом isDismounting=true
             sendSyncPacket(true, false);
             dismountPacketSent               = true;
-            this.lerpSteps                  = 0;   // сбрасываем старый lerp
+            this.lerpSteps                  = 0;
             this.clientFallSyncTicksRemaining = CLIENT_FALL_SYNC_DURATION;
             this.syncTimer                  = 0;
         }
@@ -338,20 +433,18 @@ public class MeteorMountEntity extends Entity {
             tickRiding(rider);
 
         } else if (clientFallSyncTicksRemaining > 0) {
-            // ── Предсказание падения (после спешивания) ─────────────────────────
-            // Клиент авторитетен: считаем физику сами и шлём серверу isFalling-пакеты.
+            // ── Предсказание падения ─────────────────────────────────────────────
             clientFallSyncTicksRemaining--;
 
             syncTimer++;
             if (syncTimer >= FAST_SYNC_INTERVAL_TICKS) {
                 syncTimer = 0;
-                sendSyncPacket(false, true); // isFalling = true
+                sendSyncPacket(false, true);
             }
-
             applyFallPhysics();
 
         } else {
-            // ── Зритель: следуем за сервером ────────────────────────────────────
+            // ── Зритель ──────────────────────────────────────────────────────────
             tickLerp();
         }
 
@@ -363,34 +456,22 @@ public class MeteorMountEntity extends Entity {
     // =========================================================
     private void tickServerSide(boolean isRiddenNow) {
         if (isRiddenNow) {
-            // Сервер доверяет клиенту: позиция приходит через MeteorSyncHandler.
             spawnTrailParticles();
             return;
         }
 
-        // Грейс-период: клиент шлёт falling-пакеты, сервер их применяет в Handler.
-        // Физику самостоятельно НЕ считаем, чтобы не было двойного движения.
         if (serverGraceTicks > 0) {
             serverGraceTicks--;
-            // serverWaitingForClientFall — признак того, что мы уже получили
-            // dismount-пакет и ждём falling-пакеты. Если по какой-то причине
-            // dismount-пакет не пришёл за первые несколько тиков — считаем
-            // физику сами (страховка от потери пакета).
-            if (serverWaitingForClientFall) {
-                // Клиент авторитетен — ничего не делаем, позиция придёт пакетом
-                return;
-            }
-            // dismount-пакет ещё не пришёл, но мы в грейсе — пока ждём
+            if (serverWaitingForClientFall) return;
             return;
         }
 
-        // Грейс истёк — переходим в собственную физику сервера
         serverWaitingForClientFall = false;
         applyFallPhysics();
     }
 
     // =========================================================
-    //  ФИЗИКА ПАДЕНИЯ (одинакова для клиента и сервера)
+    //  ФИЗИКА ПАДЕНИЯ
     // =========================================================
     private void applyFallPhysics() {
         if (!this.onGround()) {
@@ -402,12 +483,11 @@ public class MeteorMountEntity extends Entity {
 
         this.move(MoverType.SELF, this.getDeltaMovement());
         this.setDeltaMovement(this.getDeltaMovement().scale(0.98));
-
         updateRotationToVelocity(null);
     }
 
     // =========================================================
-    //  ФИЗИКА ПОЛЁТА (только клиент, управляемый игроком)
+    //  ФИЗИКА ПОЛЁТА (клиент, управляемый игроком)
     // =========================================================
     private void tickRiding(Player rider) {
         Vec3 vel = this.getDeltaMovement();
@@ -420,8 +500,10 @@ public class MeteorMountEntity extends Entity {
             vel = vel.scale(FRICTION);
         }
 
-        if (vel.length() > MAX_SPEED) {
-            vel = vel.normalize().scale(MAX_SPEED);
+        // Лимит скорости зависит от состояния буста
+        double currentMaxSpeed = isBoosted() ? BOOST_MAX_SPEED : MAX_SPEED;
+        if (vel.length() > currentMaxSpeed) {
+            vel = vel.normalize().scale(currentMaxSpeed);
         }
 
         this.setDeltaMovement(vel);
@@ -448,7 +530,7 @@ public class MeteorMountEntity extends Entity {
     }
 
     // =========================================================
-    //  ЖЕЛАЕМАЯ СКОРОСТЬ (от ввода игрока)
+    //  ЖЕЛАЕМАЯ СКОРОСТЬ
     // =========================================================
     private Vec3 calculateDesiredVelocity(Player rider) {
         float yRot = rider.getYRot();
@@ -463,15 +545,20 @@ public class MeteorMountEntity extends Entity {
         boolean down     = rider.isShiftKeyDown() && !rider.isSuppressingBounce();
         boolean sprint   = rider.isSprinting();
 
+        // Применяем множитель буста к базовым скоростям
+        double boostFactor = isBoosted() ? BOOST_MULTIPLIER : 1.0;
+        double flySpeed    = FLY_SPEED * boostFactor;
+        double vertSpeed   = VERTICAL_SPEED * boostFactor;
+
         Vec3 desired = Vec3.ZERO;
-        if (forward)  desired = desired.add(look.scale(sprint ? FLY_SPEED * SPRINT_MULTIPLIER : FLY_SPEED));
-        if (backward) desired = desired.add(look.scale(-FLY_SPEED * 0.5));
+        if (forward)  desired = desired.add(look.scale(sprint ? flySpeed * SPRINT_MULTIPLIER : flySpeed));
+        if (backward) desired = desired.add(look.scale(-flySpeed * 0.5));
         if (left || right) {
             Vec3 strafe = calculateStrafeDirection(yRot);
-            desired = desired.add(strafe.scale((left ? 1.0 : -1.0) * FLY_SPEED * 0.7));
+            desired = desired.add(strafe.scale((left ? 1.0 : -1.0) * flySpeed * 0.7));
         }
-        if (up)   desired = desired.add(0,  VERTICAL_SPEED, 0);
-        if (down) desired = desired.add(0, -VERTICAL_SPEED, 0);
+        if (up)   desired = desired.add(0,  vertSpeed, 0);
+        if (down) desired = desired.add(0, -vertSpeed, 0);
 
         return desired;
     }
@@ -479,11 +566,6 @@ public class MeteorMountEntity extends Entity {
     // =========================================================
     //  ОТПРАВКА ПАКЕТОВ
     // =========================================================
-
-    /**
-     * @param isDismounting true — финальный пакет спешивания
-     * @param isFalling     true — клиент падает после спешивания
-     */
     private void sendSyncPacket(boolean isDismounting, boolean isFalling) {
         Vec3 vel = this.getDeltaMovement();
         PacketDistributor.sendToServer(new MeteorSyncPacket(

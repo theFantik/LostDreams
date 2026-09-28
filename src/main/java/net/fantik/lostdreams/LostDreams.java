@@ -73,6 +73,7 @@ public class LostDreams {
 
         ModBlockEntities.register(modEventBus);
         ModMenuTypes.register(modEventBus);
+        ModChunkGenerators.register(modEventBus);
 
 
 
@@ -80,6 +81,7 @@ public class LostDreams {
         modEventBus.addListener(SkyBlockChunkGenerator::register);
         modEventBus.addListener(SurrealAsteroidsChunkGenerator::register);
         modEventBus.addListener(GigachrushchevkaChunkGenerator::register);
+
 
 
 

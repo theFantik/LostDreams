@@ -73,6 +73,10 @@ public class ModLootTableProvider extends LootTableProvider {
             dropSelf(ModBlocks.SURREAL_LIGHTBLUE_ROCK.get());
             dropSelf(ModBlocks.SURREAL_GREEN_ROCK.get());
             dropSelf(ModBlocks.SURREAL_YELLOW_ROCK.get());
+            dropSelf(ModBlocks.CHESS_BLACK_PART.get());
+            dropSelf(ModBlocks.CHESS_LIGHTGRAY_PART.get());
+            dropSelf(ModBlocks.CHESS_WHITE_PART.get());
+            dropSelf(ModBlocks.CHESS_GRAY_PART.get());
             dropSelf(ModBlocks.SURREAL_GLOWCRYSTAL.get());
             dropSelf(ModBlocks.DREAM_GENERATOR.get());
             dropSelf(ModBlocks.DREAM_ADVANCED_GENERATOR.get());

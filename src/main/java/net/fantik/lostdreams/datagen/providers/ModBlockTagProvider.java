@@ -127,7 +127,11 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.SURREAL_GREEN_RANDOMITE_ORE.get())
                 .add(ModBlocks.SURREAL_PURPLE_RANDOMITE_ORE.get())
                 .add(ModBlocks.SURREAL_RED_RANDOMITE_ORE.get())
-                .add(ModBlocks.SURREAL_YELLOW_RANDOMITE_ORE.get());
+                .add(ModBlocks.SURREAL_YELLOW_RANDOMITE_ORE.get())
+                .add(ModBlocks.CHESS_WHITE_PART.get())
+                .add(ModBlocks.CHESS_BLACK_PART.get())
+                .add(ModBlocks.CHESS_GRAY_PART.get())
+                .add(ModBlocks.CHESS_LIGHTGRAY_PART.get());
 
         tag(BlockTags.NEEDS_IRON_TOOL)
                 .add(ModBlocks.SURREAL_BLUE_RANDOMITE_ORE.get())

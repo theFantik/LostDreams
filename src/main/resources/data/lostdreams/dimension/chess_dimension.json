@@ -1,0 +1,11 @@
+{
+  "type": "lostdreams:chess_dimension_type",
+  "generator": {
+    "type": "lostdreams:chess_generator",
+    "seed": 0,
+    "biome_source": {
+      "type": "minecraft:fixed",
+      "biome": "lostdreams:chess_void"
+    }
+  }
+}

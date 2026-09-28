@@ -29,6 +29,18 @@ public class ModBlockEntities {
                                     ModBlocks.ZIRCON_CAMPFIRE.get())
                             .build(null));
 
+    public static final DeferredHolder<
+            BlockEntityType<?>,
+            BlockEntityType<TestPortalBlockEntity>
+            > TEST_PORTAL_BE =
+            BLOCK_ENTITIES.register(
+                    "test_portal",
+                    () -> BlockEntityType.Builder.of(
+                            TestPortalBlockEntity::new,
+                            ModBlocks.TEST_PORTAL.get()
+                    ).build(null)
+            );
+
 
 
 

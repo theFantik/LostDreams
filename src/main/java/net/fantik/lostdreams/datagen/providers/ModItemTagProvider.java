@@ -70,6 +70,10 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 ModBlocks.SURREAL_LIGHTBLUE_ROCK.get().asItem(),
                 ModBlocks.SURREAL_GREEN_ROCK.get().asItem(),
                 ModBlocks.SURREAL_YELLOW_ROCK.get().asItem(),
+                ModBlocks.CHESS_GRAY_PART.get().asItem(),
+                ModBlocks.CHESS_LIGHTGRAY_PART.get().asItem(),
+                ModBlocks.CHESS_WHITE_PART.get().asItem(),
+                ModBlocks.CHESS_BLACK_PART.get().asItem(),
                 ModBlocks.NULL_STONE.get().asItem());
         tag(ItemTags.STONE_TOOL_MATERIALS).add(ModBlocks.SURREAL_BLUE_ROCK.get().asItem(),
                 ModBlocks.SURREAL_RED_ROCK.get().asItem(),
@@ -77,6 +81,10 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 ModBlocks.SURREAL_LIGHTBLUE_ROCK.get().asItem(),
                 ModBlocks.SURREAL_GREEN_ROCK.get().asItem(),
                 ModBlocks.SURREAL_YELLOW_ROCK.get().asItem(),
+                ModBlocks.CHESS_GRAY_PART.get().asItem(),
+                ModBlocks.CHESS_LIGHTGRAY_PART.get().asItem(),
+                ModBlocks.CHESS_WHITE_PART.get().asItem(),
+                ModBlocks.CHESS_BLACK_PART.get().asItem(),
                 ModBlocks.NULL_STONE.get().asItem());
 
         tag(ModTags.Items.ASTEROID_BLOCKS).add(ModBlocks.SURREAL_BLUE_ROCK.get().asItem(),
